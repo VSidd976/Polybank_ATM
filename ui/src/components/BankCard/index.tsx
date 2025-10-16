@@ -1,4 +1,4 @@
-import { type ReactElement } from "react";
+import { forwardRef, type ForwardedRef, type ReactElement } from "react";
 import {
   BANK_LOGOS,
   COMPANY_LOGO,
@@ -19,21 +19,20 @@ type Props = {
   className?: string;
 };
 
-const BankCard = ({
-  number,
-  transactionCompany,
-  bank,
-  className,
-  ...footerInfo
-}: Props): ReactElement => {
+const BankCard = (
+  { number, transactionCompany, bank, className, ...footerInfo }: Props,
+  ref: ForwardedRef<HTMLDivElement>,
+): ReactElement => {
   return (
-    <Container className={className}>
+    <Container className={className} ref={ref}>
       <CardHeader bank={bank} transactionCompany={transactionCompany} />
       <CardNumber number={number} />
       <CardFooter {...footerInfo} />
     </Container>
   );
 };
+
+export default forwardRef(BankCard);
 
 const CardHeader = ({
   bank,
@@ -150,5 +149,3 @@ const Item = styled("div")`
     line-height: 6px;
   }
 `;
-
-export default BankCard;
