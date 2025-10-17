@@ -3,7 +3,7 @@ import "./App.css";
 import { themeOptions } from "./theme";
 import Header from "@components/Header";
 import CardDispenser from "@pages/CardDispenser";
-import PinInput from "@components/PinInput/PinInput";
+import Pin from "@pages/Pin";
 
 function App() {
   return (
@@ -11,8 +11,8 @@ function App() {
       <LayoutContainer>
         <Header />
         <MainContent>
-          <PinInput length={4} />
-          <CardDispenser />
+          <Pin />
+          {/* <CardDispenser /> */}
         </MainContent>
       </LayoutContainer>
     </ThemeProvider>

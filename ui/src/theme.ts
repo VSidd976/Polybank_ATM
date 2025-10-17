@@ -21,7 +21,7 @@ export const themeOptions: ThemeOptions = createTheme({
     text: {
       primary: "#211A1D",
       secondary: "#FFFCFB",
-      disabled: "#CBCBCB",
+      disabled: "#737373",
     },
   },
 });
