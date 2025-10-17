@@ -2,7 +2,8 @@ import { styled, ThemeProvider } from "@mui/material";
 import "./App.css";
 import { themeOptions } from "./theme";
 import Header from "@components/Header";
-import CodeInput from "@components/MultiPartInput/CodeInput";
+import CardDispenser from "@pages/CardDispenser";
+import PinInput from "@components/PinInput/PinInput";
 
 function App() {
   return (
@@ -10,8 +11,8 @@ function App() {
       <LayoutContainer>
         <Header />
         <MainContent>
-          <CodeInput length={4} />
-          {/* <CardDispenser /> */}
+          <PinInput length={4} />
+          <CardDispenser />
         </MainContent>
       </LayoutContainer>
     </ThemeProvider>

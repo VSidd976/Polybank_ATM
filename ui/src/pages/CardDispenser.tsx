@@ -7,23 +7,41 @@ import {
   type Card,
 } from "@components/BankCard/consts";
 import BaseButton from "@components/Button/Button";
+import { useCallback, useState } from "react";
+import { randomInRange } from "@utils/randomInRange";
 
-const placeholderCard: Card = {
-  ownerName: "Alexandr Stepanov",
-  number: "4556000000000000",
-  expDate: "10/39",
+const defaultFields: Pick<Card, "bank" | "transactionCompany"> = {
   bank: BANKS.POLY_BANK,
   transactionCompany: TRANSACTION_COMPANY.VISA,
-  cvv: 123,
 } as const;
+
+const OWNERS = ["Alexandr Stepanov"];
+
+function generateCard(): Card {
+  return {
+    ...defaultFields,
+    number: `${randomInRange(4556_0000_0000_0000, 4556_9999_9999_9999)}`,
+    expDate: `${randomInRange(1, 12).toString().padStart(2, "0")}/${randomInRange(25, 35).toString().padStart(2, "0")}`,
+    ownerName: OWNERS[randomInRange(0, OWNERS.length - 1)],
+    cvv: randomInRange(0, 999).toString().padStart(3, "0"),
+  };
+}
+
+const useRandomCard = () => {
+  const [card, setCard] = useState(generateCard());
+  const generateNew = useCallback(() => setCard(generateCard), [setCard]);
+  return [card, generateNew] as const;
+};
 
 const CardDispenser = () => {
   const [isAnimate, { toggle }] = useBoolean();
+  const [card, generateNew] = useRandomCard();
   return (
     <Container>
-      <BankCard $animate={isAnimate} card={placeholderCard} />
+      <BankCard $animate={isAnimate} card={card} />
       <Fade in={!isAnimate}>
         <ButtonsContainer>
+          <BaseButton onClick={generateNew} txt={"Generate Credentials"} />
           <BaseButton onClick={toggle} txt={"InsertCard"} />
         </ButtonsContainer>
       </Fade>
@@ -42,7 +60,10 @@ const Container = styled("div")`
   gap: 25px;
 `;
 
-const ButtonsContainer = styled("div")``;
+const ButtonsContainer = styled("div")`
+  display: flex;
+  gap: 15px;
+`;
 
 const BankCard = styled(BankCard_)<{ $animate: boolean }>`
   z-index: 1;

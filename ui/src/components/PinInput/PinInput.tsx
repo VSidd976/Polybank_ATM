@@ -20,7 +20,7 @@ const CodeInput_ = (): ReactElement => {
   );
 };
 
-const CodeInput = ({ length }: Props): ReactElement => {
+const PinInput = ({ length }: Props): ReactElement => {
   return (
     <InputStoreProvider amount={length}>
       <CodeInput_ />
@@ -28,7 +28,7 @@ const CodeInput = ({ length }: Props): ReactElement => {
   );
 };
 
-export default CodeInput;
+export default PinInput;
 
 const Form = styled("form")`
   display: flex;
@@ -36,4 +36,8 @@ const Form = styled("form")`
   gap: 10px;
 `;
 
-const Button = styled(BaseButton_)``;
+const Button = styled(BaseButton_)`
+  &::before {
+    padding: 3px;
+  }
+`;

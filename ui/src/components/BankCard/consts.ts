@@ -12,7 +12,7 @@ export const TRANSACTION_COMPANY = {
 
 export type Card = {
   ownerName: string;
-  cvv: number;
+  cvv: string;
   expDate: string;
   number: string;
   bank: Bank;
