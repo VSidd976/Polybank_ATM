@@ -1,13 +1,12 @@
 import { Fade, styled } from "@mui/material";
 import { useBoolean } from "@utils/hooks/useBoolean";
-import BankCard from "@components/BankCard";
+import BankCard_ from "@components/BankCard";
 import {
   BANKS,
   TRANSACTION_COMPANY,
   type Card,
 } from "@components/BankCard/consts";
 import BaseButton from "@components/Button/Button";
-import InOutContainer from "@components/Dispenser/InOutContainer";
 
 const placeholderCard: Card = {
   ownerName: "Alexandr Stepanov",
@@ -22,9 +21,7 @@ const CardDispenser = () => {
   const [isAnimate, { toggle }] = useBoolean();
   return (
     <Container>
-      <InOutContainer isAnimated={isAnimate}>
-        <BankCard card={placeholderCard} />
-      </InOutContainer>
+      <BankCard $animate={isAnimate} card={placeholderCard} />
       <Fade in={!isAnimate}>
         <ButtonsContainer>
           <BaseButton onClick={toggle} txt={"InsertCard"} />
@@ -46,3 +43,28 @@ const Container = styled("div")`
 `;
 
 const ButtonsContainer = styled("div")``;
+
+const BankCard = styled(BankCard_)<{ $animate: boolean }>`
+  z-index: 1;
+  ${({ $animate }) =>
+    $animate ? `animation: rotateAndFloat 3.5s ease-in forwards;` : ""}
+
+  @keyframes rotateAndFloat {
+    0% {
+      transform: translate(0, 0) rotate(0deg);
+      opacity: 1;
+    }
+    15% {
+      transform: translate(0, -120px) rotate(0deg);
+      opacity: 1;
+    }
+    30% {
+      transform: translate(20px, -120px) rotate(90deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(40px, -150vh) rotate(90deg);
+      opacity: 0;
+    }
+  }
+`;
