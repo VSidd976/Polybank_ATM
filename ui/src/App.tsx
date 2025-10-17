@@ -1,12 +1,16 @@
 import { Button, styled, ThemeProvider } from "@mui/material";
 import "./App.css";
 import BankCard_ from "./components/BankCard";
-import { type ComponentPropsWithoutRef } from "react";
-import { BANKS, TRANSACTION_COMPANY } from "./components/BankCard/consts";
+import {
+  BANKS,
+  TRANSACTION_COMPANY,
+  type Card,
+} from "./components/BankCard/consts";
 import { useBoolean } from "./utils/hooks/useBoolean";
 import { themeOptions } from "./theme";
+import Header from "./components/Header";
 
-const placeholderCard: ComponentPropsWithoutRef<typeof BankCard_> = {
+const placeholderCard: Card = {
   ownerName: "Alexandr Stepanov",
   number: "4556000000000000",
   expDate: "10/39",
@@ -20,8 +24,9 @@ function App() {
   return (
     <ThemeProvider theme={themeOptions}>
       <LayoutContainer>
+        <Header />
         <MainContent>
-          <BankCard $animate={animate} {...placeholderCard} />
+          <BankCard $animate={animate} card={placeholderCard} />
           <Button onClick={toggle}>click me</Button>
         </MainContent>
       </LayoutContainer>
@@ -63,7 +68,24 @@ const LayoutContainer = styled("div")`
 const MainContent = styled("main")`
   flex: 1;
   display: flex;
-  background: #fff;
+  flex-direction: column;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0)),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.05),
+      rgba(0, 0, 0, 0.05) 1px,
+      transparent 1px,
+      transparent 40px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.05),
+      rgba(0, 0, 0, 0.05) 1px,
+      transparent 1px,
+      transparent 40px
+    );
+  backround-color: white;
   justify-content: center;
   align-items: center;
 `;

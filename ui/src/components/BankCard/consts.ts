@@ -10,6 +10,15 @@ export const TRANSACTION_COMPANY = {
   MASTER_CARD: "MASTER_CARD",
 } as const;
 
+export type Card = {
+  ownerName: string;
+  cvv: number;
+  expDate: string;
+  number: string;
+  bank: Bank;
+  transactionCompany: TransactionCompany;
+};
+
 export type Bank = (typeof BANKS)[keyof typeof BANKS];
 export type TransactionCompany =
   (typeof TRANSACTION_COMPANY)[keyof typeof TRANSACTION_COMPANY];

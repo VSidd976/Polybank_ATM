@@ -1,43 +1,33 @@
 import { forwardRef, type ForwardedRef, type ReactElement } from "react";
-import {
-  BANK_LOGOS,
-  COMPANY_LOGO,
-  type Bank,
-  type TransactionCompany,
-} from "./consts";
+import { BANK_LOGOS, COMPANY_LOGO, type Card } from "./consts";
 import { styled } from "@mui/material";
 import { useMemoValue } from "../../utils/hooks/useMemoValue";
 import { formatCardNumber } from "../../utils/format";
 
 type Props = {
-  ownerName: string;
-  cvv: number;
-  expDate: string;
-  number: string;
-  bank: Bank;
-  transactionCompany: TransactionCompany;
+  card: Card;
   className?: string;
 };
 
 const BankCard = (
-  { number, transactionCompany, bank, className, ...footerInfo }: Props,
+  { card, className }: Props,
   ref: ForwardedRef<HTMLDivElement>,
 ): ReactElement => {
   return (
-    <Container className={className} ref={ref}>
-      <CardHeader bank={bank} transactionCompany={transactionCompany} />
-      <CardNumber number={number} />
-      <CardFooter {...footerInfo} />
-    </Container>
+    <CardComposite.Container className={className} ref={ref}>
+      <CardComposite.Header {...card} />
+      <CardComposite.CardNumber {...card} />
+      <CardComposite.Footer {...card} />
+    </CardComposite.Container>
   );
 };
 
 export default forwardRef(BankCard);
 
-const CardHeader = ({
+const Header = ({
   bank,
   transactionCompany,
-}: Pick<Props, "bank" | "transactionCompany">): ReactElement => {
+}: Pick<Card, "bank" | "transactionCompany">): ReactElement => {
   const logoSrc = useMemoValue((b) => BANK_LOGOS[b], [bank]);
   const companySrc = useMemoValue((t) => COMPANY_LOGO[t], [transactionCompany]);
   return (
@@ -59,10 +49,11 @@ const Container = styled("div")`
   box-shadow: 4px 4px 4px 0px #00000040;
   background: linear-gradient(
     120.68deg,
-    #00dbc4 -14.5%,
-    #01b2ac 37.63%,
-    #02707e 95.04%
+    ${({ theme }) => theme.palette.primary.light} 0.28%,
+    ${({ theme }) => theme.palette.primary.main} 76.49%,
+    ${({ theme }) => theme.palette.primary.dark} 99.51%
   );
+
   border-radius: 20px;
 `;
 
@@ -72,7 +63,7 @@ const HeaderWrapper = styled("div")`
   justify-content: space-between;
 `;
 
-const CardNumber = ({ number }: Pick<Props, "number">): ReactElement => {
+const CardNumber = ({ number }: Pick<Card, "number">): ReactElement => {
   const formatedNumber = useMemoValue(formatCardNumber, [number]);
   return (
     <CardNumberWrapper>
@@ -84,12 +75,12 @@ const CardNumber = ({ number }: Pick<Props, "number">): ReactElement => {
 
 const CardNumberWrapper = styled("div")`
   flex: 1;
-  color: #1a3d3e;
-  font-weight: 600;
+  color: ${({ theme }) => theme.palette.primary.contrastText};
+  font-weight: 500;
 `;
 
 const MagneticRectangle = styled("div")`
-  background: linear-gradient(116.79deg, #fffcfb 0%, #9effec 103.25%);
+  background: #fff;
   width: 48.6px;
   height: 33.25px;
   border-radius: 6px;
@@ -98,14 +89,15 @@ const MagneticRectangle = styled("div")`
 const Number = styled("span")`
   display: inline-block;
   font-size: 20px;
+  text-shadow: 2px 2px 4px #00000069;
   margin-top: 5px;
 `;
 
-const CardFooter = ({
+const Footer = ({
   ownerName,
   expDate,
   cvv,
-}: Pick<Props, "cvv" | "ownerName" | "expDate">): ReactElement => {
+}: Pick<Card, "cvv" | "ownerName" | "expDate">): ReactElement => {
   return (
     <CardFooterWrapper>
       <FooterItem label="Owner Name">{ownerName}</FooterItem>
@@ -140,12 +132,20 @@ const CardFooterWrapper = styled("div")`
 
 const Item = styled("div")`
   & > label {
+    color: ${({ theme }) => theme.palette.text.disabled};
     font-size: 10px;
-    font-weight: 500;
+    font-weight: 400;
   }
   & > p {
     font-size: 12.5px;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 6px;
   }
 `;
+
+const CardComposite = {
+  Header,
+  CardNumber,
+  Footer,
+  Container,
+};
