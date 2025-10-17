@@ -1,6 +1,7 @@
 import PinInput from "@components/PinInput/PinInput";
 import NoPeeking from "@assets/no-peek.svg";
 import { styled } from "@mui/material";
+import BaseButton from "@components/Button/Button";
 
 const Pin = () => {
   return (
@@ -9,7 +10,8 @@ const Pin = () => {
       <Title>
         Enter your PIN <br /> (We're not looking)
       </Title>
-      <PinInput length={4} />;
+      <PinInput length={4} />
+      <BaseButton txt="Enter" />
     </Container>
   );
 };
