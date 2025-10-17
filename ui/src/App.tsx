@@ -1,9 +1,10 @@
-import { styled } from "@mui/material";
+import { Button, styled, ThemeProvider } from "@mui/material";
 import "./App.css";
 import BankCard_ from "./components/BankCard";
 import { type ComponentPropsWithoutRef } from "react";
 import { BANKS, TRANSACTION_COMPANY } from "./components/BankCard/consts";
 import { useBoolean } from "./utils/hooks/useBoolean";
+import { themeOptions } from "./theme";
 
 const placeholderCard: ComponentPropsWithoutRef<typeof BankCard_> = {
   ownerName: "Alexandr Stepanov",
@@ -17,12 +18,14 @@ const placeholderCard: ComponentPropsWithoutRef<typeof BankCard_> = {
 function App() {
   const [animate, { toggle }] = useBoolean();
   return (
-    <LayoutContainer>
-      <MainContent>
-        <BankCard $animate={animate} {...placeholderCard} />
-        <button onClick={toggle}>click me</button>
-      </MainContent>
-    </LayoutContainer>
+    <ThemeProvider theme={themeOptions}>
+      <LayoutContainer>
+        <MainContent>
+          <BankCard $animate={animate} {...placeholderCard} />
+          <Button onClick={toggle}>click me</Button>
+        </MainContent>
+      </LayoutContainer>
+    </ThemeProvider>
   );
 }
 
