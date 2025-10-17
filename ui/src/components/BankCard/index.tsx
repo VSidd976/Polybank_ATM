@@ -1,8 +1,8 @@
 import { forwardRef, type ForwardedRef, type ReactElement } from "react";
 import { BANK_LOGOS, COMPANY_LOGO, type Card } from "./consts";
 import { styled } from "@mui/material";
-import { useMemoValue } from "../../utils/hooks/useMemoValue";
-import { formatCardNumber } from "../../utils/format";
+import { useMemoValue } from "@utils/hooks/useMemoValue";
+import { formatCardNumber } from "@utils/format";
 
 type Props = {
   card: Card;

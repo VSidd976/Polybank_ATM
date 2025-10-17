@@ -15,6 +15,7 @@ export default Header;
 
 const Container = styled("div")`
   display: flex;
+  z-index: 2;
   gap: 25px;
   background-color: ${({ theme }) => theme.palette.background.paper};
   padding: 20px 25px;

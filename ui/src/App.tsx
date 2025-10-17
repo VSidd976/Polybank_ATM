@@ -1,62 +1,21 @@
-import { Button, styled, ThemeProvider } from "@mui/material";
+import { styled, ThemeProvider } from "@mui/material";
 import "./App.css";
-import BankCard_ from "./components/BankCard";
-import {
-  BANKS,
-  TRANSACTION_COMPANY,
-  type Card,
-} from "./components/BankCard/consts";
-import { useBoolean } from "./utils/hooks/useBoolean";
 import { themeOptions } from "./theme";
-import Header from "./components/Header";
-
-const placeholderCard: Card = {
-  ownerName: "Alexandr Stepanov",
-  number: "4556000000000000",
-  expDate: "10/39",
-  bank: BANKS.POLY_BANK,
-  transactionCompany: TRANSACTION_COMPANY.VISA,
-  cvv: 123,
-} as const;
+import Header from "@components/Header";
+import CardDispenser from "@pages/CardDispenser";
 
 function App() {
-  const [animate, { toggle }] = useBoolean();
   return (
     <ThemeProvider theme={themeOptions}>
       <LayoutContainer>
         <Header />
         <MainContent>
-          <BankCard $animate={animate} card={placeholderCard} />
-          <Button onClick={toggle}>click me</Button>
+          <CardDispenser />
         </MainContent>
       </LayoutContainer>
     </ThemeProvider>
   );
 }
-
-const BankCard = styled(BankCard_)<{ $animate: boolean }>`
-  ${({ $animate }) =>
-    $animate ? `animation: rotateAndFloat 3.5s ease-in forwards;` : ""}
-
-  @keyframes rotateAndFloat {
-    0% {
-      transform: rotate(0deg) translateX(0);
-      opacity: 1;
-    }
-    25% {
-      transform: rotate(90deg) translateX(0);
-      opacity: 1;
-    }
-    50% {
-      transform: rotate(90deg) translateX(0);
-      opacity: 1;
-    }
-    100% {
-      transform: rotate(90deg) translateX(-150vh);
-      opacity: 0;
-    }
-  }
-`;
 
 const LayoutContainer = styled("div")`
   min-height: 100vh;
@@ -66,28 +25,25 @@ const LayoutContainer = styled("div")`
 `;
 
 const MainContent = styled("main")`
-  flex: 1;
   display: flex;
-  flex-direction: column;
+  flex: 1;
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0)),
+    linear-gradient(135deg, rgba(255 255 255 / 0.1), rgba(255 255 255 / 0)),
     repeating-linear-gradient(
       90deg,
-      rgba(0, 0, 0, 0.05),
-      rgba(0, 0, 0, 0.05) 1px,
+      rgba(255 255 255 / 0.05),
+      rgba(255 255 255 / 0.05) 1px,
       transparent 1px,
       transparent 40px
     ),
     repeating-linear-gradient(
       0deg,
-      rgba(0, 0, 0, 0.05),
-      rgba(0, 0, 0, 0.05) 1px,
+      rgba(255 255 255 / 0.05),
+      rgba(255 255 255 / 0.05) 1px,
       transparent 1px,
       transparent 40px
     );
-  backround-color: white;
-  justify-content: center;
-  align-items: center;
+  background-color: #1a2121;
 `;
 
 export default App;
