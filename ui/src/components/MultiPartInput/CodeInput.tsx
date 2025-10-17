@@ -3,14 +3,15 @@ import { type ReactElement } from "react";
 import InputPart from "./InputPart";
 import { useInputSequance } from "@utils/hooks/useInputSequance";
 import BaseButton_ from "@components/Button/Button";
-import { InputStoreProvider } from "@utils/stores/inputStore";
+import { InputStoreProvider, useInputsStore } from "@utils/stores/inputStore";
 
 type Props = {
   length: number;
 };
 
-const CodeInput_ = ({ length }: Props): ReactElement => {
-  const [inputs, { onPrev }] = useInputSequance(length);
+const CodeInput_ = (): ReactElement => {
+  const { values, selectedIdx, onPrev } = useInputsStore();
+  const inputs = useInputSequance(values, selectedIdx);
   return (
     <Form>
       {inputs.map(InputPart)}
@@ -22,7 +23,7 @@ const CodeInput_ = ({ length }: Props): ReactElement => {
 const CodeInput = ({ length }: Props): ReactElement => {
   return (
     <InputStoreProvider amount={length}>
-      <CodeInput_ length={length} />
+      <CodeInput_ />
     </InputStoreProvider>
   );
 };

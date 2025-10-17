@@ -3,13 +3,8 @@ import type { ControlledInput } from "@utils/hooks/useInputSequance";
 import { useInputsStore } from "@utils/stores/inputStore";
 import { useCallback, type KeyboardEvent, type ReactElement } from "react";
 
-const InputPart = ({
-  isSelected,
-  value,
-  inputRef,
-  idx,
-}: ControlledInput): ReactElement => {
-  const { onPrev, onNext } = useInputsStore();
+const InputPart = ({ value, inputRef, idx }: ControlledInput): ReactElement => {
+  const { onPrev, onNext, selectedIdx } = useInputsStore();
   const onKeyDown = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => onInputChange(e, onPrev, onNext),
     [onNext, onPrev],
@@ -23,7 +18,7 @@ const InputPart = ({
         onKeyDown={onKeyDown}
         onChange={() => void 0}
         maxLength={1}
-        disabled={!isSelected}
+        disabled={!(selectedIdx === idx)}
       />
     </BorderWrapper>
   );
