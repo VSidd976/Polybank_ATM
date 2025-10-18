@@ -7,7 +7,7 @@ import Pin from "@pages/Pin";
 
 function App() {
   return (
-    <ThemeProvider theme={themeOptions}>
+    <ThemeProvider theme={themeOptions} defaultMode="dark">
       <LayoutContainer>
         <Header />
         <MainContent>

@@ -8,7 +8,7 @@ const Pin = () => {
     <Container>
       <Image src={NoPeeking} width={80} />
       <Title>
-        Enter your PIN <br /> (We're not looking)
+        Enter your PIN <br /> <NotLooking>(We're not looking)</NotLooking>
       </Title>
       <PinInput length={4} />
       <BaseButton txt="Enter" />
@@ -33,10 +33,16 @@ const Image = styled("img")`
   }
 `;
 
-const Title = styled("h2")`
-  text-align: center;
+const NotLooking = styled("span")`
+  font-size: 18px;
   color: ${({ theme }) => theme.palette.text.disabled};
   font-weight: 200;
+`;
+
+const Title = styled("h2")`
+  text-align: center;
+  color: ${({ theme }) => theme.palette.primary.contrastText};
+  font-weight: 400;
 `;
 
 const Container = styled("div")`

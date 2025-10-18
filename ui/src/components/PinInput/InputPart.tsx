@@ -1,10 +1,16 @@
 import { styled } from "@mui/material";
 import type { ControlledInput } from "@utils/hooks/useInputSequance";
 import { useInputsStore } from "@utils/stores/inputStore";
-import { useCallback, type KeyboardEvent, type ReactElement } from "react";
+import {
+  useCallback,
+  useMemo,
+  type KeyboardEvent,
+  type ReactElement,
+} from "react";
 
 const InputPart = ({ value, inputRef, idx }: ControlledInput): ReactElement => {
   const { onPrev, onNext, selectedIdx } = useInputsStore();
+  const isSelected = useMemo(() => selectedIdx === idx, [selectedIdx, idx]);
   const onKeyDown = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => onInputChange(e, onPrev, onNext),
     [onNext, onPrev],
@@ -18,7 +24,7 @@ const InputPart = ({ value, inputRef, idx }: ControlledInput): ReactElement => {
         onKeyDown={onKeyDown}
         onChange={() => void 0}
         maxLength={1}
-        disabled={!(selectedIdx === idx)}
+        disabled={!isSelected}
       />
     </BorderWrapper>
   );

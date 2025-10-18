@@ -132,11 +132,11 @@ const CardFooterWrapper = styled("div")`
 
 const Item = styled("div")`
   & > label {
-    color: ${({ theme }) => theme.palette.text.disabled};
+    color: ${({ theme }) => theme.palette.info.contrastText};
     font-size: 10px;
     font-weight: 400;
   }
-  & > p {
+  p & > p {
     font-size: 12.5px;
     font-weight: 500;
     line-height: 6px;
