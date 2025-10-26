@@ -3,17 +3,55 @@ import { useBoolean } from "@utils/hooks/useBoolean";
 import BankCard_ from "@components/BankCard";
 import BaseButton from "@components/Button/Button";
 import { useRandomCard } from "@utils/hooks/useRandomCard";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useCallback, useEffect } from "react";
+
+const animationDurationSec = 3.5;
+
+const useInsert = (): { isInserted: boolean; insertCard: () => void } => {
+  const [isInserted, { on }] = useBoolean();
+  const navigate = useNavigate();
+  const insertCard = useCallback(() => {
+    on();
+    setTimeout(() => navigate("/pin"), animationDurationSec * 1_000);
+  }, [navigate, on]);
+  return { isInserted, insertCard };
+};
+
+const useReturning = (): boolean => {
+  const [params] = useSearchParams();
+  const navigate = useNavigate();
+  const isLogout = params.get("logout") === "true";
+  useEffect(() => {
+    if (!isLogout) return;
+    setTimeout(() => navigate("/"), animationDurationSec * 1_000);
+  }, [isLogout]);
+  return isLogout;
+};
 
 const CardDispenser = () => {
-  const [isAnimate, { toggle }] = useBoolean();
   const [card, generateNew] = useRandomCard();
+  const { isInserted, insertCard } = useInsert();
+  const isReturning = useReturning();
   return (
     <Container>
-      <BankCard $animate={isAnimate} card={card} />
-      <Fade in={!isAnimate}>
+      <BankCard
+        $isInserted={isInserted}
+        $isReturning={isReturning}
+        card={card}
+      />
+      <Fade in={!isInserted || isReturning}>
         <ButtonsContainer>
-          <BaseButton onClick={generateNew} txt={"Generate Credentials"} />
-          <BaseButton onClick={toggle} txt={"InsertCard"} />
+          <BaseButton
+            onClick={generateNew}
+            disabled={isReturning}
+            txt={"Generate Credentials"}
+          />
+          <BaseButton
+            onClick={insertCard}
+            disabled={isReturning}
+            txt={"Insert Card"}
+          />
         </ButtonsContainer>
       </Fade>
     </Container>
@@ -36,10 +74,19 @@ const ButtonsContainer = styled("div")`
   gap: 15px;
 `;
 
-const BankCard = styled(BankCard_)<{ $animate: boolean }>`
+const BankCard = styled(BankCard_)<{
+  $isInserted: boolean;
+  $isReturning: boolean;
+}>`
   z-index: 1;
-  ${({ $animate }) =>
-    $animate ? `animation: rotateAndFloat 3.5s ease-in forwards;` : ""}
+  ${({ $isReturning }) =>
+    $isReturning
+      ? `animation: rotateAndFloat ${animationDurationSec}s ease-in reverse backwards;`
+      : ""}
+  ${({ $isInserted }) =>
+    $isInserted
+      ? `animation: rotateAndFloat ${animationDurationSec}s ease-in forwards;`
+      : ""}
 
   @keyframes rotateAndFloat {
     0% {

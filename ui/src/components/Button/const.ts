@@ -1,4 +1,5 @@
 import { styled } from "@mui/material";
+import { transform } from "typescript";
 
 const BlackOutlined = styled("button")(({ theme }) => ({
   position: "relative",
@@ -38,6 +39,14 @@ const BlackOutlined = styled("button")(({ theme }) => ({
   "&:active": {
     transform: "scale(0.98)",
     filter: "brightness(0.95)",
+  },
+
+  "&:disabled": {
+    cursor: "not-allowed",
+    filter: "brightness(70%)",
+    "&:hover": {
+      transform: "none",
+    },
   },
 
   "@keyframes gradientMove": {

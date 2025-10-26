@@ -4,6 +4,7 @@ import { themeOptions } from "./theme";
 import Header from "@components/Header";
 import CardDispenser from "@pages/CardDispenser";
 import Pin from "@pages/Pin";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
@@ -11,8 +12,12 @@ function App() {
       <LayoutContainer>
         <Header />
         <MainContent>
-          <Pin />
-          {/* <CardDispenser /> */}
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<CardDispenser />} />
+              <Route path="/pin" element={<Pin />} />
+            </Routes>
+          </BrowserRouter>
         </MainContent>
       </LayoutContainer>
     </ThemeProvider>

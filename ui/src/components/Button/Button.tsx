@@ -7,19 +7,26 @@ type Props = {
   onClick?: () => void;
   variant?: ButtonVariant;
   type?: "submit" | "reset" | "button";
+  disabled?: boolean;
   className?: string;
 };
 
 const BaseButton = ({
   txt,
   onClick,
+  disabled,
   variant = "black-outlined",
   type = "button",
   className,
 }: Props): ReactElement => {
   const Button = useMemoValue((v) => ButtonVariantStyles[v], [variant]);
   return (
-    <Button onClick={onClick} type={type} className={className}>
+    <Button
+      onClick={onClick}
+      type={type}
+      disabled={disabled}
+      className={className}
+    >
       <span data-role="txt">{txt}</span>
     </Button>
   );
