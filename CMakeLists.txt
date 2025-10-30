@@ -9,6 +9,8 @@ set(EXECUTABLE_NAME "Executable")
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 include(CPM)
 
+set(ATM "ATM")
+
 add_subdirectory(src)
 add_subdirectory(inc)
 add_subdirectory(app)
