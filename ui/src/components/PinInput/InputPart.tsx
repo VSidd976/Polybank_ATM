@@ -24,7 +24,7 @@ const InputPart = ({ value, inputRef, idx }: ControlledInput): ReactElement => {
         onKeyDown={onKeyDown}
         onChange={() => void 0}
         maxLength={1}
-        disabled={!isSelected}
+        readOnly={!isSelected}
       />
     </BorderWrapper>
   );
@@ -60,7 +60,7 @@ const Input = styled("input")`
   z-index: 1;
   background: ${({ theme }) => theme.palette.background.paper};
   opacity: 95%;
-  &:disabled[value=""] {
+  &:read-only[value=""] {
     background: ${({ theme }) => theme.palette.background.paper};
     opacity: 85%;
   }

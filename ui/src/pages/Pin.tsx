@@ -2,16 +2,39 @@ import PinInput from "@components/PinInput/PinInput";
 import NoPeeking from "@assets/no-peek.svg";
 import { styled } from "@mui/material";
 import BaseButton from "@components/Button/Button";
+import type { FormEvent } from "react";
+import { toast } from "react-toastify";
+import { atmApi } from "@api/AtmAPI";
+
+const badPinNotify = () =>
+  toast("Oops, looks like your pin is invalid", { type: "warning" });
+
+const onSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+  e.preventDefault();
+  const pin = Object.values(
+    Object.fromEntries(new FormData(e.currentTarget)),
+  ).reduce((acc, curr) => (typeof curr === "string" ? acc + curr : acc), "");
+
+  if (typeof pin !== "string" || pin.length != 4) {
+    badPinNotify();
+    return;
+  }
+
+  await atmApi
+    .inputPIN(pin)
+    .then(() => location.replace("/?logout=true"))
+    .catch(() => badPinNotify());
+};
 
 const Pin = () => {
   return (
-    <Container>
+    <Container onSubmit={onSubmit}>
       <Image src={NoPeeking} width={80} />
       <Title>
         Enter your PIN <br /> <NotLooking>(We're not looking)</NotLooking>
       </Title>
       <PinInput length={4} />
-      <BaseButton txt="Enter" />
+      <BaseButton txt="Enter" type="submit" />
     </Container>
   );
 };
@@ -45,7 +68,7 @@ const Title = styled("h2")`
   font-weight: 400;
 `;
 
-const Container = styled("div")`
+const Container = styled("form")`
   display: flex;
   position: relative;
   flex-direction: column;

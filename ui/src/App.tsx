@@ -5,6 +5,7 @@ import Header from "@components/Header";
 import CardDispenser from "@pages/CardDispenser";
 import Pin from "@pages/Pin";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           </BrowserRouter>
         </MainContent>
       </LayoutContainer>
+      <ToastContainer />
     </ThemeProvider>
   );
 }

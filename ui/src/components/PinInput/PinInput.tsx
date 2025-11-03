@@ -9,14 +9,16 @@ type Props = {
   length: number;
 };
 
+export const PIN_INPUT = "pin-input-field";
+
 const CodeInput_ = (): ReactElement => {
   const { values, selectedIdx, onPrev } = useInputsStore();
   const inputs = useInputSequance(values, selectedIdx);
   return (
-    <Form>
+    <Wrapper id={PIN_INPUT}>
       {inputs.map(InputPart)}
       <Button txt="<" onClick={onPrev} />
-    </Form>
+    </Wrapper>
   );
 };
 
@@ -30,9 +32,10 @@ const PinInput = ({ length }: Props): ReactElement => {
 
 export default PinInput;
 
-const Form = styled("form")`
+const Wrapper = styled("fieldset")`
   display: flex;
   height: min-content;
+  border: none;
   gap: 10px;
 `;
 
