@@ -8,6 +8,8 @@ set(EXECUTABLE_NAME "Executable")
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 include(CPM)
+cpmaddpackage("gh:CrowCpp/Crow#v1.3.0")
+cpmaddpackage("gh:nlohmann/json#v3.12.0")
 
 set(ATM "ATM")
 

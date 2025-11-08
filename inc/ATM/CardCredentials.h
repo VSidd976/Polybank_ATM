@@ -4,8 +4,9 @@ using namespace std;
 
 struct CardCredentials
 {
-    string _bankName;
+    string _ownerName;
     string _cardNumber;
-    string _PIN;
-    string _stripInfo;
+    string _bankName;
+    string _cvv;
+    string _expirationDate;
 };
