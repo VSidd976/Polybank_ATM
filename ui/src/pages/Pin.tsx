@@ -4,12 +4,18 @@ import { styled } from "@mui/material";
 import BaseButton from "@components/Button/Button";
 import type { FormEvent } from "react";
 import { toast } from "react-toastify";
-import { atmApi } from "@api/AtmAPI";
+import AtmAPI from "@api/AtmAPI";
+import type { Card } from "@components/BankCard/consts";
+import { useCard } from "@utils/stores/cardStore";
 
 const badPinNotify = () =>
   toast("Oops, looks like your pin is invalid", { type: "warning" });
 
-const onSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+const onSubmit = async (
+  e: FormEvent<HTMLFormElement>,
+  card: Card | undefined,
+): Promise<void> => {
+  if (!card) return;
   e.preventDefault();
   const pin = Object.values(
     Object.fromEntries(new FormData(e.currentTarget)),
@@ -20,15 +26,16 @@ const onSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     return;
   }
 
-  await atmApi
+  await AtmAPI.of(card)
     .inputPIN(pin)
     .then(() => location.replace("/main"))
     .catch(() => badPinNotify());
 };
 
 const Pin = () => {
+  const card = useCard().card;
   return (
-    <Container onSubmit={onSubmit}>
+    <Container onSubmit={(e) => onSubmit(e, card)}>
       <Image src={NoPeeking} width={80} />
       <Title>
         Enter your PIN <br /> <NotLooking>(We're not looking)</NotLooking>

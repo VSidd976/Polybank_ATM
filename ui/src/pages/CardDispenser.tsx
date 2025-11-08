@@ -5,8 +5,8 @@ import BaseButton from "@components/Button/Button";
 import { useRandomCard } from "@utils/hooks/useRandomCard";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCallback, useEffect } from "react";
-import { atmApi } from "@api/AtmAPI";
 import type { Card } from "@components/BankCard/consts";
+import AtmAPI from "@api/AtmAPI";
 
 const animationDurationSec = 3.5;
 
@@ -17,7 +17,7 @@ const useInsert = (
   const navigate = useNavigate();
   const insertCard = useCallback(async () => {
     on();
-    await atmApi.insertCard(card);
+    await AtmAPI.of(card).insertCard();
     setTimeout(() => navigate("/pin"), animationDurationSec * 1_000);
   }, [navigate, on, card]);
   return { isInserted, insertCard };

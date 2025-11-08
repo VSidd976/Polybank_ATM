@@ -7,6 +7,7 @@ import Pin from "@pages/Pin";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import MainScreen from "@pages/MainScreen";
+import AddMoney from "@pages/AddMoney";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
               <Route path="/" element={<CardDispenser />} />
               <Route path="/pin" element={<Pin />} />
               <Route path="/main" element={<MainScreen />} />
+              <Route path="/main/add-money" element={<AddMoney />} />
             </Routes>
           </BrowserRouter>
         </MainContent>

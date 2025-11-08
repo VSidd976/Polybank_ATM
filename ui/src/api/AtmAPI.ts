@@ -1,14 +1,14 @@
 import type { Card } from "@components/BankCard/consts";
 
 class AtmAPI {
-  private card: Card | undefined;
-  static of(): AtmAPI {
-    return new AtmAPI();
+  constructor(private readonly card: Card) {}
+
+  static of(card: Card): AtmAPI {
+    return new AtmAPI(card);
   }
-  async insertCard(card: Card): Promise<boolean> {
+  async insertCard(): Promise<boolean> {
     // impl
-    console.log("Inserting a card", card);
-    this.card = card;
+    console.log("Inserting a card", this.card);
     return true;
   }
 
@@ -20,4 +20,4 @@ class AtmAPI {
   async endSession(): Promise<void> {}
 }
 
-export const atmApi = AtmAPI.of();
+export default AtmAPI;
