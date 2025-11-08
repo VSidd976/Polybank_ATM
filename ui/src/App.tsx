@@ -6,6 +6,7 @@ import CardDispenser from "@pages/CardDispenser";
 import Pin from "@pages/Pin";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import MainScreen from "@pages/MainScreen";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Routes>
               <Route path="/" element={<CardDispenser />} />
               <Route path="/pin" element={<Pin />} />
+              <Route path="/main" element={<MainScreen />} />
             </Routes>
           </BrowserRouter>
         </MainContent>

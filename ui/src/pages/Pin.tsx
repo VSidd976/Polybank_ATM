@@ -22,7 +22,7 @@ const onSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
 
   await atmApi
     .inputPIN(pin)
-    .then(() => location.replace("/?logout=true"))
+    .then(() => location.replace("/main"))
     .catch(() => badPinNotify());
 };
 
