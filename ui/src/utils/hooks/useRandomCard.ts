@@ -11,7 +11,29 @@ const defaultFields: Pick<Card, "bank" | "transactionCompany"> = {
   transactionCompany: TRANSACTION_COMPANY.VISA,
 } as const;
 
-const OWNERS = ["Alexandr Stepanov"];
+const OWNERS = [
+  "Alexandr Stepanov",
+  "Alex Smith",
+  "Jordan Brown",
+  "Taylor Johnson",
+  "Morgan Davis",
+  "Sam Miller",
+  "Casey Wilson",
+  "Jamie Clark",
+  "Riley Lewis",
+  "Avery Thompson",
+  "Dylan Moore",
+  "Logan White",
+  "Cameron Hall",
+  "Peyton Allen",
+  "Quinn Young",
+  "Hayden King",
+  "Reese Wright",
+  "Rowan Scott",
+  "Blake Green",
+  "Charlie Adams",
+  "Emerson Baker",
+];
 
 function generateCard(): Card {
   return {
@@ -23,8 +45,8 @@ function generateCard(): Card {
   };
 }
 
-export const useRandomCard = () => {
-  const [card, setCard] = useState(generateCard());
+export const useRandomCard = (initialCard?: Card) => {
+  const [card, setCard] = useState(initialCard ?? generateCard());
   const generateNew = useCallback(() => setCard(generateCard), [setCard]);
   return [card, generateNew] as const;
 };
