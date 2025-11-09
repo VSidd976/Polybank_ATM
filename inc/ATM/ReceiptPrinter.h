@@ -4,7 +4,7 @@
 class IReceiptPrinter
 {
     public:
-    virtual void printReceipt(string&) = 0;
+    virtual void printReceipt(const string&) = 0;
     virtual ~IReceiptPrinter() = default;
 };
 
@@ -18,5 +18,8 @@ public:
     ReceiptPrinter& operator=(const ReceiptPrinter&) = delete;
     ReceiptPrinter& operator=(ReceiptPrinter&&) = delete;
 
-    void printReceipt(string&) {}
+    void printReceipt(const string& message)
+    {
+        cout << "Printing receipt" << message << endl;
+    }
 };
