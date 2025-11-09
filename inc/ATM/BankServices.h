@@ -2,8 +2,11 @@
 #include <string>
 #include <exception>
 #include <iostream>
+#include <nlohmann/json.hpp>
 #include <cpr/cpr.h>
 #include "CardCredentials.h"
+
+using namespace nlohmann;
 
 struct AccountInfo {
     double balance;
@@ -104,7 +107,16 @@ public:
     }
 
     void putMoney(string& token, const double& amount) override {
-        cpr::Response r = cpr::Post(cpr::Url())
+        nlohmann::json body;
+        body["amount"] = amount;
+        cpr::Response r = cpr::Post(
+            cpr::Url{ baseUrl + "/api/account/put" },
+            cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}},
+            cpr::Body{ body.dump() }
+        );
+        if (r.status_code != 200) {
+            throw std::runtime_error("Failed to put money: " + r.text);
+        }
     }
 
     void getMoney(string& token, const double& amount) override {
