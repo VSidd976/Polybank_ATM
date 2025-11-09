@@ -54,7 +54,7 @@ int main() {
         return res;
     });
 
-    CROW_ROUTE(app, "/service/money/put")
+    CROW_ROUTE(app, "/api/account/put")
     .methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
     ([&atm](const crow::request& req){
         if (req.method == crow::HTTPMethod::OPTIONS) {
@@ -68,7 +68,7 @@ int main() {
         return res;
     });
 
-        CROW_ROUTE(app, "/service/money/take")
+        CROW_ROUTE(app, "/api/account/take")
     .methods(crow::HTTPMethod::PUT, crow::HTTPMethod::OPTIONS)
     ([&atm](const crow::request& req){
         if (req.method == crow::HTTPMethod::OPTIONS) {
