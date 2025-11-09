@@ -161,7 +161,7 @@ public:
 
     inline void transferMoney(string& token, const string& number, const double& amount) override {
         json body;
-        body["number"] = number;
+        body["to"] = number;
         body["amount"] = amount;
         cpr::Response r = cpr::Post(
             cpr::Url{ baseUrl + "/api/account/transfer" },
