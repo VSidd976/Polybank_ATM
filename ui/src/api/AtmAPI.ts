@@ -38,12 +38,12 @@ class AtmAPI {
 
   async cashOut(amount: number): Promise<boolean> {
     console.log({ amount, card: this.card });
-    return true;
+    return await axios.post(`${BASE_URL}/account/take`, { cash: amount });
   }
 
   async putMoney(amount: number): Promise<boolean> {
     console.log({ amount, card: this.card });
-    return true;
+    return await axios.post(`${BASE_URL}/account/put`, { cash: amount });
   }
 
   async transferMoney(amount: number, to: string): Promise<boolean> {

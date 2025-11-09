@@ -6,6 +6,7 @@ import { CASH_NOMINALS, type Nominal } from "@components/Cash/const";
 import { styled } from "@mui/material";
 import { useCard } from "@utils/stores/cardStore";
 import { useCallback, useEffect, useState, type ReactElement } from "react";
+import { toast } from "react-toastify";
 
 const OPTIONS = Object.keys(CASH_NOMINALS);
 
@@ -28,7 +29,14 @@ const useInsert = (): {
 
 function sendReq(card: Card | undefined, amount: number): void {
   if (!card) return;
-  AtmAPI.of(card).putMoney(amount);
+  AtmAPI.of(card)
+    .putMoney(amount)
+    .then(() => toast.success("Operation successful"))
+    .catch(() =>
+      toast(
+        "Opeartion went wrong, please leave your request on our contact line",
+      ),
+    );
 }
 
 const AddMoney = (): ReactElement => {
