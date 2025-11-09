@@ -1,20 +1,20 @@
 #include "ATM.h"
 
-void ATM::acceptCard(const std::string& req) {
+void ATM::acceptCard(const string& req) {
     const CardCredentials cardCreds = _cardSlot.readCard(req);
-    std::cout << cardCreds._cardNumber << std::endl;
+    cout << cardCreds._cardNumber << endl;
 }
 
-void ATM::acceptPin(const std::string& req) {
+void ATM::acceptPin(const string& req) {
     const CardCredentials cardCreds = _cardSlot.readCard(req);
-    const std::string pin = json::parse(req)["pin"];
-    const std::string token = "";
+    const string pin = json::parse(req)["pin"];
+    const string token = "";
     _session = new Session{ token };
-    std::cout << cardCreds._cardNumber << std::endl;
+    cout << cardCreds._cardNumber << endl;
 }
 
 void ATM::returnCard() {
-    std::cout << "Card returned" << std::endl;
+    cout << "Card returned" << endl;
     delete _session;
 }
 

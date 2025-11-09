@@ -31,10 +31,10 @@ public:
     void startMaintenance();
     void endMaintenance();
 
-    void acceptCard(const std::string&);
+    void acceptCard(const string&);
     void returnCard();
 
-    void acceptPin(const std::string&);
+    void acceptPin(const string&);
 
     void printReceipt();
 

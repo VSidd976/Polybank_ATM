@@ -21,7 +21,7 @@ int main() {
             return crow::response(204);
         }
 
-        std::cout << req.body << std::endl;
+        cout << req.body << endl;
         atm.acceptCard(req.body);
 
         crow::response res(200, "123456");
@@ -35,7 +35,7 @@ int main() {
             return crow::response(204);
         }
 
-        std::cout << req.body << std::endl;
+        cout << req.body << endl;
         atm.acceptPin(req.body);
 
         crow::response res(200, "123456");
@@ -49,7 +49,7 @@ int main() {
             return crow::response(204);
         }
 
-        std::cout << req.body << std::endl;
+        cout << req.body << endl;
         atm.returnCard();
 
         crow::response res(200, "123456");
@@ -63,7 +63,7 @@ int main() {
             return crow::response(204);
         }
 
-        std::cout << req.body << std::endl;
+        cout << req.body << endl;
         const double amount = json::parse(req.body)["cash"];
         atm.putMoney(amount);
 
@@ -78,7 +78,7 @@ int main() {
             return crow::response(204);
         }
 
-        std::cout << req.body << std::endl;
+        cout << req.body << endl;
         const double amount = json::parse(req.body)["cash"];
         atm.takeMoney(amount);
 
