@@ -19,7 +19,7 @@ public:
 
     virtual void putMoney(string& token, const double& amount) = 0;
     virtual void getMoney(string& token, const double& amount) = 0;
-    virtual void trasnferMoney(string& token, const double& amount) = 0;
+    virtual void transferMoney(string& token, const double& amount) = 0;
 
     virtual ~IBankService() = default;
 };
@@ -27,6 +27,7 @@ public:
 class TestBank : public IBankService {
 private:
     const string mockToken = "mock-token";
+    const string milTocken = "mil-tocken";
 public:
 
     TestBank() = default;
@@ -66,6 +67,12 @@ public:
         if (amount > 200) throw invalid_argument("More than limit");
         cout << "Took " << amount << " from to balance" << endl;
     }
+
+    inline void transferMoney(string& token, const double& amount) override {
+        if (token != milTocken) throw invalid_argument("Wrong tocken");
+        if (amount > 200) throw invalid_argument("More than limit");
+        cout << "Transfered " << amount << " to " << token << " balance" << endl;
+    }
 };
 
 class PolyBank : public IBankService {
@@ -79,13 +86,29 @@ public:
     PolyBank& operator=(const PolyBank&) = delete;
     PolyBank& operator=(PolyBank&&) = delete;
 
-    bool validateCard(const CardCredentials&) override;
+    bool validateCard(const CardCredentials&) override {
+        return true;
+    }
 
-    string validateEntry(const CardCredentials&, const string&) override;
+    string validateEntry(const CardCredentials&, const string&) override {
+        return "";
+    }
 
-    AccountInfo accountInfo(string& token) override;
+    AccountInfo accountInfo(string& token) override {
+        return {
+            0,0,0
+        };
+    }
 
-    void putMoney(string& token, const double& amount) override;
+    void putMoney(string& token, const double& amount) override {
 
-    void getMoney(string& token, const double& amount) override;
+    }
+
+    void getMoney(string& token, const double& amount) override {
+
+    }
+
+    inline void transferMoney(string& token, const double& amount) override {
+
+    }
 };
