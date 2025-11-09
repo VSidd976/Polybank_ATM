@@ -12,8 +12,8 @@ struct AccountInfo {
 
 class IBankService {
 public:
-    virtual bool validateCard(CardCredentials) = 0;
-    virtual std::string validateEntry(CardCredentials, std::string&) = 0;
+    virtual bool validateCard(const CardCredentials&) = 0;
+    virtual std::string validateEntry(const CardCredentials&, const std::string&) = 0;
 
     virtual AccountInfo accountInfo(std::string& token) = 0;
 
@@ -37,11 +37,12 @@ public:
     TestBank& operator=(const TestBank&) = delete;
     TestBank& operator=(TestBank&&) = delete;
 
-    bool validateCard(CardCredentials) override {
+    bool validateCard(const CardCredentials&) override {
         return true;
     }
 
-    std::string validateEntry(CardCredentials, std::string&) override {
+    std::string validateEntry(const CardCredentials& creds, const std::string& pin) override {
+        if (pin != "1234") throw std::invalid_argument("invalid pin");
         return mockToken;
     }
 
@@ -61,6 +62,7 @@ public:
 
     void getMoney(std::string& token, double amount) override {
         if (token != mockToken) throw std::invalid_argument("Wrong token");
+        if (amount > 200) throw std::invalid_argument("More than limit");
         std::cout << "Took " << amount << " from to balance" << std::endl;
     }
 };
@@ -76,11 +78,11 @@ public:
     PolyBank& operator=(const PolyBank&) = delete;
     PolyBank& operator=(PolyBank&&) = delete;
 
-    bool validateCard(CardCredentials) override {
+    bool validateCard(const CardCredentials&) override {
         return true;
     }
 
-    std::string validateEntry(CardCredentials, std::string&) override {
+    std::string validateEntry(const CardCredentials&, const std::string&) override {
         return "";
     }
 
