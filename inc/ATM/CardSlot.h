@@ -1,10 +1,13 @@
 #pragma once
 #include "CardCredentials.h"
+#include <nlohmann/json.hpp>
+
+using namespace nlohmann;
 
 class ICardSlot
 {
 public:
-    virtual CardCredentials readCard(const string& input);
+    virtual CardCredentials readCard(const string& input) = 0;
     virtual ~ICardSlot() = default;
 };
 

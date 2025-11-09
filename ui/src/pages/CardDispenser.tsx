@@ -27,7 +27,7 @@ const useInsert = (
       })
       .catch(() => {
         setTimeout(
-          () => navigate("/pin?logout=true"),
+          () => location.replace("/?logout=true"),
           animationDurationSec * 1_000,
         );
       });

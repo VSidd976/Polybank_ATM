@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include "CardSlot.h"
 #include "ReceiptPrinter.h"
 #include "CashAcceptor.h"
@@ -11,7 +12,7 @@
 class ATM
 {
 private:
-    CardSlot _cardSlot;
+    CardSlot _cardSlot{};
     ReceiptPrinter _receiptPrinter;
     CashAcceptor _cashAcceptor;
     Dispenser _dispenser;
@@ -31,7 +32,7 @@ public:
     void startMaintenance();
     void endMaintenance();
 
-    void acceptCard();
+    void acceptCard(const std::string&);
     void returnCard();
 
     void printReceipt();

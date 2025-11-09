@@ -1,8 +1,11 @@
 import type { Card } from "@components/BankCard/consts";
+import axios from "axios";
 
 export type AccountInfo = {
   balance: number;
 };
+
+const BASE_URL = "http://localhost:8000";
 
 class AtmAPI {
   constructor(private readonly card: Card) {}
@@ -10,10 +13,15 @@ class AtmAPI {
   static of(card: Card): AtmAPI {
     return new AtmAPI(card);
   }
-  async insertCard(): Promise<boolean> {
-    // impl
-    console.log("Inserting a card", this.card);
-    return true;
+  async insertCard(): Promise<void> {
+    console.log("INSERTING");
+    return await axios.post(`${BASE_URL}/card/accept`, {
+      ownerName: this.card.ownerName,
+      cardNumber: this.card.number,
+      bankName: this.card.bank,
+      cvv: this.card.cvv,
+      expirationDate: this.card.expDate,
+    });
   }
 
   async inputPIN(pin: string): Promise<boolean> {

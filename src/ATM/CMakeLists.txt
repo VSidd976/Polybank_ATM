@@ -7,3 +7,4 @@ set(ATM_SOURCES
 )
 
 add_library(ATM STATIC ${ATM_SOURCES})
+target_link_libraries(ATM PUBLIC Crow nlohmann_json)
