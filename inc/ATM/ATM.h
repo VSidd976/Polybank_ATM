@@ -17,7 +17,7 @@ private:
     CardSlot _cardSlot;
     ReceiptPrinter _receiptPrinter;
     Dispenser _dispenser;
-    State _state = MAINTENANCE;
+    State _state = NON_ACTIVE;
     Session* _session = nullptr;
 
 public:
@@ -30,8 +30,13 @@ public:
     ATM& operator=(const ATM&) = delete;
     ATM& operator=(ATM&&) = delete;
 
-    void startMaintenance();
-    void endMaintenance();
+    void startMaintenance() {
+        std::cout << "Start maintance" << std::endl;
+        _state = MAINTENANCE;
+    }
+    void endMaintenance() {
+        _state = NON_ACTIVE;
+    }
 
     void acceptCard(const json&);
     void returnCard();
@@ -44,15 +49,12 @@ public:
     void takeMoney(const double&);
 
     AccountInfo showInfo() const;
-    void showDpositInfo();
-    void showCreditInfo();
-    void showLeftOverInfo();
+    // void showDpositInfo();
+    // void showLeftOverInfo();
 
-    void putOnDeposit(const double&);
-    void takeCredit(const double&);
+    // void putOnDeposit(const double&);
     void transferMoney(const double&, const string&);
 
-    void createAutoTransfer(const double&, const string&, const Frequency&);
-    void setCreditLimit(const double&);
-    void setLeftOverHandling(const LeftOverOption&, const Frequency&);
+    // void createAutoTransfer(const double&, const string&, const Frequency&);
+    // void setLeftOverHandling(const LeftOverOption&, const Frequency&);
 };
