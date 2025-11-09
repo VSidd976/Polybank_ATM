@@ -15,10 +15,10 @@ public:
     virtual bool validateCard(const CardCredentials&) = 0;
     virtual string validateEntry(const CardCredentials&, const string&) = 0;
 
-    virtual AccountInfo accountInfo(string& token) = 0;
+    virtual AccountInfo accountInfo(const string& token) = 0;
 
-    virtual void putMoney(string& token, double amount) = 0;
-    virtual void getMoney(string& token, double amount) = 0;
+    virtual void putMoney(const string& token, double amount) = 0;
+    virtual void getMoney(const string& token, double amount) = 0;
 
     virtual ~IBankService() = default;
 };
@@ -46,7 +46,7 @@ public:
         return mockToken;
     }
 
-    inline AccountInfo accountInfo(string& token) override {
+    inline AccountInfo accountInfo(const string& token) override {
         if (token != mockToken) throw invalid_argument("Wrong token");
         return AccountInfo{
             200,
@@ -55,12 +55,12 @@ public:
         };
     }
 
-    inline void putMoney(string& token, double amount) override {
+    inline void putMoney(const string& token, double amount) override {
         if (token != mockToken) throw invalid_argument("Wrong token");
         cout << "Added " << amount << " to balance" << endl;
     }
 
-    inline void getMoney(string& token, double amount) override {
+    inline void getMoney(const string& token, double amount) override {
         if (token != mockToken) throw invalid_argument("Wrong token");
         if (amount > 200) throw invalid_argument("More than limit");
         cout << "Took " << amount << " from to balance" << endl;
@@ -70,7 +70,7 @@ public:
 class PolyBank : public IBankService {
 public:
     PolyBank() = default;
-    ~PolyBank() = default;
+    ~PolyBank() override = default;
 
     PolyBank(const PolyBank&) = delete;
     PolyBank(PolyBank&&) = delete;
@@ -79,12 +79,10 @@ public:
     PolyBank& operator=(PolyBank&&) = delete;
 
     bool validateCard(const CardCredentials&) override;
-
     string validateEntry(const CardCredentials&, const string&) override;
 
-    AccountInfo accountInfo(string& token) override;
+    AccountInfo accountInfo(const string& token) override;
 
-    void putMoney(string& token, double amount) override;
-
-    void getMoney(string& token, double amount) override;
+    void putMoney(const string& token, double amount) override;
+    void getMoney(const string& token, double amount) override;
 };

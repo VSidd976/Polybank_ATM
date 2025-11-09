@@ -4,20 +4,21 @@ bool PolyBank::validateCard(const CardCredentials& creds) {
     return true;
 }
 
-std::string PolyBank::validateEntry(const CardCredentials& creds, const string& pin) {
+string PolyBank::validateEntry(const CardCredentials& creds, const string& pin) {
+
     return "";
 }
 
-AccountInfo PolyBank::accountInfo(string& token) {
+AccountInfo PolyBank::accountInfo(const string& token) {
     return {
         0,0,0
     };
 }
 
-void PolyBank::putMoney(string& token, double amount) {
+void PolyBank::putMoney(const string& token, double amount) {
 
 }
 
-void PolyBank::getMoney(string& token, double amount) {
+void PolyBank::getMoney(const string& token, double amount) {
 
 }
