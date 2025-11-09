@@ -22,3 +22,8 @@ void ATM::putMoney(const double& amount)
 {
 
 }
+
+void ATM::showInfo() const
+{
+
+}

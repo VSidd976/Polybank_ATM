@@ -2,7 +2,6 @@ set(ATM_SOURCES
     ATM.cc
     CardSlot.cc
     ReceiptPrinter.cc
-    CashAcceptor.cc
     Dispenser.cc
 )
 
