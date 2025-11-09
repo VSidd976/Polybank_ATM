@@ -85,7 +85,7 @@ public:
 
     AccountInfo accountInfo(string& token) override;
 
-    void putMoney(string& token, double amount) override;
+    void putMoney(string& token, const double& amount) override;
 
-    void getMoney(string& token, double amount) override;
+    void getMoney(string& token, const double& amount) override;
 };

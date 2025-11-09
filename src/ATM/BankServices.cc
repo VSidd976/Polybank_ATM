@@ -9,16 +9,16 @@ string PolyBank::validateEntry(const CardCredentials& creds, const string& pin) 
     return "";
 }
 
-AccountInfo PolyBank::accountInfo(const string& token) {
+AccountInfo PolyBank::accountInfo(string& token) {
     return {
         0,0,0
     };
 }
 
-void PolyBank::putMoney(const string& token, double amount) {
+void PolyBank::putMoney(string& token, const double& amount) {
 
 }
 
-void PolyBank::getMoney(const string& token, double amount) {
+void PolyBank::getMoney(string& token, const double& amount) {
 
 }
