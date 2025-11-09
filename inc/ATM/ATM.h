@@ -30,11 +30,13 @@ public:
     ATM& operator=(const ATM&) = delete;
     ATM& operator=(ATM&&) = delete;
 
-    void startMaintenance() {
+    inline void startMaintenance() {
         std::cout << "Start maintance" << std::endl;
         _state = MAINTENANCE;
     }
-    void endMaintenance() {
+
+    inline void endMaintenance() {
+        cout << "Ending maintenance" << endl;
         _state = NON_ACTIVE;
     }
 
