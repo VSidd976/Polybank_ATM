@@ -1,7 +1,22 @@
 #pragma once
+#include <string>
 
-class ReceiptPrinter
+class IReceiptPrinter
+{
+    public:
+    virtual void printReceipt(string&);
+    virtual ~IReceiptPrinter() = default;
+};
+
+class ReceiptPrinter : public IReceiptPrinter
 {
 public:
-    void printReceipt();
+    ReceiptPrinter() = default;
+    ReceiptPrinter(const ReceiptPrinter&) = delete;
+    ReceiptPrinter(ReceiptPrinter&&) = delete;
+
+    ReceiptPrinter& operator=(const ReceiptPrinter&) = delete;
+    ReceiptPrinter& operator=(ReceiptPrinter&&) = delete;
+
+    void printReceipt(string&);
 };
