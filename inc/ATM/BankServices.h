@@ -17,8 +17,9 @@ public:
 
     virtual AccountInfo accountInfo(string& token) = 0;
 
-    virtual void putMoney(string& token, double amount) = 0;
-    virtual void getMoney(string& token, double amount) = 0;
+    virtual void putMoney(string& token, const double& amount) = 0;
+    virtual void getMoney(string& token, const double& amount) = 0;
+    virtual void trasnferMoney(string& token, const double& amount) = 0;
 
     virtual ~IBankService() = default;
 };
@@ -55,12 +56,12 @@ public:
         };
     }
 
-    inline void putMoney(string& token, double amount) override {
+    inline void putMoney(string& token, const double& amount) override {
         if (token != mockToken) throw invalid_argument("Wrong token");
         cout << "Added " << amount << " to balance" << endl;
     }
 
-    inline void getMoney(string& token, double amount) override {
+    inline void getMoney(string& token, const double& amount) override {
         if (token != mockToken) throw invalid_argument("Wrong token");
         if (amount > 200) throw invalid_argument("More than limit");
         cout << "Took " << amount << " from to balance" << endl;
