@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <exception>
+#include <iostream>
 #include "CardCredentials.h"
 
 struct AccountInfo {
@@ -10,7 +12,7 @@ struct AccountInfo {
 
 class IBankService {
     virtual bool validateCard(CardCredentials) = 0;
-    virtual std::string validateEntry(CardCredentials, std::string) = 0;
+    virtual std::string validateEntry(CardCredentials, std::string&) = 0;
 
     virtual AccountInfo accountInfo(std::string& token) = 0;
 
@@ -19,3 +21,83 @@ class IBankService {
 
     virtual ~IBankService() = default;
 };
+
+class TestBank : public IBankService {
+private:
+    const std::string mockToken = "mock-token";
+public:
+
+    TestBank() = default;
+    ~TestBank() = default;
+
+    TestBank(const TestBank&) = delete;
+    TestBank(TestBank&&) = delete;
+
+    TestBank& operator=(const TestBank&) = delete;
+    TestBank& operator=(TestBank&&) = delete;
+
+    bool validateCard(CardCredentials) override {
+        return true;
+    };
+
+    std::string validateEntry(CardCredentials, std::string&) override {
+        return mockToken;
+    };
+
+    AccountInfo accountInfo(std::string& token) override {
+        if (token != mockToken) throw std::invalid_argument("Wrong token");
+        return AccountInfo{
+            200,
+            500,
+            200
+        };
+    };
+
+    void putMoney(std::string& token, double amount) override {
+        if (token != mockToken) throw std::invalid_argument("Wrong token");
+        std::cout << "Added " << amount << " to balance" << std::endl;
+    };
+
+    void getMoney(std::string& token, double amount) override {
+        if (token != mockToken) throw std::invalid_argument("Wrong token");
+        std::cout << "Took " << amount << " from to balance" << std::endl;
+    };
+};
+
+class PolyBank : public IBankService {
+public:
+    PolyBank() = default;
+
+    PolyBank(const PolyBank&) = delete;
+    PolyBank(PolyBank&&) = delete;
+
+    PolyBank& operator=(const PolyBank&) = delete;
+    PolyBank& operator=(PolyBank&&) = delete;
+
+    bool validateCard(CardCredentials) override {
+        return true;
+    };
+
+    std::string validateEntry(CardCredentials, std::string&) override {
+        return "";
+    };
+
+    AccountInfo accountInfo(std::string& token) override {
+        return AccountInfo{
+            200,
+            500,
+            200
+        };
+    };
+
+    void putMoney(std::string& token, double amount) override {
+        std::cout << "Added " << amount << " to balance" << std::endl;
+    };
+
+    void getMoney(std::string& token, double amount) override {
+        std::cout << "Took " << amount << " from to balance" << std::endl;
+    };
+
+    ~PolyBank() = default;
+};
+

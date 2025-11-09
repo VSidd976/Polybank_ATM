@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "nlohmann/json.hpp"
+#include "BankServices.h"
 #include "CardSlot.h"
 #include "ReceiptPrinter.h"
 #include "Dispenser.h"
@@ -12,14 +13,15 @@
 class ATM
 {
 private:
+    IBankService& _bankService;
     CardSlot _cardSlot{};
-    ReceiptPrinter _receiptPrinter;
-    Dispenser _dispenser;
+    ReceiptPrinter _receiptPrinter{};
+    Dispenser _dispenser{};
     State _state = MAINTENANCE;
     Session* _session = nullptr;
 
 public:
-    ATM() = default;
+    ATM(IBankService& bankService): _bankService(bankService) {};
     ~ATM() = default;
 
     ATM(const ATM&) = delete;
@@ -31,10 +33,10 @@ public:
     void startMaintenance();
     void endMaintenance();
 
-    void acceptCard(const string&);
+    void acceptCard(const json&);
     void returnCard();
 
-    void acceptPin(const string&);
+    void acceptPin(const json&, const string&);
 
     void printReceipt();
 

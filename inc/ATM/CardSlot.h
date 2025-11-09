@@ -7,7 +7,7 @@ using namespace nlohmann;
 class ICardSlot
 {
 public:
-    virtual CardCredentials readCard(const string& input) = 0;
+    virtual CardCredentials readCard(const json&) = 0;
     virtual ~ICardSlot() = default;
 };
 
@@ -25,8 +25,5 @@ public:
     CardSlot& operator=(CardSlot&&) = delete;
     CardSlot& operator=(const CardSlot&) = delete;
 
-    CardCredentials readCard(const string& input) override;
-
-private:
-    string decryptHex(const string& encoded);
+    CardCredentials readCard(const json& input) override;
 };

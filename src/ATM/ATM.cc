@@ -1,11 +1,11 @@
 #include "ATM.h"
 
-void ATM::acceptCard(const string& req) {
+void ATM::acceptCard(const json& req) {
     const CardCredentials cardCreds = _cardSlot.readCard(req);
     cout << cardCreds._cardNumber << endl;
 }
 
-void ATM::acceptPin(const string& req) {
+void ATM::acceptPin(const json& req) {
     const CardCredentials cardCreds = _cardSlot.readCard(req);
     const string pin = json::parse(req)["pin"];
     const string token = "";

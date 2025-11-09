@@ -6,7 +6,8 @@ using namespace nlohmann;
 
 int main() {
     crow::App<crow::CORSHandler> app;
-    ATM atm {};
+    PolyBank polyBank {};
+    ATM atm { polyBank };
 
     auto& cors = app.get_middleware<crow::CORSHandler>();
     cors.global()
@@ -22,9 +23,10 @@ int main() {
         }
 
         cout << req.body << endl;
-        atm.acceptCard(req.body);
+        const json data = json::parse(req.body);
+        atm.acceptCard(data);
 
-        crow::response res(200, "123456");
+        crow::response res(200);
         return res;
     });
 
@@ -36,9 +38,11 @@ int main() {
         }
 
         cout << req.body << endl;
-        atm.acceptPin(req.body);
+        const json data = json::parse(req.body);
+        const std::string pin = data["pin"];
+        atm.acceptPin(data, pin);
 
-        crow::response res(200, "123456");
+        crow::response res(200);
         return res;
     });
 
@@ -52,7 +56,7 @@ int main() {
         cout << req.body << endl;
         atm.returnCard();
 
-        crow::response res(200, "123456");
+        crow::response res(200);
         return res;
     });
 
@@ -67,7 +71,7 @@ int main() {
         const double amount = json::parse(req.body)["cash"];
         atm.putMoney(amount);
 
-        crow::response res(200, "123456");
+        crow::response res(200);
         return res;
     });
 
@@ -82,7 +86,7 @@ int main() {
         const double amount = json::parse(req.body)["cash"];
         atm.takeMoney(amount);
 
-        crow::response res(200, "123456");
+        crow::response res(200);
         return res;
     });
 
