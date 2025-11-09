@@ -40,5 +40,6 @@ void ATM::showInfo() const
 
 void ATM::transferMoney(const double& amount, const string& to)
 {
-
+    if (_session == nullptr) throw invalid_argument("Session is not started");
+    _bankService.transferMoney(_session->_token, to, amount);
 }

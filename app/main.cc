@@ -90,5 +90,21 @@ int main() {
         return res;
     });
 
+    CROW_ROUTE(app, "/account/take")
+    .methods(crow::HTTPMethod::PUT, crow::HTTPMethod::OPTIONS)
+    ([&atm](const crow::request& req){
+        if (req.method == crow::HTTPMethod::OPTIONS) {
+            return crow::response(204);
+        }
+
+        cout << req.body << endl;
+        const double amount = json::parse(req.body)["cash"];
+        const string number = json::parse(req.body)["number"];
+        atm.transferMoney(amount, number);
+
+        crow::response res(200);
+        return res;
+    });
+
     app.port(8000).multithreaded().run();
 }

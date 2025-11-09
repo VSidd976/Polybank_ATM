@@ -23,7 +23,7 @@ public:
 
     virtual void putMoney(string& token, const double& amount) = 0;
     virtual void getMoney(string& token, const double& amount) = 0;
-    virtual void transferMoney(string& token, const double& amount) = 0;
+    virtual void transferMoney(string& token, const string& number, const double& amount) = 0;
 
     virtual ~IBankService() = default;
 };
@@ -72,7 +72,7 @@ public:
         cout << "Took " << amount << " from to balance" << endl;
     }
 
-    inline void transferMoney(string& token, const double& amount) override {
+    inline void transferMoney(string& token, const string& number, const double& amount) override {
         if (token != milTocken) throw invalid_argument("Wrong tocken");
         if (amount > 200) throw invalid_argument("More than limit");
         cout << "Transfered " << amount << " to " << token << " balance" << endl;
@@ -137,7 +137,17 @@ public:
 
     }
 
-    inline void transferMoney(string& token, const double& amount) override {
-
+    inline void transferMoney(string& token, const string& number, const double& amount) override {
+        json body;
+        body["number"] = number;
+        body["amount"] = amount;
+        cpr::Response r = cpr::Post(
+            cpr::Url{ baseUrl + "/api/account/transfer" },
+            cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}},
+            cpr::Body{ body.dump() }
+        );
+        if (r.status_code != 200) {
+            throw std::runtime_error("Failed to transfer money: " + r.text);
+        }
     }
 };
