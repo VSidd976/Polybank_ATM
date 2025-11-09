@@ -26,7 +26,6 @@ int main() {
         return res;
     });
 
-
     CROW_ROUTE(app, "/card/pin")
     .methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
     ([&atm](const crow::request& req){
@@ -50,6 +49,34 @@ int main() {
 
         std::cout << req.body << std::endl;
         atm.returnCard();
+
+        crow::response res(200, "123456");
+        return res;
+    });
+
+    CROW_ROUTE(app, "/service/money/put")
+    .methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
+    ([&atm](const crow::request& req){
+        if (req.method == crow::HTTPMethod::OPTIONS) {
+            return crow::response(204);
+        }
+
+        std::cout << req.body << std::endl;
+        atm.putMoney(req.body);
+
+        crow::response res(200, "123456");
+        return res;
+    });
+
+        CROW_ROUTE(app, "/service/money/take")
+    .methods(crow::HTTPMethod::PUT, crow::HTTPMethod::OPTIONS)
+    ([&atm](const crow::request& req){
+        if (req.method == crow::HTTPMethod::OPTIONS) {
+            return crow::response(204);
+        }
+
+        std::cout << req.body << std::endl;
+        atm.takeMoney(req.body);
 
         crow::response res(200, "123456");
         return res;

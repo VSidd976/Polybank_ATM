@@ -1,7 +1,5 @@
 #include "ATM.h"
 
-ATM::ATM() {}
-
 void ATM::acceptCard(const std::string& req) {
     const CardCredentials cardCreds = _cardSlot.readCard(req);
     std::cout << cardCreds._cardNumber << std::endl;
@@ -20,7 +18,7 @@ void ATM::returnCard() {
     delete _session;
 }
 
-ATM::~ATM()
+void ATM::putMoney(const double& amount)
 {
-    delete _session;
+
 }

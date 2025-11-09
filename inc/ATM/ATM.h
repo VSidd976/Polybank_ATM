@@ -3,7 +3,6 @@
 #include "nlohmann/json.hpp"
 #include "CardSlot.h"
 #include "ReceiptPrinter.h"
-#include "CashAcceptor.h"
 #include "Dispenser.h"
 #include "State.h"
 #include "Session.h"
@@ -15,14 +14,13 @@ class ATM
 private:
     CardSlot _cardSlot{};
     ReceiptPrinter _receiptPrinter;
-    CashAcceptor _cashAcceptor;
     Dispenser _dispenser;
     State _state = MAINTENANCE;
     Session* _session = nullptr;
 
 public:
-    ATM();
-    ~ATM();
+    ATM() = default;
+    ~ATM() = default;
 
     ATM(const ATM&) = delete;
     ATM(ATM&&) = delete;
@@ -40,7 +38,7 @@ public:
 
     void printReceipt();
 
-    void putMoney();
+    void putMoney(const double&);
     void takeMoney(const double&);
 
     void showInfo();
