@@ -13,19 +13,19 @@ struct AccountInfo {
 class IBankService {
 public:
     virtual bool validateCard(const CardCredentials&) = 0;
-    virtual std::string validateEntry(const CardCredentials&, const std::string&) = 0;
+    virtual string validateEntry(const CardCredentials&, const string&) = 0;
 
-    virtual AccountInfo accountInfo(std::string& token) = 0;
+    virtual AccountInfo accountInfo(string& token) = 0;
 
-    virtual void putMoney(std::string& token, double amount) = 0;
-    virtual void getMoney(std::string& token, double amount) = 0;
+    virtual void putMoney(string& token, double amount) = 0;
+    virtual void getMoney(string& token, double amount) = 0;
 
     virtual ~IBankService() = default;
 };
 
 class TestBank : public IBankService {
 private:
-    const std::string mockToken = "mock-token";
+    const string mockToken = "mock-token";
 public:
 
     TestBank() = default;
@@ -37,17 +37,17 @@ public:
     TestBank& operator=(const TestBank&) = delete;
     TestBank& operator=(TestBank&&) = delete;
 
-    bool validateCard(const CardCredentials&) override {
+    inline bool validateCard(const CardCredentials&) override {
         return true;
     }
 
-    std::string validateEntry(const CardCredentials& creds, const std::string& pin) override {
-        if (pin != "1234") throw std::invalid_argument("invalid pin");
+    inline string validateEntry(const CardCredentials& creds, const string& pin) override {
+        if (pin != "1234") throw invalid_argument("invalid pin");
         return mockToken;
     }
 
-    AccountInfo accountInfo(std::string& token) override {
-        if (token != mockToken) throw std::invalid_argument("Wrong token");
+    inline AccountInfo accountInfo(string& token) override {
+        if (token != mockToken) throw invalid_argument("Wrong token");
         return AccountInfo{
             200,
             500,
@@ -55,15 +55,15 @@ public:
         };
     }
 
-    void putMoney(std::string& token, double amount) override {
-        if (token != mockToken) throw std::invalid_argument("Wrong token");
-        std::cout << "Added " << amount << " to balance" << std::endl;
+    inline void putMoney(string& token, double amount) override {
+        if (token != mockToken) throw invalid_argument("Wrong token");
+        cout << "Added " << amount << " to balance" << endl;
     }
 
-    void getMoney(std::string& token, double amount) override {
-        if (token != mockToken) throw std::invalid_argument("Wrong token");
-        if (amount > 200) throw std::invalid_argument("More than limit");
-        std::cout << "Took " << amount << " from to balance" << std::endl;
+    inline void getMoney(string& token, double amount) override {
+        if (token != mockToken) throw invalid_argument("Wrong token");
+        if (amount > 200) throw invalid_argument("More than limit");
+        cout << "Took " << amount << " from to balance" << endl;
     }
 };
 
@@ -78,12 +78,27 @@ public:
     PolyBank& operator=(const PolyBank&) = delete;
     PolyBank& operator=(PolyBank&&) = delete;
 
-    bool validateCard(const CardCredentials&) override;
-    std::string validateEntry(const CardCredentials&, const std::string&) override;
+    inline bool validateCard(const CardCredentials&) override {
+        return true;
+    }
 
-    AccountInfo accountInfo(std::string& token) override;
+    inline string validateEntry(const CardCredentials&, const string&) override {
+        return "";
+    }
 
-    void putMoney(std::string& token, double amount) override;
-    void getMoney(std::string& token, double amount) override;
+    inline AccountInfo accountInfo(string& token) override {
+        return AccountInfo{
+            200,
+            500,
+            200
+        };
+    }
+
+    inline void putMoney(string& token, double amount) override {
+        cout << "Added " << amount << " to balance" << endl;
+    }
+
+    inline void getMoney(string& token, double amount) override {
+        cout << "Took " << amount << " from to balance" << endl;
+    }
 };
-
