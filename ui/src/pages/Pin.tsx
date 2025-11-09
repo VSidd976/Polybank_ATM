@@ -17,8 +17,8 @@ const onSubmit = async (
   card: Card | undefined,
   navigate: NavigateFunction,
 ): Promise<void> => {
-  if (!card) return;
   e.preventDefault();
+  if (!card) return;
   const pin = Object.values(
     Object.fromEntries(new FormData(e.currentTarget)),
   ).reduce((acc, curr) => (typeof curr === "string" ? acc + curr : acc), "");

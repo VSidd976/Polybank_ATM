@@ -1,7 +1,10 @@
+import AtmAPI from "@api/AtmAPI";
+import type { Card } from "@components/BankCard/consts";
 import { BackButton } from "@components/Button/BackButton";
 import Cash_ from "@components/Cash/Cash";
 import { CASH_NOMINALS, type Nominal } from "@components/Cash/const";
 import { styled } from "@mui/material";
+import { useCard } from "@utils/stores/cardStore";
 import { useCallback, useEffect, useState, type ReactElement } from "react";
 
 const OPTIONS = Object.keys(CASH_NOMINALS);
@@ -23,9 +26,17 @@ const useInsert = (): {
   return { inserted, insert };
 };
 
+function sendReq(card: Card | undefined, amount: number): void {
+  if (!card) return;
+  AtmAPI.of(card).putMoney(amount);
+}
+
 const AddMoney = (): ReactElement => {
   const { insert, inserted } = useInsert();
   const [total, updateTotal] = useState<number>(0);
+  const { card } = useCard();
+
+  const onPutMoney = useCallback(() => sendReq(card, total), [card, total]);
 
   useEffect(() => {
     if (inserted) updateTotal((s) => s + inserted);
@@ -33,7 +44,7 @@ const AddMoney = (): ReactElement => {
 
   return (
     <Container>
-      <BackButton />
+      <BackButton onBeforeClick={onPutMoney} />
       <Total>Total inserted: {total}</Total>
       {inserted ? (
         <InsertableCash $isInserted={inserted} nominal={inserted} />

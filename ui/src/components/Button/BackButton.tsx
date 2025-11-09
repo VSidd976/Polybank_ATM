@@ -23,8 +23,10 @@ const BackButtonStyled = styled(
 export const BackButton = ({
   className,
   disabled,
+  onBeforeClick,
 }: {
   className?: string;
+  onBeforeClick?: () => void;
   disabled?: boolean;
 }) => {
   const navigate = useNavigate();
@@ -32,7 +34,10 @@ export const BackButton = ({
     <BackButtonStyled
       className={className}
       disabled={disabled}
-      onClick={() => navigate("/main")}
+      onClick={async () => {
+        onBeforeClick?.();
+        navigate("/main");
+      }}
     />
   );
 };

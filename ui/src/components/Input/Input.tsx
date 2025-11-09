@@ -1,14 +1,29 @@
 import { styled } from "@mui/material";
 import { type ReactElement } from "react";
 
+type InputMode =
+  | "search"
+  | "text"
+  | "email"
+  | "tel"
+  | "url"
+  | "none"
+  | "numeric"
+  | "decimal"
+  | undefined;
+
 type Props = {
   onChange?: (v: string) => void;
   placeholder?: string;
   type?: string;
   name?: string;
   min?: string | number;
+  value?: string;
   max?: string | number;
+  inputMode?: InputMode;
+  maxLength?: number;
   step?: number;
+  className?: string;
 };
 
 const Input = ({
@@ -18,16 +33,24 @@ const Input = ({
   min,
   max,
   step,
+  inputMode,
+  value,
+  maxLength,
   onChange,
+  className,
 }: Props): ReactElement => {
   return (
     <BorderWrapper>
       <InputBase
+        value={value}
         onChange={(e) => onChange?.(e.target.value)}
         type={type}
         name={name}
+        className={className}
         step={step}
+        maxLength={maxLength}
         min={min}
+        inputMode={inputMode}
         max={max}
         placeholder={placeholder}
       />

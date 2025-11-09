@@ -1,10 +1,13 @@
+import AtmAPI from "@api/AtmAPI";
 import { BackButton } from "@components/Button/BackButton";
 import BaseButton from "@components/Button/Button";
 import Cash_ from "@components/Cash/Cash";
 import { CASH_NOMINALS, type Nominal } from "@components/Cash/const";
-import Input from "@components/Input/Input";
+import Input_ from "@components/Input/Input";
 import { Fade, styled } from "@mui/material";
+import { useAccountInfo } from "@utils/hooks/useAccountInfo";
 import { useBoolean } from "@utils/hooks/useBoolean";
+import { useCard } from "@utils/stores/cardStore";
 import {
   useCallback,
   useState,
@@ -41,12 +44,21 @@ function onFormSubmit(e: FormEvent<HTMLFormElement>): number | undefined {
 
 const CashOut = (): ReactElement => {
   const [isAnimated, setAnimated] = useBoolean();
+  const { card } = useCard();
   const [nominals, setNominals] = useState<Record<Nominal, number>>();
-  const afterSubmit = (v: number | undefined) => {
-    if (!v) return;
-    setNominals(calcNominals(v));
-    setAnimated.on();
-  };
+  const afterSubmit = useCallback(
+    (v: number | undefined) => {
+      if (!v || !card) return;
+      AtmAPI.of(card)
+        .cashOut(v)
+        .then(() => {
+          setNominals(calcNominals(v));
+          setAnimated.on();
+        })
+        .catch(() => toast("Can't perform the operation"));
+    },
+    [card],
+  );
   return (
     <Container>
       <BackButton />
@@ -92,6 +104,7 @@ const FromBlock = ({
   onAfterSubmit?: (val: number | undefined) => void;
 }): ReactElement => {
   const [value, setValue] = useState<string>();
+  const accountInfo = useAccountInfo();
   const onSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       const val = onFormSubmit(e);
@@ -101,12 +114,15 @@ const FromBlock = ({
   );
   return (
     <Form onSubmit={onSubmit}>
-      <NominalsInfo>Available nominals: 1, 2, 5, 10, 100</NominalsInfo>
+      <NominalsInfo>
+        Available nominals: {Object.keys(CASH_NOMINALS).join(", ")}
+      </NominalsInfo>
       <Input
         placeholder="Enter amount"
         type="number"
         min={0}
         step={1}
+        max={accountInfo?.balance}
         name={inputName}
         onChange={setValue}
       />
@@ -152,6 +168,18 @@ const Cash = styled(Cash_)<{ $index: number }>`
       bottom: 50%;
       opacity: 1;
     }
+  }
+`;
+
+const Input = styled(Input_)`
+  padding: 20px 35px;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  &[type="number"] {
+    -moz-appearance: textfield;
   }
 `;
 

@@ -5,10 +5,11 @@ import type { ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
 
 const BUTTONS: { txt: string; navigate: string }[] = [
-  { txt: "Logout", navigate: "/?logout=true" },
+  { txt: "Account info", navigate: "/main/account-info" },
   { txt: "Put money", navigate: "/main/add-money" },
   { txt: "Cash out", navigate: "/main/cash-out" },
-  { txt: "Button4", navigate: "" },
+  { txt: "Transfer", navigate: "/main/transfer" },
+  { txt: "Logout", navigate: "/?logout=true" },
 ] as const;
 
 const MainScreen = (): ReactElement => {

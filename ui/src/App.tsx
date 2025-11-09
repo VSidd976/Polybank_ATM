@@ -9,6 +9,9 @@ import { ToastContainer } from "react-toastify";
 import MainScreen from "@pages/MainScreen";
 import AddMoney from "@pages/AddMoney";
 import CashOut from "@pages/CashOut";
+import Transfer from "@pages/Transfer";
+import ProtectedRoute from "@utils/ProtectedRoute";
+import AccountInfo from "@pages/AccountInfo";
 
 function App() {
   return (
@@ -20,9 +23,46 @@ function App() {
             <Routes>
               <Route index element={<CardDispenser />} />
               <Route path="/pin" element={<Pin />} />
-              <Route path="/main" element={<MainScreen />} />
-              <Route path="/main/add-money" element={<AddMoney />} />
-              <Route path="/main/cash-out" element={<CashOut />} />
+              <Route
+                path="/main"
+                element={
+                  <ProtectedRoute>
+                    <MainScreen />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/main/add-money"
+                element={
+                  <ProtectedRoute>
+                    <AddMoney />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/main/cash-out"
+                element={
+                  <ProtectedRoute>
+                    <CashOut />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/main/transfer"
+                element={
+                  <ProtectedRoute>
+                    <Transfer />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/main/account-info"
+                element={
+                  <ProtectedRoute>
+                    <AccountInfo />
+                  </ProtectedRoute>
+                }
+              />
             </Routes>
           </BrowserRouter>
         </MainContent>
