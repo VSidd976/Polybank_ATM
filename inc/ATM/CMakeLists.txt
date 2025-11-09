@@ -1,1 +1,1 @@
-target_include_directories(${ATM} PUBLIC ./)
+target_include_directories(ATM PUBLIC ./)

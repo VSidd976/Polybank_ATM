@@ -4,14 +4,11 @@ project("Polybank_ATM" VERSION 0.1.0 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 
-set(EXECUTABLE_NAME "Executable")
-
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 include(CPM)
+
 cpmaddpackage("gh:CrowCpp/Crow#v1.3.0")
 cpmaddpackage("gh:nlohmann/json#v3.12.0")
-
-set(ATM "ATM")
 
 add_subdirectory(src)
 add_subdirectory(inc)

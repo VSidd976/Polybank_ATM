@@ -6,4 +6,4 @@ set(ATM_SOURCES
     Dispenser.cc
 )
 
-add_library(${ATM} STATIC ${ATM_SOURCES})
+add_library(ATM STATIC ${ATM_SOURCES})

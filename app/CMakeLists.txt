@@ -1,1 +1,1 @@
-add_executable(${EXECUTABLE_NAME} main.cc)
+add_executable(Executable main.cc)
