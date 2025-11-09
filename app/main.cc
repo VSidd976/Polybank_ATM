@@ -91,7 +91,7 @@ int main() {
     });
 
     CROW_ROUTE(app, "/account/info")
-    .methods(crow::HTTPMethod::PUT, crow::HTTPMethod::OPTIONS)
+    .methods(crow::HTTPMethod::GET, crow::HTTPMethod::OPTIONS)
     ([&atm](const crow::request& req){
         if (req.method == crow::HTTPMethod::OPTIONS) {
             return crow::response(204);
@@ -109,7 +109,7 @@ int main() {
     });
 
     CROW_ROUTE(app, "/account/transfer")
-    .methods(crow::HTTPMethod::PUT, crow::HTTPMethod::OPTIONS)
+    .methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
     ([&atm](const crow::request& req){
         if (req.method == crow::HTTPMethod::OPTIONS) {
             return crow::response(204);
