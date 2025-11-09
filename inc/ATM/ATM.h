@@ -14,9 +14,9 @@ class ATM
 {
 private:
     IBankService& _bankService;
-    CardSlot _cardSlot{};
-    ReceiptPrinter _receiptPrinter{};
-    Dispenser _dispenser{};
+    CardSlot _cardSlot;
+    ReceiptPrinter _receiptPrinter;
+    Dispenser _dispenser;
     State _state = MAINTENANCE;
     Session* _session = nullptr;
 
