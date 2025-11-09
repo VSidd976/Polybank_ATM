@@ -26,7 +26,7 @@ class AtmAPI {
 
   async inputPIN(pin: string): Promise<boolean> {
     console.log("Sending a pin", pin);
-    return await axios.post(`${BASE_URL}/card/accept`, {
+    return await axios.post(`${BASE_URL}/card/accept/pin`, {
       ownerName: this.card.ownerName,
       cardNumber: this.card.number,
       bankName: this.card.bank,

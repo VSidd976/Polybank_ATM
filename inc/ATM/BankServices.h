@@ -96,8 +96,22 @@ public:
         return true;
     }
 
-    string validateEntry(const CardCredentials&, const string&) override {
-        return "";
+    string validateEntry(const CardCredentials& creds, const string& pin) override {
+        json body;
+        body["card"] = creds._cardNumber;
+        body["pin"] = pin;
+        std::cout << "SENDING REQ" << std::endl;
+        cpr::Response r = cpr::Post(
+            cpr::Url{ baseUrl + "/api/auth/verify-credentials" },
+            cpr::Body{ body.dump() }
+        );
+        if (r.status_code != 200) {
+            std::cout << "ERROR " << r.status_code << std::endl;
+            throw std::runtime_error("Failed to put money: " + r.text);
+        }
+        std::cout << "SENT" << std::endl;
+        auto json = nlohmann::json::parse(r.text);
+        return json.at("token");
     }
 
     AccountInfo accountInfo(string& token) override {
@@ -107,7 +121,7 @@ public:
     }
 
     void putMoney(string& token, const double& amount) override {
-        nlohmann::json body;
+        json body;
         body["amount"] = amount;
         cpr::Response r = cpr::Post(
             cpr::Url{ baseUrl + "/api/account/put" },

@@ -6,8 +6,10 @@ void ATM::acceptCard(const json& req) {
 }
 
 void ATM::acceptPin(const json& req, const string& pin) {
+    std::cout << "Parsing card" << std::endl;
     const CardCredentials cardCreds = _cardSlot.readCard(req);
     const string token = _bankService.validateEntry(cardCreds, pin);
+    std::cout << "Started session" << std::endl;
     _session = new Session{ token };
     cout << cardCreds._cardNumber << endl;
 }
