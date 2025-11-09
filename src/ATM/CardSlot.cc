@@ -3,10 +3,10 @@
 CardCredentials CardSlot::readCard(const json &data)
 {
     return CardCredentials {
-        data["ownerName"],
-        data["cardNumber"],
-        data["bankName"],
-        data["cvv"],
-        data["expirationDate"],
+        data.at("ownerName"),
+        data.at("cardNumber"),
+        data.at("bankName"),
+        data.at("cvv"),
+        data.at("expirationDate"),
     };;
 }

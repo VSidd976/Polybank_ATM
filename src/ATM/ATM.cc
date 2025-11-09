@@ -20,12 +20,14 @@ void ATM::returnCard() {
 
 void ATM::putMoney(const double& amount)
 {
-
+    if (_session == nullptr) throw std::invalid_argument("Session is not started");
+    _bankService.putMoney(_session->_token, amount);
 }
 
 void ATM::takeMoney(const double& amount)
 {
-
+    if (_session == nullptr) throw std::invalid_argument("Session is not started");
+    _bankService.getMoney(_session->_token, amount);
 }
 
 void ATM::showInfo() const

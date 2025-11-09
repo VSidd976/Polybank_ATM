@@ -38,7 +38,9 @@ TEST_CASE("Exceptional flow") {
 
     card["cvv"] = "123";
 
-    REQUIRE_THROWS(atm.acceptPin(card, "1234"));
+    REQUIRE_NOTHROW(atm.acceptCard(card));
+
+    REQUIRE_THROWS(atm.acceptPin(card, "1111"));
 
     REQUIRE_THROWS(atm.takeMoney(240));
 }
