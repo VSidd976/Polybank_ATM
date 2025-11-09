@@ -11,7 +11,7 @@ include(CPM)
 
 cpmaddpackage("gh:CrowCpp/Crow#v1.3.0")
 cpmaddpackage("gh:nlohmann/json#v3.12.0")
-# cpmaddpackage("gh:libcpr/cpr#1.12.0")
+cpmaddpackage("gh:libcpr/cpr#1.12.0")
 
 add_subdirectory(src)
 add_subdirectory(inc)
