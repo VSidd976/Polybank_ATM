@@ -2,6 +2,7 @@
 #include <string>
 #include <exception>
 #include <iostream>
+#include <cpr/cpr.h>
 #include "CardCredentials.h"
 
 struct AccountInfo {
@@ -76,6 +77,8 @@ public:
 };
 
 class PolyBank : public IBankService {
+private:
+    string baseUrl = "http://16.170.29.95:18973";
 public:
     PolyBank() = default;
     ~PolyBank() = default;
@@ -101,7 +104,7 @@ public:
     }
 
     void putMoney(string& token, const double& amount) override {
-
+        cpr::Response r = cpr::Post(cpr::Url())
     }
 
     void getMoney(string& token, const double& amount) override {
