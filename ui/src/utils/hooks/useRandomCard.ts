@@ -45,8 +45,20 @@ function generateCard(): Card {
   };
 }
 
+function getValidCard(): Card {
+  return {
+    bank: "PolyBank",
+    transactionCompany: "VISA",
+    number: "4556301788579802",
+    expDate: "02/27",
+    ownerName: "Alexandr Stepanov",
+    cvv: "911",
+  };
+}
+
 export const useRandomCard = (initialCard?: Card) => {
   const [card, setCard] = useState(initialCard ?? generateCard());
-  const generateNew = useCallback(() => setCard(generateCard), [setCard]);
-  return [card, generateNew] as const;
+  const generateNew = useCallback(() => setCard(generateCard), []);
+  const getValid = useCallback(() => setCard(getValidCard()), []);
+  return [card, generateNew, getValid] as const;
 };

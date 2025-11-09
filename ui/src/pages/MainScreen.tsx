@@ -4,15 +4,25 @@ import { withProps } from "@utils/withProps";
 import type { ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
 
+const BUTTONS: { txt: string; navigate: string }[] = [
+  { txt: "Logout", navigate: "/?logout=true" },
+  { txt: "Put money", navigate: "/main/add-money" },
+  { txt: "Cash out", navigate: "/main/cash-out" },
+  { txt: "Button4", navigate: "" },
+] as const;
+
 const MainScreen = (): ReactElement => {
   const navigate = useNavigate();
   return (
     <Container>
-      <ButtonsGrid rows={2} cols={2}>
-        <MenuButton txt="Put money" onClick={() => navigate("add-money")} />
-        <MenuButton txt="Button2" />
-        <MenuButton txt="Button3" />
-        <MenuButton txt="Button4" />
+      <ButtonsGrid>
+        {BUTTONS.map((b, i) => (
+          <MenuButton
+            key={b.txt + i}
+            txt={b.txt}
+            onClick={() => navigate(b.navigate)}
+          />
+        ))}
       </ButtonsGrid>
     </Container>
   );
@@ -29,17 +39,19 @@ const MenuButton = styled(
   }
 `;
 
-const ButtonsGrid = styled("div")<{ rows: number; cols: number }>`
-  display: grid;
-  grid-template-columns: repeat(${({ cols }) => cols}, 1fr);
-  grid-template-rows: repeat(${({ rows }) => rows}, 1fr);
-  gap: 12px;
+const ButtonsGrid = styled("div")`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding-left: 25px;
+  gap: 35px;
 `;
 
 const Container = styled("div")`
   width: 100%;
   display: flex;
-  justify-content: center;
+  max-width: 100vw;
   align-items: center;
   align-self: center;
+  justify-content: space-around;
 `;

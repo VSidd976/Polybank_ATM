@@ -2,11 +2,12 @@ import { Fade, styled } from "@mui/material";
 import { useBoolean } from "@utils/hooks/useBoolean";
 import BankCard_ from "@components/BankCard";
 import BaseButton from "@components/Button/Button";
-import { useRandomCard } from "@utils/hooks/useRandomCard";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCallback, useEffect } from "react";
 import type { Card } from "@components/BankCard/consts";
 import AtmAPI from "@api/AtmAPI";
+import { useCard } from "@utils/stores/cardStore";
+import { useRandomCard } from "@utils/hooks/useRandomCard";
 
 const animationDurationSec = 3.5;
 
@@ -14,11 +15,22 @@ const useInsert = (
   card: Card,
 ): { isInserted: boolean; insertCard: () => void } => {
   const [isInserted, { on }] = useBoolean();
+  const { updateCard } = useCard();
   const navigate = useNavigate();
   const insertCard = useCallback(async () => {
     on();
-    await AtmAPI.of(card).insertCard();
-    setTimeout(() => navigate("/pin"), animationDurationSec * 1_000);
+    await AtmAPI.of(card)
+      .insertCard()
+      .then(() => {
+        updateCard(card);
+        setTimeout(() => navigate("/pin"), animationDurationSec * 1_000);
+      })
+      .catch(() => {
+        setTimeout(
+          () => navigate("/pin?logout=true"),
+          animationDurationSec * 1_000,
+        );
+      });
   }, [navigate, on, card]);
   return { isInserted, insertCard };
 };
@@ -35,7 +47,8 @@ const useReturning = (): boolean => {
 };
 
 const CardDispenser = () => {
-  const [card, generateNew] = useRandomCard();
+  const { card: currentCard } = useCard();
+  const [card, generateNew, getValid] = useRandomCard(currentCard);
   const { isInserted, insertCard } = useInsert(card);
   const isReturning = useReturning();
   return (
@@ -48,14 +61,19 @@ const CardDispenser = () => {
       <Fade in={!isInserted || isReturning}>
         <ButtonsContainer>
           <BaseButton
+            onClick={insertCard}
+            disabled={isReturning}
+            txt={"Insert Card"}
+          />
+          <BaseButton
             onClick={generateNew}
             disabled={isReturning}
             txt={"Generate Credentials"}
           />
           <BaseButton
-            onClick={insertCard}
+            onClick={getValid}
             disabled={isReturning}
-            txt={"Insert Card"}
+            txt={"Get Valid Card"}
           />
         </ButtonsContainer>
       </Fade>
@@ -75,8 +93,14 @@ const Container = styled("div")`
 `;
 
 const ButtonsContainer = styled("div")`
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
   gap: 15px;
+  & > :first-of-type {
+    grid-column: 1 / span 2;
+    grid-row: 1;
+  }
 `;
 
 const BankCard = styled(BankCard_)<{

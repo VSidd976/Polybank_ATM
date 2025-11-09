@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import AtmAPI from "@api/AtmAPI";
 import type { Card } from "@components/BankCard/consts";
 import { useCard } from "@utils/stores/cardStore";
+import { useNavigate, type NavigateFunction } from "react-router-dom";
 
 const badPinNotify = () =>
   toast("Oops, looks like your pin is invalid", { type: "warning" });
@@ -14,6 +15,7 @@ const badPinNotify = () =>
 const onSubmit = async (
   e: FormEvent<HTMLFormElement>,
   card: Card | undefined,
+  navigate: NavigateFunction,
 ): Promise<void> => {
   if (!card) return;
   e.preventDefault();
@@ -28,14 +30,15 @@ const onSubmit = async (
 
   await AtmAPI.of(card)
     .inputPIN(pin)
-    .then(() => location.replace("/main"))
+    .then(() => navigate("/main"))
     .catch(() => badPinNotify());
 };
 
 const Pin = () => {
-  const card = useCard().card;
+  const { card } = useCard();
+  const navigate = useNavigate();
   return (
-    <Container onSubmit={(e) => onSubmit(e, card)}>
+    <Container onSubmit={(e) => onSubmit(e, card, navigate)}>
       <Image src={NoPeeking} width={80} />
       <Title>
         Enter your PIN <br /> <NotLooking>(We're not looking)</NotLooking>

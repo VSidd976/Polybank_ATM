@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import MainScreen from "@pages/MainScreen";
 import AddMoney from "@pages/AddMoney";
+import CashOut from "@pages/CashOut";
 
 function App() {
   return (
@@ -17,10 +18,11 @@ function App() {
         <MainContent>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<CardDispenser />} />
+              <Route index element={<CardDispenser />} />
               <Route path="/pin" element={<Pin />} />
               <Route path="/main" element={<MainScreen />} />
               <Route path="/main/add-money" element={<AddMoney />} />
+              <Route path="/main/cash-out" element={<CashOut />} />
             </Routes>
           </BrowserRouter>
         </MainContent>

@@ -1,3 +1,4 @@
+import { BackButton } from "@components/Button/BackButton";
 import Cash_ from "@components/Cash/Cash";
 import { CASH_NOMINALS, type Nominal } from "@components/Cash/const";
 import { styled } from "@mui/material";
@@ -7,9 +8,11 @@ const OPTIONS = Object.keys(CASH_NOMINALS);
 
 const ANIMATION_DURATION = 2_500;
 
-const AddMoney = (): ReactElement => {
+const useInsert = (): {
+  inserted: number | undefined;
+  insert: (n: Nominal) => void;
+} => {
   const [inserted, setInserted] = useState<Nominal | undefined>(undefined);
-  const [total, updateTotal] = useState<number>(0);
   const insert = useCallback((n: Nominal) => {
     setInserted((prev) => {
       if (prev) return prev;
@@ -17,11 +20,20 @@ const AddMoney = (): ReactElement => {
       return n;
     });
   }, []);
+  return { inserted, insert };
+};
+
+const AddMoney = (): ReactElement => {
+  const { insert, inserted } = useInsert();
+  const [total, updateTotal] = useState<number>(0);
+
   useEffect(() => {
     if (inserted) updateTotal((s) => s + inserted);
   }, [inserted]);
+
   return (
     <Container>
+      <BackButton />
       <Total>Total inserted: {total}</Total>
       {inserted ? (
         <InsertableCash $isInserted={inserted} nominal={inserted} />
@@ -60,16 +72,20 @@ const Total = styled("span")`
 
 const InsertableCash = styled(Cash_)<{ $isInserted: number | undefined }>`
   ${({ $isInserted }) =>
-    $isInserted ? `animation: insert ${ANIMATION_DURATION + 5}ms;` : ""}
+    $isInserted ? `animation: insert ${ANIMATION_DURATION}ms;` : ""}
   position: absolute;
   bottom: 50%;
   right: 50%;
+  opacity: 0;
   transform: translate(50%, -50%) rotate(90deg);
   z-index: 3;
 
   @keyframes insert {
     0% {
       bottom: 50%;
+    }
+    10% {
+      opacity: 1;
     }
     100% {
       bottom: 100%;
