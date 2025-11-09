@@ -11,6 +11,7 @@ struct AccountInfo {
 };
 
 class IBankService {
+public:
     virtual bool validateCard(CardCredentials) = 0;
     virtual std::string validateEntry(CardCredentials, std::string&) = 0;
 
@@ -38,11 +39,11 @@ public:
 
     bool validateCard(CardCredentials) override {
         return true;
-    };
+    }
 
     std::string validateEntry(CardCredentials, std::string&) override {
         return mockToken;
-    };
+    }
 
     AccountInfo accountInfo(std::string& token) override {
         if (token != mockToken) throw std::invalid_argument("Wrong token");
@@ -51,22 +52,23 @@ public:
             500,
             200
         };
-    };
+    }
 
     void putMoney(std::string& token, double amount) override {
         if (token != mockToken) throw std::invalid_argument("Wrong token");
         std::cout << "Added " << amount << " to balance" << std::endl;
-    };
+    }
 
     void getMoney(std::string& token, double amount) override {
         if (token != mockToken) throw std::invalid_argument("Wrong token");
         std::cout << "Took " << amount << " from to balance" << std::endl;
-    };
+    }
 };
 
 class PolyBank : public IBankService {
 public:
     PolyBank() = default;
+    ~PolyBank() = default;
 
     PolyBank(const PolyBank&) = delete;
     PolyBank(PolyBank&&) = delete;
@@ -76,11 +78,11 @@ public:
 
     bool validateCard(CardCredentials) override {
         return true;
-    };
+    }
 
     std::string validateEntry(CardCredentials, std::string&) override {
         return "";
-    };
+    }
 
     AccountInfo accountInfo(std::string& token) override {
         return AccountInfo{
@@ -88,16 +90,14 @@ public:
             500,
             200
         };
-    };
+    }
 
     void putMoney(std::string& token, double amount) override {
         std::cout << "Added " << amount << " to balance" << std::endl;
-    };
+    }
 
     void getMoney(std::string& token, double amount) override {
         std::cout << "Took " << amount << " from to balance" << std::endl;
-    };
-
-    ~PolyBank() = default;
+    }
 };
 

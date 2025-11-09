@@ -6,8 +6,8 @@ using namespace nlohmann;
 
 int main() {
     crow::App<crow::CORSHandler> app;
-    PolyBank polyBank {};
-    ATM atm { polyBank };
+    PolyBank polyBank;
+    ATM atm(polyBank);
 
     auto& cors = app.get_middleware<crow::CORSHandler>();
     cors.global()
