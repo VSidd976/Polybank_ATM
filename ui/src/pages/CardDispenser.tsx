@@ -41,6 +41,7 @@ const useReturning = (): boolean => {
   const isLogout = params.get("logout") === "true";
   useEffect(() => {
     if (!isLogout) return;
+
     setTimeout(() => navigate("/"), animationDurationSec * 1_000);
   }, [isLogout]);
   return isLogout;
@@ -51,6 +52,11 @@ const CardDispenser = () => {
   const [card, generateNew, getValid] = useRandomCard(currentCard);
   const { isInserted, insertCard } = useInsert(card);
   const isReturning = useReturning();
+  useEffect(() => {
+    if (isReturning) {
+      AtmAPI.of(card).endSession();
+    }
+  }, [card, isReturning]);
   return (
     <Container>
       <BankCard

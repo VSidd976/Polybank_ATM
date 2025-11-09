@@ -26,7 +26,14 @@ class AtmAPI {
 
   async inputPIN(pin: string): Promise<boolean> {
     console.log("Sending a pin", pin);
-    return true;
+    return await axios.post(`${BASE_URL}/card/accept`, {
+      ownerName: this.card.ownerName,
+      cardNumber: this.card.number,
+      bankName: this.card.bank,
+      cvv: this.card.cvv,
+      expirationDate: this.card.expDate,
+      pin: pin,
+    });
   }
 
   async cashOut(amount: number): Promise<boolean> {
@@ -50,7 +57,9 @@ class AtmAPI {
     };
   }
 
-  async endSession(): Promise<void> {}
+  async endSession(): Promise<void> {
+    return axios.put(`${BASE_URL}/card/return`);
+  }
 }
 
 export default AtmAPI;

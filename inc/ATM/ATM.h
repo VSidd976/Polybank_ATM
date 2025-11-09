@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "nlohmann/json.hpp"
 #include "CardSlot.h"
 #include "ReceiptPrinter.h"
 #include "CashAcceptor.h"
@@ -34,6 +35,8 @@ public:
 
     void acceptCard(const std::string&);
     void returnCard();
+
+    void acceptPin(const std::string&);
 
     void printReceipt();
 

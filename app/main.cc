@@ -9,7 +9,7 @@ int main() {
     auto& cors = app.get_middleware<crow::CORSHandler>();
     cors.global()
         .origin("*")
-        .methods("POST"_method, "OPTIONS"_method)
+        .methods("POST"_method, "GET"_method, "PUT"_method, "OPTIONS"_method)
         .headers("Content-Type", "X-Custom-Header");
 
     CROW_ROUTE(app, "/card/accept")
@@ -21,6 +21,35 @@ int main() {
 
         std::cout << req.body << std::endl;
         atm.acceptCard(req.body);
+
+        crow::response res(200, "123456");
+        return res;
+    });
+
+
+    CROW_ROUTE(app, "/card/pin")
+    .methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
+    ([&atm](const crow::request& req){
+        if (req.method == crow::HTTPMethod::OPTIONS) {
+            return crow::response(204);
+        }
+
+        std::cout << req.body << std::endl;
+        atm.acceptPin(req.body);
+
+        crow::response res(200, "123456");
+        return res;
+    });
+
+    CROW_ROUTE(app, "/card/return")
+    .methods(crow::HTTPMethod::PUT, crow::HTTPMethod::OPTIONS)
+    ([&atm](const crow::request& req){
+        if (req.method == crow::HTTPMethod::OPTIONS) {
+            return crow::response(204);
+        }
+
+        std::cout << req.body << std::endl;
+        atm.returnCard();
 
         crow::response res(200, "123456");
         return res;
