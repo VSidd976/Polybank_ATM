@@ -12,6 +12,9 @@ include(CPM)
 cpmaddpackage("gh:CrowCpp/Crow#v1.3.0")
 cpmaddpackage("gh:nlohmann/json#v3.12.0")
 
+add_subdirectory(src)
+add_subdirectory(inc)
+
 if(${ENABLE_TESTING})
     cpmaddpackage("gh:catchorg/Catch2#v3.11.0")
     list(APPEND CMAKE_MODULE_PATH ${Catch2_SOURCE_DIR}/extras)
@@ -20,6 +23,4 @@ if(${ENABLE_TESTING})
     add_subdirectory(tests)
 endif()
 
-add_subdirectory(src)
-add_subdirectory(inc)
 add_subdirectory(app)
