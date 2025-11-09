@@ -36,7 +36,7 @@ function onFormSubmit(e: FormEvent<HTMLFormElement>): number | undefined {
   ] as string;
   e.currentTarget.reset();
   if (!value || !Number.isInteger(Number.parseInt(value))) {
-    toast("Invalid amount input");
+    toast.error("Invalid amount input");
     return;
   }
   return Number.parseInt(value);
@@ -55,7 +55,7 @@ const CashOut = (): ReactElement => {
           setNominals(calcNominals(v));
           setAnimated.on();
         })
-        .catch(() => toast("Can't perform the operation"));
+        .catch(() => toast.error("Can't perform the operation"));
     },
     [card],
   );

@@ -33,7 +33,7 @@ function sendReq(card: Card | undefined, amount: number): void {
     .putMoney(amount)
     .then(() => toast.success("Operation successful"))
     .catch(() =>
-      toast(
+      toast.error(
         "Opeartion went wrong, please leave your request on our contact line",
       ),
     );

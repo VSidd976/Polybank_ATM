@@ -10,7 +10,7 @@ import { useCard } from "@utils/stores/cardStore";
 import { useNavigate, type NavigateFunction } from "react-router-dom";
 
 const badPinNotify = () =>
-  toast("Oops, looks like your pin is invalid", { type: "warning" });
+  toast.error("Oops, looks like your pin is invalid", { type: "warning" });
 
 const onSubmit = async (
   e: FormEvent<HTMLFormElement>,

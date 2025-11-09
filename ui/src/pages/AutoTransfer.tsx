@@ -41,7 +41,7 @@ const onFormSubmit = (
     });
 };
 
-const Transfer = (): ReactElement => {
+const AutoTransfer = (): ReactElement => {
   const [value, setValue] = useState("");
   const navigate = useNavigate();
   const { card } = useCard();
@@ -76,7 +76,7 @@ const Transfer = (): ReactElement => {
   );
 };
 
-export default Transfer;
+export default AutoTransfer;
 
 const Container = styled("div")`
   width: 100%;

@@ -48,7 +48,10 @@ class AtmAPI {
 
   async transferMoney(amount: number, to: string): Promise<boolean> {
     console.log({ amount, to });
-    return true;
+    return await axios.post(`${BASE_URL}/account/transfer`, {
+      cash: amount,
+      number: to,
+    });
   }
 
   async getInfo(): Promise<AccountInfo> {
