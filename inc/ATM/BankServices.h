@@ -78,28 +78,12 @@ public:
     PolyBank& operator=(const PolyBank&) = delete;
     PolyBank& operator=(PolyBank&&) = delete;
 
-    bool validateCard(const CardCredentials&) override {
-        return true;
-    }
+    bool validateCard(const CardCredentials&) override;
+    std::string validateEntry(const CardCredentials&, const std::string&) override;
 
-    std::string validateEntry(const CardCredentials&, const std::string&) override {
-        return "";
-    }
+    AccountInfo accountInfo(std::string& token) override;
 
-    AccountInfo accountInfo(std::string& token) override {
-        return AccountInfo{
-            200,
-            500,
-            200
-        };
-    }
-
-    void putMoney(std::string& token, double amount) override {
-        std::cout << "Added " << amount << " to balance" << std::endl;
-    }
-
-    void getMoney(std::string& token, double amount) override {
-        std::cout << "Took " << amount << " from to balance" << std::endl;
-    }
+    void putMoney(std::string& token, double amount) override;
+    void getMoney(std::string& token, double amount) override;
 };
 
