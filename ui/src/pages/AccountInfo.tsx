@@ -11,7 +11,7 @@ const AccountInfo = (): ReactElement => {
     <Container>
       <BackButton />
       <Field>Name: {card?.ownerName ?? "Not mentioned"}</Field>
-      <Field>Balance: {accountInfo?.balance}$(ukr hryvnya)</Field>
+      <Field>Balance: {accountInfo?.balance ?? 0}$(ukr hryvnya)</Field>
     </Container>
   );
 };
