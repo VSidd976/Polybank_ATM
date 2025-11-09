@@ -1,6 +1,8 @@
 #include <crow.h>
 #include "crow/middlewares/cors.h"
+#include <nlohmann/json.hpp>
 #include "ATM.h"
+using namespace nlohmann;
 
 int main() {
     crow::App<crow::CORSHandler> app;
@@ -62,13 +64,14 @@ int main() {
         }
 
         std::cout << req.body << std::endl;
-        atm.putMoney(req.body);
+        const double amount = json::parse(req.body)["cash"];
+        atm.putMoney(amount);
 
         crow::response res(200, "123456");
         return res;
     });
 
-        CROW_ROUTE(app, "/account/take")
+     CROW_ROUTE(app, "/account/take")
     .methods(crow::HTTPMethod::PUT, crow::HTTPMethod::OPTIONS)
     ([&atm](const crow::request& req){
         if (req.method == crow::HTTPMethod::OPTIONS) {
@@ -76,7 +79,8 @@ int main() {
         }
 
         std::cout << req.body << std::endl;
-        atm.takeMoney(req.body);
+        const double amount = json::parse(req.body)["cash"];
+        atm.takeMoney(amount);
 
         crow::response res(200, "123456");
         return res;
