@@ -26,7 +26,7 @@ class AtmAPI {
 
   async inputPIN(pin: string): Promise<boolean> {
     console.log("Sending a pin", pin);
-    return await axios.post(`${BASE_URL}/card/accept/pin`, {
+    return await axios.post(`${BASE_URL}/card/pin`, {
       ownerName: this.card.ownerName,
       cardNumber: this.card.number,
       bankName: this.card.bank,
@@ -38,7 +38,7 @@ class AtmAPI {
 
   async cashOut(amount: number): Promise<boolean> {
     console.log({ amount, card: this.card });
-    return await axios.post(`${BASE_URL}/account/take`, { cash: amount });
+    return await axios.put(`${BASE_URL}/account/take`, { cash: amount });
   }
 
   async putMoney(amount: number): Promise<boolean> {
@@ -52,9 +52,9 @@ class AtmAPI {
   }
 
   async getInfo(): Promise<AccountInfo> {
-    return {
-      balance: 200,
-    };
+    return await axios
+      .get(`${BASE_URL}/account/info`)
+      .then((r) => ({ balance: r.data.balance }));
   }
 
   async endSession(): Promise<void> {

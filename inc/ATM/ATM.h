@@ -43,7 +43,7 @@ public:
     void putMoney(const double&);
     void takeMoney(const double&);
 
-    void showInfo() const;
+    AccountInfo showInfo() const;
     void showDpositInfo();
     void showCreditInfo();
     void showLeftOverInfo();

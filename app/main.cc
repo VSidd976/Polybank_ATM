@@ -90,5 +90,23 @@ int main() {
         return res;
     });
 
+    CROW_ROUTE(app, "/account/info")
+    .methods(crow::HTTPMethod::Get, crow::HTTPMethod::OPTIONS)
+    ([&atm](const crow::request& req){
+        if (req.method == crow::HTTPMethod::OPTIONS) {
+            return crow::response(204);
+        }
+
+        cout << req.body << endl;
+        const AccountInfo i = atm.showInfo();
+        json data;
+        data["balance"] = i.balance;
+
+        crow::response res(200);
+        res.set_header("Content-Type", "application/json");
+        res.write(data.dump());
+        return res;
+    });
+
     app.port(8000).multithreaded().run();
 }

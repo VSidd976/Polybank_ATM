@@ -32,10 +32,10 @@ void ATM::takeMoney(const double& amount)
     _bankService.getMoney(_session->_token, amount);
 }
 
-void ATM::showInfo() const
+AccountInfo ATM::showInfo() const
 {
     if (_session == nullptr) throw invalid_argument("Session is not started");
-    _bankService.accountInfo(_session->_token);
+    return _bankService.accountInfo(_session->_token);
 }
 
 void ATM::transferMoney(const double& amount, const string& to)
