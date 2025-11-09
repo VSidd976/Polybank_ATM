@@ -145,10 +145,6 @@ const Container = styled("div")`
 const NominalsInfo = styled("span")`
   text-transform: uppercase;
   color: #bfbfbf;
-  position: absolute;
-  top: 200px;
-  right: 50%;
-  transform: translateX(50%);
   text-wrap: nowrap;
   font-size: 26px;
   font-weight: 200;
@@ -185,6 +181,7 @@ const Input = styled(Input_)`
 
 const Form = styled("form")`
   display: flex;
+  align-items: center;
   flex-direction: column;
   gap: 12px;
 `;
