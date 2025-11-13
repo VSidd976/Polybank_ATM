@@ -39,7 +39,7 @@ int main() {
 
         cout << req.body << endl;
         const json data = json::parse(req.body);
-        const std::string pin = data["pin"];
+        const string pin = data["pin"];
         atm.acceptPin(data, pin);
 
         crow::response res(200);
@@ -100,7 +100,7 @@ int main() {
         cout << req.body << endl;
         const AccountInfo i = atm.showInfo();
         json data;
-        data["balance"] = i.balance;
+        data["balance"] = i._balance;
 
         crow::response res(200);
         res.set_header("Content-Type", "application/json");

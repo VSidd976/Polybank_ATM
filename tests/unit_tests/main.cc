@@ -1,5 +1,5 @@
 #include <catch2/catch_test_macros.hpp>
-#include "ATM.h"
+#include "TestBank.h"
 
 TEST_CASE("Base flow")
 {
@@ -19,7 +19,7 @@ TEST_CASE("Base flow")
     REQUIRE_NOTHROW(atm.putMoney(235));
     REQUIRE_NOTHROW(atm.takeMoney(115));
 
-    REQUIRE_NOTHROW(atm.transferMoney(25, "1234567891012234"));
+    REQUIRE_NOTHROW(atm.transferMoney(25, "4556727619519847"));
 
     REQUIRE_NOTHROW(atm.returnCard());
 }

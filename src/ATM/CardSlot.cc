@@ -1,6 +1,6 @@
 #include "CardSlot.h"
 
-CardCredentials CardSlot::readCard(const json &data)
+CardCredentials CardSlot::readCard(const json &data) const
 {
     return CardCredentials {
         data.at("ownerName"),
@@ -8,5 +8,5 @@ CardCredentials CardSlot::readCard(const json &data)
         data.at("bankName"),
         data.at("cvv"),
         data.at("expirationDate"),
-    };;
+    };
 }

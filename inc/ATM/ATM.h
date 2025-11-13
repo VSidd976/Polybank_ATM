@@ -1,8 +1,7 @@
 #pragma once
-#include <iostream>
-#include "nlohmann/json.hpp"
 #include "BankServices.h"
 #include "CardSlot.h"
+#include "CashAcceptor.h"
 #include "ReceiptPrinter.h"
 #include "Dispenser.h"
 #include "State.h"
@@ -15,13 +14,14 @@ class ATM
 private:
     IBankService& _bankService;
     CardSlot _cardSlot;
+    CashAcceptor _cashAcceptor;
     ReceiptPrinter _receiptPrinter;
     Dispenser _dispenser;
     State _state = NON_ACTIVE;
     Session* _session = nullptr;
 
 public:
-    ATM(IBankService& bankService): _bankService(bankService) {};
+    ATM(IBankService&);
     ~ATM() = default;
 
     ATM(const ATM&) = delete;
@@ -30,32 +30,34 @@ public:
     ATM& operator=(const ATM&) = delete;
     ATM& operator=(ATM&&) = delete;
 
-    inline void startMaintenance() {
-        std::cout << "Start maintance" << std::endl;
+    inline void startMaintenance()
+    {
+        cout << "Start maintance" << endl;
         _state = MAINTENANCE;
     }
 
-    inline void endMaintenance() {
+    inline void endMaintenance()
+    {
         cout << "Ending maintenance" << endl;
         _state = NON_ACTIVE;
     }
 
-    void acceptCard(const json&);
+    void acceptCard(const json&) const;
     void returnCard();
 
     void acceptPin(const json&, const string&);
 
-    void printReceipt();
+    void printReceipt() const;
 
-    void putMoney(const double&);
-    void takeMoney(const double&);
+    void putMoney(const double&) const;
+    void takeMoney(const double&) const;
 
     AccountInfo showInfo() const;
     // void showDpositInfo();
     // void showLeftOverInfo();
 
     // void putOnDeposit(const double&);
-    void transferMoney(const double&, const string&);
+    void transferMoney(const double&, const string&) const;
 
     // void createAutoTransfer(const double&, const string&, const Frequency&);
     // void setLeftOverHandling(const LeftOverOption&, const Frequency&);

@@ -1,29 +1,23 @@
 #pragma once
 #include "CardCredentials.h"
 #include <nlohmann/json.hpp>
-
+#include <iostream>
+using namespace std;
 using namespace nlohmann;
 
-class ICardSlot
+class CardSlot
 {
-public:
-    virtual CardCredentials readCard(const json&) = 0;
-    virtual ~ICardSlot() = default;
-};
-
-class CardSlot : public ICardSlot
-{
-private:
-    string secret = "secret-key";
 public:
     CardSlot() = default;
+    ~CardSlot() = default;
 
     CardSlot(const CardSlot&) = delete;
     CardSlot(CardSlot&&) = delete;
 
-    ~CardSlot() override = default;
     CardSlot& operator=(CardSlot&&) = delete;
     CardSlot& operator=(const CardSlot&) = delete;
 
-    CardCredentials readCard(const json& input) override;
+    CardCredentials readCard(const json&) const;
+
+    inline void returnCard() const { cout << "Returned card" << endl; }
 };
