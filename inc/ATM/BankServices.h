@@ -31,7 +31,7 @@ public:
 class PolyBank : public IBankService
 {
 private:
-    string _baseUrl = "http://16.170.29.95:18973";
+    string _baseUrl = getenv("SERVER_ADDRESS");
 public:
     PolyBank() = default;
     ~PolyBank() = default;
