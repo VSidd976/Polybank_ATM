@@ -31,7 +31,7 @@ void ATM::putMoney(const double& amount)
 {
     if (_session == nullptr)
     {
-        throw BadOperation("Invalid request", "Session is not started");
+        throw BadOperation("Bad request", "Session is not started");
     }
     _cashAcceptor.acceptCash(amount);
     _bankService.putMoney(_session->_token, amount);
@@ -42,11 +42,11 @@ void ATM::takeMoney(const double& amount)
 {
     if (_session == nullptr)
     {
-        throw BadOperation("Invalid request", "Session is not started");
+        throw BadOperation("Bad request", "Session is not started");
     }
     if (_cashStorage._amount < amount)
     {
-        throw BadOperation("Invalid request", "We don't have that much cash");
+        throw BadOperation("Bad request", "We don't have that much cash");
     }
     _bankService.getMoney(_session->_token, amount);
     _cashStorage._amount -= amount;
@@ -57,7 +57,7 @@ AccountInfo ATM::showInfo() const
 {
     if (_session == nullptr)
     {
-        throw BadOperation("Invalid request", "Session is not started");
+        throw BadOperation("Bad request", "Session is not started");
     }
     return _bankService.accountInfo(_session->_token);
 }
@@ -66,7 +66,7 @@ void ATM::transferMoney(const double& amount, const string& to) const
 {
     if (_session == nullptr)
     {
-        throw BadOperation("Invalid request", "Session is not started");
+        throw BadOperation("Bad request", "Session is not started");
     }
     _bankService.transferMoney(_session->_token, to, amount);
 }
