@@ -9,7 +9,6 @@
 #include "Session.h"
 #include "Frequency.h"
 #include "LeftOverOption.h"
-#include "BadOperation.h"
 
 class ATM
 {
