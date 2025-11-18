@@ -24,7 +24,8 @@ TEST_CASE("Base flow")
     REQUIRE_NOTHROW(atm.returnCard());
 }
 
-TEST_CASE("Exceptional flow") {
+TEST_CASE("Exceptional flow")
+{
     TestBank bank;
     ATM atm(bank);
     json card;
@@ -33,10 +34,9 @@ TEST_CASE("Exceptional flow") {
     card["cardNumber"] = "1234567890123456";
     card["bankName"] = "OpenAI Bank";
     card["expirationDate"] = "12/26";
+    card["cvv"] = "123";
 
     REQUIRE_THROWS(atm.acceptCard(card));
-
-    card["cvv"] = "123";
 
     REQUIRE_THROWS(atm.takeMoney(240));
 

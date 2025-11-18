@@ -16,6 +16,7 @@ public:
     TestBank& operator=(const TestBank&) = delete;
     TestBank& operator=(TestBank&&) = delete;
 
+    bool validateCard(const CardCredentials&) override;
     string validateEntry(const CardCredentials&, const string&) override;
 
     AccountInfo accountInfo(const string&) override;

@@ -1,22 +1,17 @@
 #pragma once
-#include <exception>
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <cpr/cpr.h>
 #include "CardCredentials.h"
+#include "BadOperation.h"
+#include "Info.h"
 
 using namespace nlohmann;
-
-struct AccountInfo
-{
-    double _balance;
-    double _creditLimit;
-    double _depositBalance;
-};
 
 class IBankService
 {
 public:
+    virtual bool validateCard(const CardCredentials&) = 0;
     virtual string validateEntry(const CardCredentials&, const string&) = 0;
 
     virtual AccountInfo accountInfo(const string&) = 0;
@@ -42,13 +37,12 @@ public:
     PolyBank& operator=(const PolyBank&) = delete;
     PolyBank& operator=(PolyBank&&) = delete;
 
+    bool validateCard(const CardCredentials&) override;
     string validateEntry(const CardCredentials&, const string&) override;
 
     AccountInfo accountInfo(const string&) override;
 
     void putMoney(const string&, const double&) override;
-
     void getMoney(const string&, const double&) override;
-
     void transferMoney(const string&, const string&, const double&) override;
 };

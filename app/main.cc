@@ -4,7 +4,8 @@
 #include "ATM.h"
 using namespace nlohmann;
 
-int main() {
+int main()
+{
     crow::App<crow::CORSHandler> app;
     PolyBank polyBank;
     ATM atm(polyBank);
@@ -18,14 +19,13 @@ int main() {
     CROW_ROUTE(app, "/card/accept")
     .methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
     ([&atm](const crow::request& req){
-        if (req.method == crow::HTTPMethod::OPTIONS) {
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
             return crow::response(204);
         }
-
         cout << req.body << endl;
         const json data = json::parse(req.body);
         atm.acceptCard(data);
-
         crow::response res(200);
         return res;
     });
@@ -33,15 +33,14 @@ int main() {
     CROW_ROUTE(app, "/card/pin")
     .methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
     ([&atm](const crow::request& req){
-        if (req.method == crow::HTTPMethod::OPTIONS) {
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
             return crow::response(204);
         }
-
         cout << req.body << endl;
         const json data = json::parse(req.body);
         const string pin = data["pin"];
         atm.acceptPin(data, pin);
-
         crow::response res(200);
         return res;
     });
@@ -49,13 +48,12 @@ int main() {
     CROW_ROUTE(app, "/card/return")
     .methods(crow::HTTPMethod::PUT, crow::HTTPMethod::OPTIONS)
     ([&atm](const crow::request& req){
-        if (req.method == crow::HTTPMethod::OPTIONS) {
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
             return crow::response(204);
         }
-
         cout << req.body << endl;
         atm.returnCard();
-
         crow::response res(200);
         return res;
     });
@@ -63,14 +61,13 @@ int main() {
     CROW_ROUTE(app, "/account/put")
     .methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
     ([&atm](const crow::request& req){
-        if (req.method == crow::HTTPMethod::OPTIONS) {
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
             return crow::response(204);
         }
-
         cout << req.body << endl;
         const double amount = json::parse(req.body)["cash"];
         atm.putMoney(amount);
-
         crow::response res(200);
         return res;
     });
@@ -78,14 +75,13 @@ int main() {
     CROW_ROUTE(app, "/account/take")
     .methods(crow::HTTPMethod::PUT, crow::HTTPMethod::OPTIONS)
     ([&atm](const crow::request& req){
-        if (req.method == crow::HTTPMethod::OPTIONS) {
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
             return crow::response(204);
         }
-
         cout << req.body << endl;
         const double amount = json::parse(req.body)["cash"];
         atm.takeMoney(amount);
-
         crow::response res(200);
         return res;
     });
@@ -93,15 +89,14 @@ int main() {
     CROW_ROUTE(app, "/account/info")
     .methods(crow::HTTPMethod::GET, crow::HTTPMethod::OPTIONS)
     ([&atm](const crow::request& req){
-        if (req.method == crow::HTTPMethod::OPTIONS) {
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
             return crow::response(204);
         }
-
         cout << req.body << endl;
         const AccountInfo i = atm.showInfo();
         json data;
         data["balance"] = i._balance;
-
         crow::response res(200);
         res.set_header("Content-Type", "application/json");
         res.write(data.dump());
@@ -111,15 +106,14 @@ int main() {
     CROW_ROUTE(app, "/account/transfer")
     .methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
     ([&atm](const crow::request& req){
-        if (req.method == crow::HTTPMethod::OPTIONS) {
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
             return crow::response(204);
         }
-
         cout << req.body << endl;
         const double amount = json::parse(req.body)["cash"];
         const string number = json::parse(req.body)["number"];
         atm.transferMoney(amount, number);
-
         crow::response res(200);
         return res;
     });

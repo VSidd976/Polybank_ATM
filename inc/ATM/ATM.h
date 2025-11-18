@@ -4,10 +4,12 @@
 #include "CashAcceptor.h"
 #include "ReceiptPrinter.h"
 #include "Dispenser.h"
+#include "CashStorage.h"
 #include "State.h"
 #include "Session.h"
 #include "Frequency.h"
 #include "LeftOverOption.h"
+#include "BadOperation.h"
 
 class ATM
 {
@@ -17,6 +19,7 @@ private:
     CashAcceptor _cashAcceptor;
     ReceiptPrinter _receiptPrinter;
     Dispenser _dispenser;
+    CashStorage _cashStorage;
     State _state = NON_ACTIVE;
     Session* _session = nullptr;
 
@@ -38,7 +41,7 @@ public:
 
     inline void endMaintenance()
     {
-        cout << "Ending maintenance" << endl;
+        cout << "End maintenance" << endl;
         _state = NON_ACTIVE;
     }
 
@@ -49,12 +52,12 @@ public:
 
     void printReceipt() const;
 
-    void putMoney(const double&) const;
-    void takeMoney(const double&) const;
+    void putMoney(const double&);
+    void takeMoney(const double&);
 
     AccountInfo showInfo() const;
-    // void showDpositInfo();
-    // void showLeftOverInfo();
+    // void showDpositInfo() const;
+    // void showLeftOverInfo() const;
 
     // void putOnDeposit(const double&);
     void transferMoney(const double&, const string&) const;
