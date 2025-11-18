@@ -2,7 +2,7 @@ set(ATM_SOURCES
     ATM.cc
     CardSlot.cc
     BankServices.cc
-    BadATM.cc
+    BadOperation.cc
 )
 
 add_library(ATM STATIC ${ATM_SOURCES})
