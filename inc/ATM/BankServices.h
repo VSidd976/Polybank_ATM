@@ -20,6 +20,11 @@ public:
     virtual void getMoney(const string&, const double&) = 0;
     virtual void transferMoney(const string&, const string&, const double&) = 0;
 
+    virtual vector<DepositInfo> allDeposits(const string&) = 0;
+    virtual DepositInfo depositInfo(const string&) = 0;
+
+    virtual void putOnDeposit(const string&, const double&) = 0;
+
     virtual ~IBankService() = default;
 };
 
@@ -45,4 +50,9 @@ public:
     void putMoney(const string&, const double&) override;
     void getMoney(const string&, const double&) override;
     void transferMoney(const string&, const string&, const double&) override;
+
+    vector<DepositInfo> allDeposits(const string&) override;
+    DepositInfo depositInfo(const string&) override;
+
+    void putOnDeposit(const string&, const double&) override;
 };

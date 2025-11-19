@@ -54,11 +54,13 @@ public:
     void putMoney(const double&);
     void takeMoney(const double&);
 
-    AccountInfo showInfo() const;
-    // void showDpositInfo() const;
+    AccountInfo getInfo() const;
+
+    vector<DepositInfo> getAllDeposits() const;
+    DepositInfo getDpositInfo() const;
     // void showLeftOverInfo() const;
 
-    // void putOnDeposit(const double&);
+    void putOnDeposit(const string&, const double&) const;
     void transferMoney(const double&, const string&) const;
 
     // void createAutoTransfer(const double&, const string&, const Frequency&);

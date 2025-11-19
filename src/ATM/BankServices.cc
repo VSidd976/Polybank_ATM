@@ -103,3 +103,61 @@ void PolyBank::transferMoney(const string& token, const string& number, const do
         throw BadOperation("Bad request", r.text);
     }
 }
+
+vector<DepositInfo> PolyBank::allDeposits(const string& token)
+{
+    cout << "SENDING REQ" << endl;
+    cpr::Response r = cpr::Get(
+        cpr::Url{ _baseUrl + "/api/deposit" },
+        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}}
+    );
+    if (r.status_code != 200)
+    {
+        cout << "ERROR " << r.status_code << endl;
+        throw BadOperation("Bad request", r.text);
+    }
+    cout << "SENT" << endl;
+    auto data = json::parse(r.text);
+    vector<DepositInfo> deposits;
+    for (int i = 0; i < data.size(); ++i)
+    {
+        deposits[i]._opened_at = data[i].at("opened_at");
+        deposits[i]._closed_at = data[i].at("closed_at");
+        deposits[i]._number = data[i].at("product_id");
+        deposits[i]._balance = data[i].at("amount");
+        deposits[i]._id = i + 1;
+    }
+    return deposits;
+}
+
+DepositInfo PolyBank::depositInfo(const string& token)
+{
+    cout << "SENDING REQ" << endl;
+    cpr::Response r = cpr::Get(
+        cpr::Url{ _baseUrl + "/api/deposit" },
+        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}}
+    );
+    if (r.status_code != 200)
+    {
+        cout << "ERROR " << r.status_code << endl;
+        throw BadOperation("Bad request", r.text);
+    }
+    auto data = json::parse(r.text);
+    return { data.at("opened_at"), data.at("clossed_at"), data.at("number"), data.at("balance"), 0 };
+}
+
+void PolyBank::putOnDeposit(const string& number, const double& amount)
+{
+    json body;
+    body["amount"] = amount;
+    cpr::Response r = cpr::Post(
+        cpr::Url{ _baseUrl + "/api/deposit/put" },
+        cpr::Header{{"Authorization", "Bearer " + number}, {"Accept", "application/json"}},
+        cpr::Body{ body.dump() }
+    );
+    if (r.status_code != 200)
+    {
+        cout << "ERROR " << r.status_code << endl;
+        throw BadOperation("Bad request", r.text);
+    }
+}

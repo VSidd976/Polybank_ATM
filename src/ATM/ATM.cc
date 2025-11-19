@@ -53,7 +53,7 @@ void ATM::takeMoney(const double& amount)
     _dispenser.returnMoney(amount);
 }
 
-AccountInfo ATM::showInfo() const
+AccountInfo ATM::getInfo() const
 {
     if (_session == nullptr)
     {
@@ -74,4 +74,31 @@ void ATM::transferMoney(const double& amount, const string& to) const
 void ATM::printReceipt() const
 {
     _receiptPrinter.printReceipt("something");
+}
+
+vector<DepositInfo> ATM::getAllDeposits() const
+{
+    if (_session == nullptr)
+    {
+        throw BadOperation("Bad request", "Session is not started");
+    }
+    return _bankService.allDeposits(_session->_token);
+}
+
+DepositInfo ATM::getDpositInfo() const
+{
+    if (_session == nullptr)
+    {
+        throw BadOperation("Bad request", "Session is not started");
+    }
+    return _bankService.depositInfo(_session->_token);
+}
+
+void ATM::putOnDeposit(const string& number, const double& amount) const
+{
+    if (_session == nullptr)
+    {
+        throw BadOperation("Bad request", "Session is not started");
+    }
+    _bankService.putOnDeposit(number, amount);
 }
