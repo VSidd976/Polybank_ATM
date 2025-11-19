@@ -120,7 +120,7 @@ int main()
 
     CROW_ROUTE(app, "/deposit")
     .methods(crow::HTTPMethod::GET, crow::HTTPMethod::OPTIONS)
-    ([&atm](const croe::request& req) {
+    ([&atm](const crow::request& req) {
         if (req.method == crow::HTTPMethod::OPTIONS)
         {
             return crow::response(204);
@@ -141,19 +141,20 @@ int main()
 
     CROW_ROUTE(app, "/deposit/info")
     .methods(crow::HTTPMethod::GET, crow::HTTPMethod::OPTIONS)
-    ([&atm](const croe::request& req) {
+    ([&atm](const crow::request& req) {
         if (req.method == crow::HTTPMethod::OPTIONS)
         {
             return crow::response(204);
         }
         cout << req.body << endl;
-        const DepositInfo info = atm.getDpositInfo();
+        const json req_data = json::parse(req.body);
+        const DepositInfo info = atm.getDpositInfo(req_data["number"]);
         json data;
         data["number"] = info._number;
         data["balance"] = info._balance;
         data["opened_at"] = info._opened_at;
         data["closed_at"] = info._closed_at;
-        croe::response res(200);
+        crow::response res(200);
         res.set_header("Content-type", "application/json");
         res.write(data.dump());
         return res;

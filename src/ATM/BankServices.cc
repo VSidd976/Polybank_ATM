@@ -1,5 +1,17 @@
 #include "BankServices.h"
 
+string parseJsonEnv()
+{
+    ifstream inputFile("env.json");
+    json data;
+    if (!inputFile.is_open())
+    {
+        throw BadOperation("Bad opening", "could not open file");
+    }
+    inputFile >> data;
+    return data["SERVER_ADDRESS"];
+}
+
 bool PolyBank::validateCard(const CardCredentials& creds)
 {
     json body;
@@ -130,12 +142,12 @@ vector<DepositInfo> PolyBank::allDeposits(const string& token)
     return deposits;
 }
 
-DepositInfo PolyBank::depositInfo(const string& token)
+DepositInfo PolyBank::depositInfo(const string& number)
 {
     cout << "SENDING REQ" << endl;
     cpr::Response r = cpr::Get(
         cpr::Url{ _baseUrl + "/api/deposit" },
-        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}}
+        cpr::Header{{"Authorization", "Bearer " + number}, {"Accept", "application/json"}}
     );
     if (r.status_code != 200)
     {

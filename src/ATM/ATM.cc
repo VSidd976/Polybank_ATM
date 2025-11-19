@@ -85,13 +85,13 @@ vector<DepositInfo> ATM::getAllDeposits() const
     return _bankService.allDeposits(_session->_token);
 }
 
-DepositInfo ATM::getDpositInfo() const
+DepositInfo ATM::getDpositInfo(const string& number) const
 {
     if (_session == nullptr)
     {
         throw BadOperation("Bad request", "Session is not started");
     }
-    return _bankService.depositInfo(_session->_token);
+    return _bankService.depositInfo(number);
 }
 
 void ATM::putOnDeposit(const string& number, const double& amount) const
