@@ -5,6 +5,10 @@ ATM::ATM(IBankService& bankSerivce): _bankService(bankSerivce) {}
 void ATM::acceptCard(const json& req) const
 {
     const CardCredentials cardCreds = _cardSlot.readCard(req);
+    if (!_bankService.validateCard(cardCreds))
+    {
+        throw BadOperation("Bad validation", "could not validate card");
+    }
     cout << cardCreds._cardNumber << endl;
 }
 

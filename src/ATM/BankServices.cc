@@ -155,7 +155,13 @@ DepositInfo PolyBank::depositInfo(const string& number)
         throw BadOperation("Bad request", r.text);
     }
     auto data = json::parse(r.text);
-    return { data.at("opened_at"), data.at("clossed_at"), data.at("number"), data.at("balance"), 0 };
+    return {
+        data.at("opened_at"),
+        data.at("clossed_at"),
+        data.at("number"),
+        data.at("balance"),
+        0
+    };
 }
 
 void PolyBank::putOnDeposit(const string& number, const double& amount)
