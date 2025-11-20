@@ -168,10 +168,10 @@ int main()
             return crow::response(204);
         }
         cout << req.body << endl;
-        json data = json::partse(req.body);
-        const string number = data["number"]
+        json data = json::parse(req.body);
+        const string number = data["number"];
         const double amount = data["cash"];
-        atm.putOnDeposit(number, cash);
+        atm.putOnDeposit(number, amount);
         crow::response res(200);
         return res;
     });
