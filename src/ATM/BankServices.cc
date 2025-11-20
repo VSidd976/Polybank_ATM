@@ -12,6 +12,8 @@ string parseJsonEnv(const string& path)
     return data["SERVER_ADDRESS"];
 }
 
+PolyBank::PolyBank(const string& path): _baseUrl(parseJsonEnv(path)) {}
+
 bool PolyBank::validateCard(const CardCredentials& creds)
 {
     json body;

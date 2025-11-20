@@ -33,10 +33,12 @@ public:
 class PolyBank : public IBankService
 {
 private:
-    string _baseUrl = parseJsonEnv("../../env.json");
+    string _baseUrl;
 public:
     PolyBank() = default;
     ~PolyBank() = default;
+
+    PolyBank(const string&);
 
     PolyBank(const PolyBank&) = delete;
     PolyBank(PolyBank&&) = delete;
