@@ -8,7 +8,7 @@
 
 using namespace nlohmann;
 
-string parseJsonEnv();
+string parseJsonEnv(const string&);
 
 class IBankService
 {
@@ -33,8 +33,7 @@ public:
 class PolyBank : public IBankService
 {
 private:
-    // string _baseUrl = "http://16.170.29.95:18973";
-    string _baseUrl = parseJsonEnv();
+    string _baseUrl = parseJsonEnv("../../env.json");
 public:
     PolyBank() = default;
     ~PolyBank() = default;

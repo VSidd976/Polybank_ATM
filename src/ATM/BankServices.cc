@@ -1,8 +1,7 @@
 #include "BankServices.h"
 
-string parseJsonEnv()
+string parseJsonEnv(const string& path)
 {
-    string path = "../../env.json";
     ifstream inputFile(path);
     json data;
     if (!inputFile.is_open())
