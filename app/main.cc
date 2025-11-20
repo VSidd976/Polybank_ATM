@@ -25,8 +25,17 @@ int main()
         }
         cout << req.body << endl;
         const json data = json::parse(req.body);
-        atm.acceptCard(data);
-        crow::response res(200);
+        crow::response res;
+        try
+        {
+            atm.acceptCard(data);
+            res.code = 200;
+        }
+        catch(const BadOperation& bo)
+        {
+            cout << bo << endl;
+            res.code = 404;
+        }
         return res;
     });
 
@@ -40,8 +49,17 @@ int main()
         cout << req.body << endl;
         const json data = json::parse(req.body);
         const string pin = data["pin"];
-        atm.acceptPin(data, pin);
-        crow::response res(200);
+        crow::response res;
+        try
+        {
+            atm.acceptPin(data, pin);
+            res.code = 200;
+        }
+        catch(const BadOperation& bo)
+        {
+            cout << bo << endl;
+            res.code = 404;
+        }
         return res;
     });
 
@@ -67,8 +85,17 @@ int main()
         }
         cout << req.body << endl;
         const double amount = json::parse(req.body)["cash"];
-        atm.putMoney(amount);
-        crow::response res(200);
+        crow::response res;
+        try
+        {
+            atm.putMoney(amount);
+            res.code = 200;
+        }
+        catch(const BadOperation& bo)
+        {
+            cout << bo << endl;
+            res.code = 404;
+        }
         return res;
     });
 
@@ -81,8 +108,17 @@ int main()
         }
         cout << req.body << endl;
         const double amount = json::parse(req.body)["cash"];
-        atm.takeMoney(amount);
-        crow::response res(200);
+        crow::response res;
+        try
+        {
+            atm.takeMoney(amount);
+            res.code = 200;
+        }
+        catch(const BadOperation& bo)
+        {
+            cout << bo << endl;
+            res.code = 404;
+        }
         return res;
     });
 
@@ -94,12 +130,21 @@ int main()
             return crow::response(204);
         }
         cout << req.body << endl;
-        const AccountInfo i = atm.getInfo();
-        json data;
-        data["balance"] = i._balance;
-        crow::response res(200);
-        res.set_header("Content-Type", "application/json");
-        res.write(data.dump());
+        crow::response res;
+        try
+        {
+            const AccountInfo i = atm.getInfo();
+            json data;
+            data["balance"] = i._balance;
+            res.code = 200;
+            res.set_header("Content-Type", "application/json");
+            res.write(data.dump());
+        }
+        catch(const BadOperation& bo)
+        {
+            cout << bo << endl;
+            res.code = 404;
+        }
         return res;
     });
 
@@ -113,8 +158,17 @@ int main()
         cout << req.body << endl;
         const double amount = json::parse(req.body)["cash"];
         const string number = json::parse(req.body)["number"];
-        atm.transferMoney(amount, number);
-        crow::response res(200);
+        crow::response res;
+        try
+        {
+            atm.transferMoney(amount, number);
+            res.code = 200;
+        }
+        catch(const BadOperation& bo)
+        {
+            cout << bo << endl;
+            res.code = 404;
+        }
         return res;
     });
 
@@ -126,16 +180,25 @@ int main()
             return crow::response(204);
         }
         cout << req.body << endl;
-        const vector<DepositInfo> allDeposits = atm.getAllDeposits();
-        json data;
-        for (int i = 0; i < allDeposits.size(); ++i)
+        crow::response res;
+        try
         {
-            data["accounts"][i]["id"] = i + 1;
-            data["accounts"][i]["number"] = allDeposits[i]._number;
+            const vector<DepositInfo> allDeposits = atm.getAllDeposits();
+            json data;
+            for (int i = 0; i < allDeposits.size(); ++i)
+            {
+                data["accounts"][i]["id"] = i + 1;
+                data["accounts"][i]["number"] = allDeposits[i]._number;
+            }
+            res.code = 200;
+            res.set_header("Content-type", "application/json");
+            res.write(data.dump());
         }
-        crow::response res(200);
-        res.set_header("Content-type", "application/json");
-        res.write(data.dump());
+        catch(const BadOperation& bo)
+        {
+            cout << bo << endl;
+            res.code = 404;
+        }
         return res;
     });
 
@@ -148,15 +211,24 @@ int main()
         }
         cout << req.body << endl;
         const json req_data = json::parse(req.body);
-        const DepositInfo info = atm.getDpositInfo(req_data["number"]);
-        json data;
-        data["number"] = info._number;
-        data["balance"] = info._balance;
-        data["opened_at"] = info._opened_at;
-        data["closed_at"] = info._closed_at;
-        crow::response res(200);
-        res.set_header("Content-type", "application/json");
-        res.write(data.dump());
+        crow::response res;
+        try
+        {
+            const DepositInfo info = atm.getDpositInfo(req_data["number"]);
+            json data;
+            data["number"] = info._number;
+            data["balance"] = info._balance;
+            data["opened_at"] = info._opened_at;
+            data["closed_at"] = info._closed_at;
+            res.code = 200;
+            res.set_header("Content-type", "application/json");
+            res.write(data.dump());
+        }
+        catch(const BadOperation& bo)
+        {
+            cout << bo << endl;
+            res.code = 404;
+        }
         return res;
     });
 
@@ -171,8 +243,17 @@ int main()
         json data = json::parse(req.body);
         const string number = data["number"];
         const double amount = data["cash"];
-        atm.putOnDeposit(number, amount);
-        crow::response res(200);
+        crow::response res;
+        try
+        {
+            atm.putOnDeposit(number, amount);
+            res.code = 200;
+        }
+        catch(const BadOperation& bo)
+        {
+            cout << bo << endl;
+            res.code = 404;
+        }
         return res;
     });
 
