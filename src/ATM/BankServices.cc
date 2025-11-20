@@ -2,7 +2,8 @@
 
 string parseJsonEnv()
 {
-    ifstream inputFile("env.json");
+    string path = "../../env.json";
+    ifstream inputFile(path);
     json data;
     if (!inputFile.is_open())
     {

@@ -160,7 +160,7 @@ int main()
         return res;
     });
 
-    CROW_ROUTE(app, "deposit/put")
+    CROW_ROUTE(app, "/deposit/put")
     .methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
     ([&atm](const crow::request& req) {
         if (req.method == crow::HTTPMethod::OPTIONS)
