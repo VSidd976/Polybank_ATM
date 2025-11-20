@@ -130,7 +130,7 @@ int main()
         json data;
         for (int i = 0; i < allDeposits.size(); ++i)
         {
-            data["accounts"][i]["id"] = allDeposits[i]._id;
+            data["accounts"][i]["id"] = i + 1;
             data["accounts"][i]["number"] = allDeposits[i]._number;
         }
         crow::response res(200);
@@ -157,6 +157,22 @@ int main()
         crow::response res(200);
         res.set_header("Content-type", "application/json");
         res.write(data.dump());
+        return res;
+    });
+
+    CROW_ROUTE(app, "deposit/put")
+    .methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
+    ([&atm](const crow::request& req) {
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
+            return crow::response(204);
+        }
+        cout << req.body << endl;
+        json data = json::partse(req.body);
+        const string number = data["number"]
+        const double amount = data["cash"];
+        atm.putOnDeposit(number, cash);
+        crow::response res(200);
         return res;
     });
 

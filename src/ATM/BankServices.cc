@@ -137,7 +137,6 @@ vector<DepositInfo> PolyBank::allDeposits(const string& token)
         deposits[i]._closed_at = data[i].at("closed_at");
         deposits[i]._number = data[i].at("product_id");
         deposits[i]._balance = data[i].at("amount");
-        deposits[i]._id = i + 1;
     }
     return deposits;
 }
@@ -159,8 +158,7 @@ DepositInfo PolyBank::depositInfo(const string& number)
         data.at("opened_at"),
         data.at("clossed_at"),
         data.at("number"),
-        data.at("balance"),
-        0
+        data.at("balance")
     };
 }
 

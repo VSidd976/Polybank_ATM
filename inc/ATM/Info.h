@@ -11,7 +11,6 @@ struct DepositInfo
     string _closed_at;
     double _number;
     double _balance;
-    int _id;
 };
 
 struct CreditInfo
