@@ -1,4 +1,4 @@
-import AtmAPI from "@api/AtmAPI";
+import { useAtmApi } from "@api/AtmAPI";
 import { BackButton } from "@components/Button/BackButton";
 import BaseButton from "@components/Button/Button";
 import Cash_ from "@components/Cash/Cash";
@@ -7,7 +7,6 @@ import Input_ from "@components/Input/Input";
 import { Fade, styled } from "@mui/material";
 import { useAccountInfo } from "@utils/hooks/useAccountInfo";
 import { useBoolean } from "@utils/hooks/useBoolean";
-import { useCard } from "@utils/stores/cardStore";
 import {
   useCallback,
   useState,
@@ -44,20 +43,19 @@ function onFormSubmit(e: FormEvent<HTMLFormElement>): number | undefined {
 
 const CashOut = (): ReactElement => {
   const [isAnimated, setAnimated] = useBoolean();
-  const { card } = useCard();
+  const api = useAtmApi({
+    onSuccess: () => {
+      setAnimated.on();
+    },
+    failure: { text: "Can't perform the operation" },
+  });
   const [nominals, setNominals] = useState<Record<Nominal, number>>();
   const afterSubmit = useCallback(
     (v: number | undefined) => {
-      if (!v || !card) return;
-      AtmAPI.of(card)
-        .cashOut(v)
-        .then(() => {
-          setNominals(calcNominals(v));
-          setAnimated.on();
-        })
-        .catch(() => toast.error("Can't perform the operation"));
+      if (!v || !api) return;
+      api.cashOut(v).then(() => setNominals(calcNominals(v)));
     },
-    [card],
+    [api],
   );
   return (
     <Container>

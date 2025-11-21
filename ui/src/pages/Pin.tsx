@@ -4,21 +4,17 @@ import { styled } from "@mui/material";
 import BaseButton from "@components/Button/Button";
 import type { FormEvent } from "react";
 import { toast } from "react-toastify";
-import AtmAPI from "@api/AtmAPI";
-import type { Card } from "@components/BankCard/consts";
-import { useCard } from "@utils/stores/cardStore";
-import { useNavigate, type NavigateFunction } from "react-router-dom";
+import AtmAPI, { useAtmApi } from "@api/AtmAPI";
 
 const badPinNotify = () =>
   toast.error("Oops, looks like your pin is invalid", { type: "warning" });
 
 const onSubmit = async (
   e: FormEvent<HTMLFormElement>,
-  card: Card | undefined,
-  navigate: NavigateFunction,
+  api: AtmAPI | null,
 ): Promise<void> => {
   e.preventDefault();
-  if (!card) return;
+  if (!api) return;
   const pin = Object.values(
     Object.fromEntries(new FormData(e.currentTarget)),
   ).reduce((acc, curr) => (typeof curr === "string" ? acc + curr : acc), "");
@@ -28,17 +24,16 @@ const onSubmit = async (
     return;
   }
 
-  await AtmAPI.of(card)
-    .inputPIN(pin)
-    .then(() => navigate("/main"))
-    .catch(() => badPinNotify());
+  await api.inputPIN(pin);
 };
 
 const Pin = () => {
-  const { card } = useCard();
-  const navigate = useNavigate();
+  const api = useAtmApi({
+    sucess: { redirectTo: "/main" },
+    onFailure: badPinNotify,
+  });
   return (
-    <Container onSubmit={(e) => onSubmit(e, card, navigate)}>
+    <Container onSubmit={(e) => onSubmit(e, api)}>
       <Image src={NoPeeking} width={80} />
       <Title>
         Enter your PIN <br /> <NotLooking>(We're not looking)</NotLooking>

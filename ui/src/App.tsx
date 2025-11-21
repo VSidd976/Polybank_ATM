@@ -17,9 +17,9 @@ function App() {
   return (
     <ThemeProvider theme={themeOptions} defaultMode="dark">
       <LayoutContainer>
-        <Header />
-        <MainContent>
-          <BrowserRouter>
+        <BrowserRouter>
+          <Header />
+          <MainContent>
             <Routes>
               <Route index element={<CardDispenser />} />
               <Route path="/pin" element={<Pin />} />
@@ -64,8 +64,8 @@ function App() {
                 }
               />
             </Routes>
-          </BrowserRouter>
-        </MainContent>
+          </MainContent>
+        </BrowserRouter>
       </LayoutContainer>
       <ToastContainer />
     </ThemeProvider>
@@ -83,7 +83,7 @@ const MainContent = styled("main")`
   display: flex;
   flex: 1;
   background:
-    linear-gradient(135deg, rgba(255 255 255 / 0.1), rgba(255 255 255 / 0)),
+    linear-gradient(135deg, rgba(255 255 255 / 0.08), rgba(255 255 255 / 0)),
     repeating-linear-gradient(
       90deg,
       rgba(255 255 255 / 0.05),
@@ -98,7 +98,9 @@ const MainContent = styled("main")`
       transparent 1px,
       transparent 40px
     );
-  background-color: #1a2121;
+  background-color: ${({ theme }) => theme.palette.background.paper};
+
+  );
 `;
 
 export default App;

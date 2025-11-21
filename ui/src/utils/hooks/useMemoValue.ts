@@ -1,8 +1,8 @@
-import { useMemo, type DependencyList } from "react";
+import { useMemo } from "react";
 
-export const useMemoValue = <Args extends DependencyList, Return>(
+export const useMemoValue = <Args extends readonly unknown[], Return>(
   callback: (...args: Args) => Return,
-  args: Args,
+  args: [...Args],
 ): Return => {
   return useMemo(() => callback(...args), args);
 };
