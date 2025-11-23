@@ -115,3 +115,12 @@ void ATM::putOnDeposit(const string& product_id, const double& amount) const
     }
     _bankService.putOnDeposit(_session->_token, product_id, amount);
 }
+
+void ATM::takeFromDeposit(const string& product_id) const
+{
+    if (_session == nullptr)
+    {
+        throw BadOperation("Bad request", "Session is not started");
+    }
+    _bankService.takeFromDeposit(_session->_token, product_id);
+}

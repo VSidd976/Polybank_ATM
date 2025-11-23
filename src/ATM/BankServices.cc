@@ -205,3 +205,19 @@ void PolyBank::putOnDeposit(const string& token, const string& product_id, const
         throw BadOperation("Bad request", r.text);
     }
 }
+
+void PolyBank::takeFromDeposit(const string& token, const string& product_id)
+{
+    json body;
+    body["product_id"] = product_id;
+    cpr::Response r = cpr::Post(
+        cpr::Url{ _baseUrl + "/api/deposit/put" },
+        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}},
+        cpr::Body{ body.dump() }
+    );
+    if (r.status_code != 200)
+    {
+        cout << "ERROR " << r.status_code << endl;
+        throw BadOperation("Bad request", r.text);
+    }
+}

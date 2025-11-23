@@ -27,6 +27,7 @@ public:
     virtual DepositInfo depositInfo(const string&) = 0;
 
     virtual void putOnDeposit(const string&, const string&, const double&) = 0;
+    virtual void takeFromDeposit(const string&, const string&) = 0;
 
     virtual ~IBankService() = default;
 };
@@ -61,4 +62,5 @@ public:
     DepositInfo depositInfo(const string&) override;
 
     void putOnDeposit(const string&, const string&, const double&) override;
+    void takeFromDeposit(const string&, const string&) override;
 };

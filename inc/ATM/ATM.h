@@ -62,6 +62,7 @@ public:
     // void showLeftOverInfo() const;
 
     void putOnDeposit(const string&, const double&) const;
+    void takeFromDeposit(const string&) const;
     void transferMoney(const double&, const string&) const;
 
     // void createAutoTransfer(const double&, const string&, const Frequency&);

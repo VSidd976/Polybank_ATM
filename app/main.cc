@@ -302,8 +302,13 @@ int main()
             return crow::response(204);
         }
         cout << req.body << endl;
-        const string amount = json::parse(req.body)["productId"];
+        const string product_id = json::parse(req.body)["productId"];
         crow::response res;
+        try
+        {
+            atm.takeFromDeposit(product_id);
+            res.code = 200;
+        }
         catch(const BadOperation& bo)
         {
             cout << bo << endl;
