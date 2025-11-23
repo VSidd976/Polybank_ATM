@@ -230,7 +230,7 @@ vector<CreditInfo> PolyBank::allCredits(const string& token)
     return credits;
 }
 
-vector<CreditProductinfo> PolyBank::allCreditProducts(const string& token)
+vector<CreditProductInfo> PolyBank::allCreditProducts(const string& token)
 {
     cout << "SENDING REQ" << endl;
     cpr::Response r = cpr::Get(
@@ -244,7 +244,7 @@ vector<CreditProductinfo> PolyBank::allCreditProducts(const string& token)
     }
     cout << "SENT" << endl;
     auto data = json::parse(r.text).at("credit_products");
-    vector<CreditProductinfo> creditProducts(data.size());
+    vector<CreditProductInfo> creditProducts(data.size());
     for (int i = 0; i < data.size(); ++i)
     {
         creditProducts[i]._name = data[i]["name"];

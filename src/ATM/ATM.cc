@@ -143,7 +143,7 @@ vector<CreditInfo> ATM::getAllCredits() const
     return _bankService.allCredits(_session->_token);
 }
 
-vector<CreditProductinfo> ATM::getAllCreditProducts() const
+vector<CreditProductInfo> ATM::getAllCreditProducts() const
 {
     if (_session == nullptr)
     {

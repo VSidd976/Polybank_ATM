@@ -32,7 +32,7 @@ struct CreditInfo
     int _product_id;
 };
 
-struct CreditProductinfo
+struct CreditProductInfo
 {
     string _name;
     double _interest_rate;

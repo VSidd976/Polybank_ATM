@@ -367,7 +367,7 @@ int main()
         crow::response res;
         try
         {
-            atm.takeCredits(product_id, amount);
+            atm.takeCredit(product_id, amount);
             res.code = 200;
         }
         catch(const BadOperation& bo)

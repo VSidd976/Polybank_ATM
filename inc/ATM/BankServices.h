@@ -29,7 +29,7 @@ public:
     virtual void takeFromDeposit(const string&, const int&) = 0;
 
     virtual vector<CreditInfo> allCredits(const string&) = 0;
-    virtual vector<CreditProductinfo> allCreditProducts(const string&) = 0;
+    virtual vector<CreditProductInfo> allCreditProducts(const string&) = 0;
 
     virtual void takeCredit(const string&, const int&, const double&) = 0;
     virtual void payCredit(const string&, const int&, const double&) = 0;
@@ -69,7 +69,7 @@ public:
     void takeFromDeposit(const string&, const int&) override;
 
     vector<CreditInfo> allCredits(const string&) override;
-    vector<CreditProductinfo> allCreditProducts(const string&) override;
+    vector<CreditProductInfo> allCreditProducts(const string&) override;
 
     void takeCredit(const string&, const int&, const double&) override;
     void payCredit(const string&, const int&, const double&) override;

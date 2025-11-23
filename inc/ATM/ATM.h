@@ -65,7 +65,7 @@ public:
     void transferMoney(const double&, const string&) const;
 
     vector<CreditInfo> getAllCredits() const;
-    vector<CreditProductinfo> getAllCreditProducts() const;
+    vector<CreditProductInfo> getAllCreditProducts() const;
 
     void takeCredit(const int&, const double&) const;
     void payCredit(const int&, const double&) const;
