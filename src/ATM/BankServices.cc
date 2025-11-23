@@ -168,32 +168,12 @@ vector<DepositProductInfo> PolyBank::allDepositProducts(const string& token)
     return depositProducts;
 }
 
-DepositInfo PolyBank::depositInfo(const string& number)
-{
-    cout << "SENDING REQ" << endl;
-    cpr::Response r = cpr::Get(
-        cpr::Url{ _baseUrl + "/api/deposit" },
-        cpr::Header{{"Authorization", "Bearer " + number}, {"Accept", "application/json"}}
-    );
-    if (r.status_code != 200)
-    {
-        cout << "ERROR " << r.status_code << endl;
-        throw BadOperation("Bad request", r.text);
-    }
-    auto data = json::parse(r.text);
-    return {
-        data.at("opened_at"),
-        data.at("clossed_at"),
-        data.at("number"),
-        data.at("balance")
-    };
-}
-
-void PolyBank::putOnDeposit(const string& token, const string& product_id, const double& amount)
+void PolyBank::putOnDeposit(const string& token, const int& product_id, const double& amount)
 {
     json body;
     body["product_id"] = product_id;
     body["amount"] = amount;
+    cout << body << endl;
     cpr::Response r = cpr::Post(
         cpr::Url{ _baseUrl + "/api/deposit/put" },
         cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}},
@@ -206,12 +186,99 @@ void PolyBank::putOnDeposit(const string& token, const string& product_id, const
     }
 }
 
-void PolyBank::takeFromDeposit(const string& token, const string& product_id)
+void PolyBank::takeFromDeposit(const string& token, const int& product_id)
+{
+    json body;
+    body["deposit_id"] = product_id;
+    cpr::Response r = cpr::Post(
+        cpr::Url{ _baseUrl + "/api/deposit/put" },
+        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}},
+        cpr::Body{ body.dump() }
+    );
+    if (r.status_code != 200)
+    {
+        cout << "ERROR " << r.status_code << endl;
+        throw BadOperation("Bad request", r.text);
+    }
+}
+
+vector<CreditInfo> PolyBank::allCredits(const string& token)
+{
+    cout << "SENDING REQ" << endl;
+    cpr::Response r = cpr::Get(
+        cpr::Url{ _baseUrl + "/api/credit" },
+        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}}
+    );
+    if (r.status_code != 200)
+    {
+        cout << "ERROR " << r.status_code << endl;
+        throw BadOperation("Bad request", r.text);
+    }
+    cout << "SENT" << endl;
+    auto data = json::parse(r.text).at("credits");
+    vector<CreditInfo> credits(data.size());
+    for (int i = 0; i < data.size(); ++i)
+    {
+        credits[i]._opened_at = data[i]["opened_at"];
+        credits[i]._closed_at = data[i]["closed_at"];
+        credits[i]._product_name = data[i]["product_name"];
+        credits[i]._amount = data[i]["amount"];
+        credits[i]._remaining_amount = data[i]["remaining_amount"];
+        credits[i]._interest_accured = data[i]["interest_accured"];
+        credits[i]._product_id = data[i]["product_id"];
+    }
+    return credits;
+}
+
+vector<CreditProductinfo> PolyBank::allCreditProducts(const string& token)
+{
+    cout << "SENDING REQ" << endl;
+    cpr::Response r = cpr::Get(
+        cpr::Url{ _baseUrl + "/api/credit/products" },
+        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}}
+    );
+    if (r.status_code != 200)
+    {
+        cout << "ERROR " << r.status_code << endl;
+        throw BadOperation("Bad request", r.text);
+    }
+    cout << "SENT" << endl;
+    auto data = json::parse(r.text).at("credit_products");
+    vector<CreditProductinfo> creditProducts(data.size());
+    for (int i = 0; i < data.size(); ++i)
+    {
+        creditProducts[i]._name = data[i]["name"];
+        creditProducts[i]._interest_rate = data[i]["interest_rate"];
+        creditProducts[i]._term_months = data[i]["term_months"];
+        creditProducts[i]._id = data[i]["id"];
+    }
+    return creditProducts;
+}
+
+void PolyBank::takeCredit(const string& token, const int& product_id, const double& amount)
 {
     json body;
     body["product_id"] = product_id;
+    body["amount"] = amount;
     cpr::Response r = cpr::Post(
-        cpr::Url{ _baseUrl + "/api/deposit/put" },
+        cpr::Url{ _baseUrl + "/api/credit/take" },
+        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}},
+        cpr::Body{ body.dump() }
+    );
+    if (r.status_code != 200)
+    {
+        cout << "ERROR " << r.status_code << endl;
+        throw BadOperation("Bad request", r.text);
+    }
+}
+
+void PolyBank::payCredit(const string& token, const int& product_id, const double& amount)
+{
+    json body;
+    body["credit_id"] = product_id;
+    body["amount"] = amount;
+    cpr::Response r = cpr::Post(
+        cpr::Url{ _baseUrl + "/api/credit/pay" },
         cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}},
         cpr::Body{ body.dump() }
     );

@@ -98,16 +98,7 @@ vector<DepositProductInfo> ATM::getAllDepositProducts() const
     return _bankService.allDepositProducts(_session->_token);
 }
 
-DepositInfo ATM::getDpositInfo(const string& number) const
-{
-    if (_session == nullptr)
-    {
-        throw BadOperation("Bad request", "Session is not started");
-    }
-    return _bankService.depositInfo(number);
-}
-
-void ATM::putOnDeposit(const string& product_id, const double& amount) const
+void ATM::putOnDeposit(const int& product_id, const double& amount) const
 {
     if (_session == nullptr)
     {
@@ -116,11 +107,47 @@ void ATM::putOnDeposit(const string& product_id, const double& amount) const
     _bankService.putOnDeposit(_session->_token, product_id, amount);
 }
 
-void ATM::takeFromDeposit(const string& product_id) const
+void ATM::takeFromDeposit(const int& product_id) const
 {
     if (_session == nullptr)
     {
         throw BadOperation("Bad request", "Session is not started");
     }
     _bankService.takeFromDeposit(_session->_token, product_id);
+}
+
+void ATM::takeCredit(const int& product_id, const double& amount) const
+{
+    if (_session == nullptr)
+    {
+        throw BadOperation("Bad request", "Session is not started");
+    }
+    _bankService.takeCredit(_session->_token, product_id, amount);
+}
+
+void ATM::payCredit(const int& product_id, const double& amount) const
+{
+    if (_session == nullptr)
+    {
+        throw BadOperation("Bad request", "Session is not started");
+    }
+    _bankService.payCredit(_session->_token, product_id, amount);
+}
+
+vector<CreditInfo> ATM::getAllCredits() const
+{
+    if (_session == nullptr)
+    {
+        throw BadOperation("Bad request", "Session is not started");
+    }
+    return _bankService.allCredits(_session->_token);
+}
+
+vector<CreditProductinfo> ATM::getAllCreditProducts() const
+{
+    if (_session == nullptr)
+    {
+        throw BadOperation("Bad request", "Session is not started");
+    }
+    return _bankService.allCreditProducts(_session->_token);
 }

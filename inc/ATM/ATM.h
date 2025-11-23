@@ -58,12 +58,17 @@ public:
 
     vector<DepositInfo> getAllDeposits() const;
     vector<DepositProductInfo> getAllDepositProducts() const;
-    DepositInfo getDpositInfo(const string&) const;
     // void showLeftOverInfo() const;
 
-    void putOnDeposit(const string&, const double&) const;
-    void takeFromDeposit(const string&) const;
+    void putOnDeposit(const int&, const double&) const;
+    void takeFromDeposit(const int&) const;
     void transferMoney(const double&, const string&) const;
+
+    vector<CreditInfo> getAllCredits() const;
+    vector<CreditProductinfo> getAllCreditProducts() const;
+
+    void takeCredit(const int&, const double&) const;
+    void payCredit(const int&, const double&) const;
 
     // void createAutoTransfer(const double&, const string&, const Frequency&);
     // void setLeftOverHandling(const LeftOverOption&, const Frequency&);

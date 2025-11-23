@@ -24,10 +24,15 @@ public:
 
     virtual vector<DepositInfo> allDeposits(const string&) = 0;
     virtual vector<DepositProductInfo> allDepositProducts(const string&) = 0;
-    virtual DepositInfo depositInfo(const string&) = 0;
 
-    virtual void putOnDeposit(const string&, const string&, const double&) = 0;
-    virtual void takeFromDeposit(const string&, const string&) = 0;
+    virtual void putOnDeposit(const string&, const int&, const double&) = 0;
+    virtual void takeFromDeposit(const string&, const int&) = 0;
+
+    virtual vector<CreditInfo> allCredits(const string&) = 0;
+    virtual vector<CreditProductinfo> allCreditProducts(const string&) = 0;
+
+    virtual void takeCredit(const string&, const int&, const double&) = 0;
+    virtual void payCredit(const string&, const int&, const double&) = 0;
 
     virtual ~IBankService() = default;
 };
@@ -59,8 +64,13 @@ public:
 
     vector<DepositInfo> allDeposits(const string&) override;
     vector<DepositProductInfo> allDepositProducts(const string&) override;
-    DepositInfo depositInfo(const string&) override;
 
-    void putOnDeposit(const string&, const string&, const double&) override;
-    void takeFromDeposit(const string&, const string&) override;
+    void putOnDeposit(const string&, const int&, const double&) override;
+    void takeFromDeposit(const string&, const int&) override;
+
+    vector<CreditInfo> allCredits(const string&) override;
+    vector<CreditProductinfo> allCreditProducts(const string&) override;
+
+    void takeCredit(const string&, const int&, const double&) override;
+    void payCredit(const string&, const int&, const double&) override;
 };
