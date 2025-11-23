@@ -185,7 +185,7 @@ int main()
         {
             const vector<DepositProductInfo> allDepositProducts = atm.getAllDepositProducts();
             json data;
-            data["list"] = {};
+            data["list"] = json::array();
             for (int i = 0; i < allDepositProducts.size(); ++i)
             {
                 data["list"][i]["id"] = allDepositProducts[i]._id;
@@ -218,7 +218,7 @@ int main()
         {
             const vector<DepositInfo> allDeposits = atm.getAllDeposits();
             json data;
-            data["list"] = {};
+            data["list"] = json::array();
             for (int i = 0; i < allDeposits.size(); ++i)
             {
                 data["list"][i]["id"] = allDeposits[i]._product_id;
@@ -269,30 +269,48 @@ int main()
     //     return res;
     // });
 
-    // CROW_ROUTE(app, "/deposit/put")
-    // .methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
-    // ([&atm](const crow::request& req) {
-    //     if (req.method == crow::HTTPMethod::OPTIONS)
-    //     {
-    //         return crow::response(204);
-    //     }
-    //     cout << req.body << endl;
-    //     json data = json::parse(req.body);
-    //     const string number = data["number"];
-    //     const double amount = data["cash"];
-    //     crow::response res;
-    //     try
-    //     {
-    //         atm.putOnDeposit(number, amount);
-    //         res.code = 200;
-    //     }
-    //     catch(const BadOperation& bo)
-    //     {
-    //         cout << bo << endl;
-    //         res.code = 404;
-    //     }
-    //     return res;
-    // });
+    CROW_ROUTE(app, "/deposit/put")
+    .methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
+    ([&atm](const crow::request& req) {
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
+            return crow::response(204);
+        }
+        cout << req.body << endl;
+        json data = json::parse(req.body);
+        const string product_id = data["productId"];
+        const double amount = data["amount"];
+        crow::response res;
+        try
+        {
+            atm.putOnDeposit(product_id, amount);
+            res.code = 200;
+        }
+        catch(const BadOperation& bo)
+        {
+            cout << bo << endl;
+            res.code = 404;
+        }
+        return res;
+    });
+
+    CROW_ROUTE(app, "/deposit/take")
+    .methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
+    ([&atm](const crow::request& req) {
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
+            return crow::response(204);
+        }
+        cout << req.body << endl;
+        const string amount = json::parse(req.body)["productId"];
+        crow::response res;
+        catch(const BadOperation& bo)
+        {
+            cout << bo << endl;
+            res.code = 404;
+        }
+        return res;
+    });
 
     app.port(8000).multithreaded().run();
 }
