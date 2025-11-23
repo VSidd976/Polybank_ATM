@@ -20,7 +20,7 @@ bool PolyBank::validateCard(const CardCredentials& creds)
     body["card"] = creds._cardNumber;
     cout << "SENDING REQ" << endl;
     cpr::Response r = cpr::Post(
-        cpr::Url{ _baseUrl + "/api/auth/verify-credentials-without-pin" },
+        cpr::Url{ _baseUrl + "/api/auth/verify-card" },
         cpr::Body{ body.dump() }
     );
     if (r.status_code != 200)
@@ -39,7 +39,7 @@ string PolyBank::validateEntry(const CardCredentials& creds, const string& pin)
     body["pin"] = pin;
     cout << "SENDING REQ" << endl;
     cpr::Response r = cpr::Post(
-        cpr::Url{ _baseUrl + "/api/auth/verify-credentials-with-pin" },
+        cpr::Url{ _baseUrl + "/api/auth/verify-credentials" },
         cpr::Body{ body.dump() }
     );
     if (r.status_code != 200)
