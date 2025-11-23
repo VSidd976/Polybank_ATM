@@ -23,6 +23,7 @@ public:
     virtual void transferMoney(const string&, const string&, const double&) = 0;
 
     virtual vector<DepositInfo> allDeposits(const string&) = 0;
+    virtual vector<DepositProductInfo> allDepositProducts() = 0;
     virtual DepositInfo depositInfo(const string&) = 0;
 
     virtual void putOnDeposit(const string&, const double&) = 0;
@@ -56,6 +57,7 @@ public:
     void transferMoney(const string&, const string&, const double&) override;
 
     vector<DepositInfo> allDeposits(const string&) override;
+    vector<DepositProductInfo> allDepositProducts() override;
     DepositInfo depositInfo(const string&) override;
 
     void putOnDeposit(const string&, const double&) override;

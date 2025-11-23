@@ -22,8 +22,6 @@ public:
     AccountInfo accountInfo(const string&) override;
 
     void putMoney(const string&, const double&) override;
-
     void getMoney(const string&, const double&) override;
-
     void transferMoney(const string&, const string&, const double&) override;
 };
