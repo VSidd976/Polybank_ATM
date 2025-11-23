@@ -14,6 +14,7 @@ import { PieChart } from "@mui/x-charts/PieChart";
 import { useBoolean } from "@utils/hooks/useBoolean";
 import { useMemoValue } from "@utils/hooks/useMemoValue";
 import { useEffect, useRef, useState, type ReactElement } from "react";
+import { toast } from "react-toastify";
 
 const Deposits = (): ReactElement => {
   const [isOpen, modal] = useBoolean();
@@ -51,14 +52,15 @@ const CreateModal = ({
   const formRef = useRef<HTMLFormElement>(null);
   const products = useProducts();
   const [amount, setAmount] = useState("0");
-  const [productId, setProductId] = useState(products.at(0)?.id ?? "");
+  const [productId, setProductId] = useState(products.at(0)?.id);
   const api = useAtmApi({
     success: { redirectTo: "/main/success", text: "Operation successful" },
     failure: { text: "Failed to perform an operation" },
   });
   const onSubmit = () => {
     const amount_ = Number.parseInt(amount);
-    api?.newDeposit({ productId: "", amount: amount_ });
+    if (!productId) return void toast.warning("Choose type of deposit!");
+    api?.newDeposit({ productId: productId, amount: amount_ });
     formRef.current?.reset();
     onClose();
   };
@@ -71,7 +73,7 @@ const CreateModal = ({
           <Input type="number" onChange={setAmount} value={amount} min={1} />
         </InputWrapper>
         <InputWrapper>
-          <SubTitle>DepositType</SubTitle>
+          <SubTitle>Deposit Type</SubTitle>
           <Select
             value={productId}
             onChange={(p) => setProductId(p.target.value)}
