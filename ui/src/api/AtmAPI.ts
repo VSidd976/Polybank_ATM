@@ -9,11 +9,24 @@ export type AccountInfo = {
   balance: number;
 };
 
-export type DepositInfo = {
+export type DepositResponseDto = {
   startDate: string;
   endDate: string;
-  productId?: string;
-  money: number;
+  id: string;
+  productName: string;
+  amount: number;
+};
+
+export type DepositProductResponseDto = {
+  termMonths: number;
+  id: string;
+  name: string;
+  interestRate: string;
+};
+
+export type DepositRequestDto = {
+  productId: string;
+  amount: number;
 };
 
 const BASE_URL = "http://localhost:8000";
@@ -89,11 +102,15 @@ class AtmAPI {
       .then((r) => ({ balance: r.data.balance }));
   }
 
-  async getAllDeposits(): Promise<DepositInfo[]> {
-    return this.api.get(`/deposit`);
+  async getAllDeposits(): Promise<DepositResponseDto[]> {
+    return this.api.get(`/deposit`).then((r) => r.data);
   }
 
-  async newDeposit(deposit: DepositInfo): Promise<void> {
+  async depositProducts(): Promise<DepositProductResponseDto[]> {
+    return this.api.get(`/product`).then((r) => r.data);
+  }
+
+  async newDeposit(deposit: DepositRequestDto): Promise<void> {
     return this.api.post(`/deposit`, deposit);
   }
 

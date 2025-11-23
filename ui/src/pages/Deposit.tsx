@@ -1,10 +1,15 @@
-import { useAtmApi, type DepositInfo } from "@api/AtmAPI";
+import {
+  useAtmApi,
+  type DepositProductResponseDto,
+  type DepositResponseDto,
+} from "@api/AtmAPI";
 import { BackButton as BackButton_ } from "@components/Button/BackButton";
 import BaseButton from "@components/Button/Button";
 import InputBase from "@components/Input/Input";
 import { BaseModal } from "@components/Modal";
 import { Title as TitleBase } from "@components/Title/title";
-import { styled } from "@mui/material";
+import { Select, styled } from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { useBoolean } from "@utils/hooks/useBoolean";
 import { useMemoValue } from "@utils/hooks/useMemoValue";
@@ -27,6 +32,15 @@ const Deposits = (): ReactElement => {
 
 export default Deposits;
 
+const useProducts = (): DepositProductResponseDto[] => {
+  const api = useAtmApi();
+  const [products, setProducts] = useState<DepositProductResponseDto[]>([]);
+  useEffect(() => {
+    api?.depositProducts().then(setProducts);
+  }, [api]);
+  return products;
+};
+
 const CreateModal = ({
   isOpen,
   onClose,
@@ -35,16 +49,16 @@ const CreateModal = ({
   onClose: () => void;
 }): ReactElement => {
   const formRef = useRef<HTMLFormElement>(null);
-  const [duration, setDuration] = useState("3");
+  const products = useProducts();
   const [amount, setAmount] = useState("0");
+  const [productId, setProductId] = useState(products.at(0)?.id ?? "");
   const api = useAtmApi({
-    success: { redirectTo: "/main", text: "Operation successful" },
+    success: { redirectTo: "/main/success", text: "Operation successful" },
     failure: { text: "Failed to perform an operation" },
   });
   const onSubmit = () => {
-    const { startDate, endDate } = calcDates(Number.parseInt(duration));
     const amount_ = Number.parseInt(amount);
-    api?.newDeposit({ startDate, endDate, money: amount_ });
+    api?.newDeposit({ productId: "", amount: amount_ });
     formRef.current?.reset();
     onClose();
   };
@@ -52,38 +66,27 @@ const CreateModal = ({
     <BaseModal open={isOpen} onClose={onClose}>
       <ModalBody ref={formRef} onSubmit={onSubmit}>
         <TitleBase>Create a new deposit</TitleBase>
-        <SubTitle>(0.1% per annum)</SubTitle>
         <InputWrapper>
           <SubTitle>Start amount</SubTitle>
           <Input type="number" onChange={setAmount} value={amount} min={1} />
         </InputWrapper>
         <InputWrapper>
-          <SubTitle>Duration in month</SubTitle>
-          <Input
-            type="number"
-            onChange={setDuration}
-            value={duration}
-            min={3}
-            max={12}
-          />
+          <SubTitle>DepositType</SubTitle>
+          <Select
+            value={productId}
+            onChange={(p) => setProductId(p.target.value)}
+          >
+            {products.map((p) => (
+              <MenuItem key={p.name} value={p.id}>
+                {p.name}
+              </MenuItem>
+            ))}
+          </Select>
         </InputWrapper>
         <BaseButton type="submit" txt="Submit" />
       </ModalBody>
     </BaseModal>
   );
-};
-
-const calcDates = (duration: number) => {
-  const today = new Date();
-
-  const startDate = today.toISOString().split("T")[0];
-
-  const endDateObj = new Date();
-  endDateObj.setDate(today.getDate() + duration);
-
-  const endDate = endDateObj.toISOString().split("T")[0];
-
-  return { startDate, endDate };
 };
 
 const Input = styled(InputBase)``;
@@ -151,12 +154,12 @@ const Button = styled(BaseButton)`
   width: fit-content;
 `;
 
-const useDeposits = (): DepositInfo[] => {
-  const [items, setItems] = useState<DepositInfo[]>([]);
+const useDeposits = (): DepositResponseDto[] => {
+  const [items, setItems] = useState<DepositResponseDto[]>([]);
   const api = useAtmApi();
   useEffect(() => {
     api?.getAllDeposits().then(setItems);
-  }, []);
+  }, [api]);
   return items;
 };
 
@@ -166,10 +169,10 @@ const DepositsList = (): ReactElement => {
     <>
       {deposits.map((d) => (
         <Deposit
-          key={d.productId}
+          key={d.id}
           startDate={d.startDate}
           endDate={d.endDate}
-          total={d.money}
+          total={d.amount}
         />
       ))}
     </>

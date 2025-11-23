@@ -13,6 +13,7 @@ import Transfer from "@pages/Transfer";
 import ProtectedRoute from "@utils/ProtectedRoute";
 import AccountInfo from "@pages/AccountInfo";
 import Deposit from "@pages/Deposit";
+import SuccessfulOperation from "@pages/SuccessfulOperation";
 
 function App() {
   return (
@@ -72,6 +73,14 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/main/success"
+                element={
+                  <ProtectedRoute>
+                    <SuccessfulOperation />
+                  </ProtectedRoute>
+                }
+              />
             </Routes>
           </MainContent>
         </BrowserRouter>
@@ -91,6 +100,7 @@ const LayoutContainer = styled("div")`
 const MainContent = styled("main")`
   display: flex;
   flex: 1;
+  position: relative;
   background:
     linear-gradient(135deg, rgba(255 255 255 / 0.08), rgba(255 255 255 / 0)),
     repeating-linear-gradient(
