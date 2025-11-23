@@ -143,11 +143,12 @@ vector<DepositInfo> PolyBank::allDeposits(const string& token)
     return deposits;
 }
 
-vector<DepositProductInfo> PolyBank::allDepositProducts()
+vector<DepositProductInfo> PolyBank::allDepositProducts(const string& token)
 {
     cout << "SENDING REQ" << endl;
     cpr::Response r = cpr::Get(
-        cpr::Url{ _baseUrl + "/api/deposit/products" }
+        cpr::Url{ _baseUrl + "/api/deposit/products" },
+        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}}
     );
     if (r.status_code != 200)
     {

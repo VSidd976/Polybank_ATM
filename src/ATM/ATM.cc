@@ -95,7 +95,7 @@ vector<DepositProductInfo> ATM::getAllDepositProducts() const
     {
         throw BadOperation("Bad request", "Session is not started");
     }
-    return _bankService.allDepositProducts();
+    return _bankService.allDepositProducts(_session->_token);
 }
 
 DepositInfo ATM::getDpositInfo(const string& number) const
