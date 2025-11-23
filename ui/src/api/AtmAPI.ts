@@ -9,6 +9,12 @@ export type AccountInfo = {
   balance: number;
 };
 
+export type DepositInfo = {
+  startDate: string;
+  endDate: string;
+  money: number;
+};
+
 const BASE_URL = "http://localhost:8000";
 
 class AtmAPI {
@@ -26,6 +32,7 @@ class AtmAPI {
       },
       (err) => {
         opt?.onFailure?.(err);
+        opt?.onSuccess?.({ balance: 0 });
         return Promise.reject(err);
       },
     );
@@ -36,72 +43,61 @@ class AtmAPI {
   }
   async insertCard(): Promise<void> {
     console.log("INSERTING");
-    return this.api
-      .post(`${BASE_URL}/card/accept`, {
-        ownerName: this.card.ownerName,
-        cardNumber: this.card.number,
-        bankName: this.card.bank,
-        cvv: this.card.cvv,
-        expirationDate: this.card.expDate,
-      })
-      .catch(() => void 0)
-      .then(() => void 0);
+    return this.api.post(`${BASE_URL}/card/accept`, {
+      ownerName: this.card.ownerName,
+      cardNumber: this.card.number,
+      bankName: this.card.bank,
+      cvv: this.card.cvv,
+      expirationDate: this.card.expDate,
+    });
   }
 
   async inputPIN(pin: string): Promise<boolean> {
     console.log("Sending a pin", pin);
-    return this.api
-      .post(`${BASE_URL}/card/pin`, {
-        ownerName: this.card.ownerName,
-        cardNumber: this.card.number,
-        bankName: this.card.bank,
-        cvv: this.card.cvv,
-        expirationDate: this.card.expDate,
-        pin: pin,
-      })
-      .catch(() => true)
-      .then(() => true);
+    return this.api.post(`${BASE_URL}/card/pin`, {
+      ownerName: this.card.ownerName,
+      cardNumber: this.card.number,
+      bankName: this.card.bank,
+      cvv: this.card.cvv,
+      expirationDate: this.card.expDate,
+      pin: pin,
+    });
   }
 
   async cashOut(amount: number): Promise<boolean> {
     console.log({ amount, card: this.card });
-    return this.api
-      .put(`${BASE_URL}/account/take`, { cash: amount })
-      .catch(() => true)
-      .then(() => true);
+    return this.api.put(`${BASE_URL}/account/take`, { cash: amount });
   }
 
   async putMoney(amount: number): Promise<boolean> {
     console.log({ amount, card: this.card });
-    return this.api
-      .post(`${BASE_URL}/account/put`, { cash: amount })
-      .catch(() => true)
-      .then(() => true);
+    return this.api.post(`${BASE_URL}/account/put`, { cash: amount });
   }
 
   async transferMoney(amount: number, to: string): Promise<boolean> {
     console.log({ amount, to });
-    return this.api
-      .post(`${BASE_URL}/account/transfer`, {
-        cash: amount,
-        number: to,
-      })
-      .catch(() => true)
-      .then(() => true);
+    return this.api.post(`${BASE_URL}/account/transfer`, {
+      cash: amount,
+      number: to,
+    });
   }
 
   async getInfo(): Promise<AccountInfo> {
     return this.api
       .get(`${BASE_URL}/account/info`)
-      .then((r) => ({ balance: r.data.balance }))
-      .catch(() => ({ balance: 2 }));
+      .then((r) => ({ balance: r.data.balance }));
+  }
+
+  async getAllDeposits(): Promise<DepositInfo[]> {
+    return [{ startDate: "2025-09-10", endDate: "2026-02-12", money: 23 }];
+  }
+
+  async newDeposit(deposit: DepositInfo): Promise<void> {
+    return;
   }
 
   async endSession(): Promise<void> {
-    return this.api
-      .put(`${BASE_URL}/card/return`)
-      .catch(() => void 0)
-      .then(() => void 0);
+    return this.api.put(`${BASE_URL}/card/return`);
   }
 }
 
@@ -115,7 +111,7 @@ type ApiOptions = {
 type StatusOption = { text?: string; redirectTo?: string };
 
 type StatusOptions = {
-  sucess?: StatusOption;
+  success?: StatusOption;
   failure?: StatusOption;
 } & ApiOptions;
 
@@ -124,8 +120,8 @@ function makeApiOpt(
   opt?: StatusOptions,
 ): ApiOptions {
   const onSuccess = (data: any) => {
-    opt?.sucess?.redirectTo && navigate(opt.sucess.redirectTo);
-    opt?.sucess?.text && toast(opt.sucess.text);
+    opt?.success?.redirectTo && navigate(opt.success.redirectTo);
+    opt?.success?.text && toast(opt.success.text);
     opt?.onSuccess?.(data);
   };
 

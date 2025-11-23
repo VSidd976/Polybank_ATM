@@ -33,7 +33,7 @@ const AddMoney = (): ReactElement => {
   const { insert, inserted } = useInsert();
   const [total, updateTotal] = useState<number>(0);
   const api = useAtmApi({
-    sucess: { text: "Operation successful" },
+    success: { text: "Operation successful" },
     failure: {
       text: "Opeartion went wrong, please leave your request on our contact line",
     },

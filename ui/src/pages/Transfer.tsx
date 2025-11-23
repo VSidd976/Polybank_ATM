@@ -33,7 +33,7 @@ const onFormSubmit = (
 const Transfer = (): ReactElement => {
   const [value, setValue] = useState("");
   const api = useAtmApi({
-    sucess: { text: "Operation successful", redirectTo: "/main" },
+    success: { text: "Operation successful", redirectTo: "/main" },
     failure: { text: "Operation failure" },
   });
 

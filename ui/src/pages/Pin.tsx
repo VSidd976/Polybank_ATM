@@ -29,7 +29,7 @@ const onSubmit = async (
 
 const Pin = () => {
   const api = useAtmApi({
-    sucess: { redirectTo: "/main" },
+    success: { redirectTo: "/main" },
     onFailure: badPinNotify,
   });
   return (

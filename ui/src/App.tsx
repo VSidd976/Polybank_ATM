@@ -12,6 +12,7 @@ import CashOut from "@pages/CashOut";
 import Transfer from "@pages/Transfer";
 import ProtectedRoute from "@utils/ProtectedRoute";
 import AccountInfo from "@pages/AccountInfo";
+import Deposit from "@pages/Deposit";
 
 function App() {
   return (
@@ -60,6 +61,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <AccountInfo />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/main/deposits"
+                element={
+                  <ProtectedRoute>
+                    <Deposit />
                   </ProtectedRoute>
                 }
               />
