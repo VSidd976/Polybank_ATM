@@ -106,11 +106,11 @@ class AtmAPI {
   }
 
   async depositProducts(): Promise<DepositProductResponseDto[]> {
-    return this.api.get(`/products`).then((r) => r.data);
+    return this.api.get(`/deposit/products`).then((r) => r.data);
   }
 
   async newDeposit(deposit: DepositRequestDto): Promise<void> {
-    return this.api.post(`/deposit`, deposit);
+    return this.api.put(`/deposit`, deposit);
   }
 
   async endSession(): Promise<void> {
