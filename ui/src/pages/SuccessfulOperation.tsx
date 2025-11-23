@@ -5,9 +5,17 @@ import type { ReactElement } from "react";
 import CheckCircleIcon_ from "@mui/icons-material/CheckCircle";
 import { BackButton } from "@components/Button/BackButton";
 import { useBoolean } from "@utils/hooks/useBoolean";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const SuccessfulOperation = (): ReactElement => {
-  const [isDisabled, disabled] = useBoolean();
+  const navigate = useNavigate();
+  const [isDisabled, disabled] = useBoolean(false);
+  const onPrint = () => {
+    disabled.on();
+    toast.info("We're out of paper... :(");
+    setTimeout(() => navigate("/main"));
+  };
   return (
     <Container>
       <BackButton disabled={isDisabled} />
@@ -15,7 +23,7 @@ const SuccessfulOperation = (): ReactElement => {
       <CheckCircleIcon />
       <Title>Want to print a receipt?</Title>
       <Buttons>
-        <BaseButton txt="Print" disabled={isDisabled} onClick={disabled.on} />
+        <BaseButton txt="Print" disabled={isDisabled} onClick={onPrint} />
       </Buttons>
     </Container>
   );
