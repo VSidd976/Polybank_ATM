@@ -42,6 +42,7 @@ class AtmAPI {
     this.api.interceptors.response.use(
       (res) => {
         opt?.onSuccess?.(res);
+        console.log(res);
         return res;
       },
       (err) => {
