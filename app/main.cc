@@ -216,7 +216,6 @@ int main()
         try
         {
             const vector<DepositInfo> allDeposits = atm.getAllDeposits();
-            const vector<DepositProductInfo> allDepositProducts = atm.getAllDepositProducts();
             json data;
             for (int i = 0; i < allDeposits.size(); ++i)
             {
