@@ -14,6 +14,7 @@ import ProtectedRoute from "@utils/ProtectedRoute";
 import AccountInfo from "@pages/AccountInfo";
 import Deposit from "@pages/Deposit";
 import SuccessfulOperation from "@pages/SuccessfulOperation";
+import Credit from "@pages/Credit";
 
 function App() {
   return (
@@ -70,6 +71,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <Deposit />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/main/credits"
+                element={
+                  <ProtectedRoute>
+                    <Credit />
                   </ProtectedRoute>
                 }
               />

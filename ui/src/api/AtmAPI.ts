@@ -17,11 +17,25 @@ export type DepositResponseDto = {
   amount: number;
 };
 
+export type CreditResponseDto = {
+  id: string;
+  openedAt: string;
+  remainingAmount: number;
+  productName: string;
+};
+
 export type DepositProductResponseDto = {
   termMonths: number;
   id: string;
   name: string;
-  interestRate: string;
+  interestRate: number;
+};
+
+export type CreditProductResponseDto = {
+  id: string;
+  name: string;
+  termMonths: number;
+  interestRate: number;
 };
 
 export type DepositRequestDto = {
@@ -112,6 +126,14 @@ class AtmAPI {
 
   async newDeposit(deposit: DepositRequestDto): Promise<void> {
     return this.api.put(`/deposit/put`, deposit);
+  }
+
+  async creditProducts(): Promise<CreditProductResponseDto[]> {
+    return this.api.get("/credit/products").then((r) => r.data.list);
+  }
+
+  async getAllCredits(): Promise<CreditResponseDto[]> {
+    return this.api.get("/credit").then((r) => r.data.list);
   }
 
   async endSession(): Promise<void> {

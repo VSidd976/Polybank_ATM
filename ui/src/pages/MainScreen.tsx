@@ -8,6 +8,7 @@ import InputIcon from "@mui/icons-material/Input";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import PriceCheckIcon from "@mui/icons-material/PriceCheck";
 
 const BUTTONS: { txt: string; navigate: string; startIcon?: ReactNode }[] = [
   {
@@ -26,6 +27,11 @@ const BUTTONS: { txt: string; navigate: string; startIcon?: ReactNode }[] = [
     txt: "Deposits",
     navigate: "/main/deposits",
     startIcon: <AccountBalanceWalletIcon />,
+  },
+  {
+    txt: "Credits",
+    navigate: "/main/credits",
+    startIcon: <PriceCheckIcon />,
   },
 ] as const;
 
