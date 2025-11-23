@@ -12,6 +12,7 @@ export type AccountInfo = {
 export type DepositInfo = {
   startDate: string;
   endDate: string;
+  productId?: string;
   money: number;
 };
 
@@ -43,7 +44,7 @@ class AtmAPI {
   }
   async insertCard(): Promise<void> {
     console.log("INSERTING");
-    return this.api.post(`${BASE_URL}/card/accept`, {
+    return this.api.post(`/card/accept`, {
       ownerName: this.card.ownerName,
       cardNumber: this.card.number,
       bankName: this.card.bank,
@@ -54,7 +55,7 @@ class AtmAPI {
 
   async inputPIN(pin: string): Promise<boolean> {
     console.log("Sending a pin", pin);
-    return this.api.post(`${BASE_URL}/card/pin`, {
+    return this.api.post(`/card/pin`, {
       ownerName: this.card.ownerName,
       cardNumber: this.card.number,
       bankName: this.card.bank,
@@ -66,17 +67,17 @@ class AtmAPI {
 
   async cashOut(amount: number): Promise<boolean> {
     console.log({ amount, card: this.card });
-    return this.api.put(`${BASE_URL}/account/take`, { cash: amount });
+    return this.api.put(`/account/take`, { cash: amount });
   }
 
   async putMoney(amount: number): Promise<boolean> {
     console.log({ amount, card: this.card });
-    return this.api.post(`${BASE_URL}/account/put`, { cash: amount });
+    return this.api.post(`/account/put`, { cash: amount });
   }
 
   async transferMoney(amount: number, to: string): Promise<boolean> {
     console.log({ amount, to });
-    return this.api.post(`${BASE_URL}/account/transfer`, {
+    return this.api.post(`/account/transfer`, {
       cash: amount,
       number: to,
     });
@@ -84,20 +85,20 @@ class AtmAPI {
 
   async getInfo(): Promise<AccountInfo> {
     return this.api
-      .get(`${BASE_URL}/account/info`)
+      .get(`/account/info`)
       .then((r) => ({ balance: r.data.balance }));
   }
 
   async getAllDeposits(): Promise<DepositInfo[]> {
-    return [{ startDate: "2025-09-10", endDate: "2026-02-12", money: 23 }];
+    return this.api.get(`/deposit`);
   }
 
   async newDeposit(deposit: DepositInfo): Promise<void> {
-    return;
+    return this.api.post(`/deposit`, deposit);
   }
 
   async endSession(): Promise<void> {
-    return this.api.put(`${BASE_URL}/card/return`);
+    return this.api.put(`/card/return`);
   }
 }
 

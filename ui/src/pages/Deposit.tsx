@@ -165,7 +165,12 @@ const DepositsList = (): ReactElement => {
   return (
     <>
       {deposits.map((d) => (
-        <Deposit startDate={d.startDate} endDate={d.endDate} total={d.money} />
+        <Deposit
+          key={d.productId}
+          startDate={d.startDate}
+          endDate={d.endDate}
+          total={d.money}
+        />
       ))}
     </>
   );
@@ -175,13 +180,15 @@ const Deposit = ({
   endDate,
   startDate,
   total,
+  key,
 }: {
+  key?: string;
   startDate: string;
   endDate: string;
   total: number;
 }) => {
   return (
-    <Card>
+    <Card key={key}>
       <Donut startDate={startDate} endDate={endDate} />
       <Text>
         <span>End date: {endDate}</span>
