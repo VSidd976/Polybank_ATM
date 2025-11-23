@@ -216,7 +216,7 @@ int main()
         try
         {
             const vector<DepositInfo> allDeposits = atm.getAllDeposits();
-            const vector<DepositProductInfo> allDeposits
+            const vector<DepositProductInfo> allDepositProducts = atm.getAllDepositProducts();
             json data;
             for (int i = 0; i < allDeposits.size(); ++i)
             {
@@ -224,6 +224,7 @@ int main()
                 data[i]["startDate"] = allDeposits[i]._opened_at;
                 data[i]["endDate"] = allDeposits[i]._closed_at;
                 data[i]["money"] = allDeposits[i]._balance;
+                data[i]["productName"] = "123";
             }
             res.code = 200;
             res.set_header("Content-type", "application/json");
