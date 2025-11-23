@@ -46,7 +46,6 @@ class AtmAPI {
       },
       (err) => {
         opt?.onFailure?.(err);
-        opt?.onSuccess?.({ balance: 0 });
         return Promise.reject(err);
       },
     );
