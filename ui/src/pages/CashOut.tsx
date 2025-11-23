@@ -7,6 +7,7 @@ import Input_ from "@components/Input/Input";
 import { Fade, styled } from "@mui/material";
 import { useAccountInfo } from "@utils/hooks/useAccountInfo";
 import { useBoolean } from "@utils/hooks/useBoolean";
+import { withProps } from "@utils/withProps";
 import {
   useCallback,
   useState,
@@ -65,7 +66,7 @@ const CashOut = (): ReactElement => {
       </Fade>
       <Fade in={!isAnimated}>
         <div>
-          <FromBlock onAfterSubmit={afterSubmit} />
+          <FormBlock onAfterSubmit={afterSubmit} />
         </div>
       </Fade>
     </Container>
@@ -96,7 +97,7 @@ const Nominals = ({
   );
 };
 
-const FromBlock = ({
+const FormBlock = ({
   onAfterSubmit,
 }: {
   onAfterSubmit?: (val: number | undefined) => void;
@@ -115,15 +116,7 @@ const FromBlock = ({
       <NominalsInfo>
         Available nominals: {Object.keys(CASH_NOMINALS).join(", ")}
       </NominalsInfo>
-      <Input
-        placeholder="Enter amount"
-        type="number"
-        min={0}
-        step={1}
-        max={accountInfo?.balance}
-        name={inputName}
-        onChange={setValue}
-      />
+      <Input max={accountInfo?.balance} onChange={setValue} />
       <BaseButton disabled={!value} txt="Submit" type="submit" />
     </Form>
   );
@@ -165,7 +158,15 @@ const Cash = styled(Cash_)<{ $index: number }>`
   }
 `;
 
-const Input = styled(Input_)`
+const Input = styled(
+  withProps(Input_, {
+    type: "number",
+    placeholder: "Enter Amount",
+    min: 1,
+    step: 1,
+    name: inputName,
+  } as const),
+)`
   padding: 20px 35px;
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
