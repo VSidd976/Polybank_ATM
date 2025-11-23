@@ -185,12 +185,13 @@ int main()
         {
             const vector<DepositProductInfo> allDepositProducts = atm.getAllDepositProducts();
             json data;
+            data["list"] = {};
             for (int i = 0; i < allDepositProducts.size(); ++i)
             {
-                data[i]["id"] = allDepositProducts[i]._id;
-                data[i]["name"] = allDepositProducts[i]._name;
-                data[i]["interestRate"] = allDepositProducts[i]._interest_rate;
-                data[i]["termMonths"] = allDepositProducts[i]._term_months;
+                data["list"][i]["id"] = allDepositProducts[i]._id;
+                data["list"][i]["name"] = allDepositProducts[i]._name;
+                data["list"][i]["interestRate"] = allDepositProducts[i]._interest_rate;
+                data["list"][i]["termMonths"] = allDepositProducts[i]._term_months;
             }
             res.code = 200;
             res.set_header("Content-type", "application/json");
@@ -217,13 +218,14 @@ int main()
         {
             const vector<DepositInfo> allDeposits = atm.getAllDeposits();
             json data;
+            data["list"] = {};
             for (int i = 0; i < allDeposits.size(); ++i)
             {
-                data[i]["id"] = allDeposits[i]._product_id;
-                data[i]["startDate"] = allDeposits[i]._opened_at;
-                data[i]["endDate"] = allDeposits[i]._closed_at;
-                data[i]["money"] = allDeposits[i]._balance;
-                data[i]["productName"] = "123";
+                data["list"][i]["id"] = allDeposits[i]._product_id;
+                data["list"][i]["startDate"] = allDeposits[i]._opened_at;
+                data["list"][i]["endDate"] = allDeposits[i]._closed_at;
+                data["list"][i]["money"] = allDeposits[i]._balance;
+                data["list"][i]["productName"] = "123";
             }
             res.code = 200;
             res.set_header("Content-type", "application/json");
