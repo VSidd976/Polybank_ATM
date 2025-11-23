@@ -77,7 +77,7 @@ const CreateModal = ({
             onChange={(p) => setProductId(p.target.value)}
           >
             {products.map((p) => (
-              <MenuItem key={p.name} value={p.id}>
+              <MenuItem sx={{ color: "#fff" }} key={p.name} value={p.id}>
                 {p.name} ({p.interestRate}%)
               </MenuItem>
             ))}
