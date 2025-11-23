@@ -111,7 +111,7 @@ class AtmAPI {
   }
 
   async newDeposit(deposit: DepositRequestDto): Promise<void> {
-    return this.api.put(`/deposit`, deposit);
+    return this.api.put(`/deposit/put`, deposit);
   }
 
   async endSession(): Promise<void> {

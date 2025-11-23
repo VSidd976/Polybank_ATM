@@ -52,7 +52,7 @@ const CreateModal = ({
   const formRef = useRef<HTMLFormElement>(null);
   const products = useProducts();
   const [amount, setAmount] = useState("0");
-  const [productId, setProductId] = useState(products.at(0)?.id);
+  const [productId, setProductId] = useState(products.at(0)?.id ?? "0");
   const api = useAtmApi({
     success: { redirectTo: "/main/success", text: "Operation successful" },
     failure: { text: "Failed to perform an operation" },
@@ -76,6 +76,7 @@ const CreateModal = ({
           <SubTitle>Deposit Type</SubTitle>
           <Select
             value={productId}
+            sx={{ color: "#fff" }}
             onChange={(p) => setProductId(p.target.value)}
           >
             {products.map((p) => (
