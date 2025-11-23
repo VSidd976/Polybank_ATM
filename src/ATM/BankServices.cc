@@ -131,14 +131,14 @@ vector<DepositInfo> PolyBank::allDeposits(const string& token)
         throw BadOperation("Bad request", r.text);
     }
     cout << "SENT" << endl;
-    auto data = json::parse(r.text);
-    vector<DepositInfo> deposits;
+    auto data = json::parse(r.text).at("deposits");
+    vector<DepositInfo> deposits(data.size());
     for (int i = 0; i < data.size(); ++i)
     {
-        deposits[i]._opened_at = data[i].at("opened_at");
-        deposits[i]._closed_at = data[i].at("closed_at");
-        deposits[i]._balance = data[i].at("amount");
-        deposits[i]._product_id = data[i].at("product_id");
+        deposits[i]._opened_at = data[i]["opened_at"];
+        deposits[i]._closed_at = data[i]["closed_at"];
+        deposits[i]._balance = data[i]["amount"];
+        deposits[i]._product_id = data[i]["product_id"];
     }
     return deposits;
 }
@@ -156,14 +156,14 @@ vector<DepositProductInfo> PolyBank::allDepositProducts(const string& token)
         throw BadOperation("Bad request", r.text);
     }
     cout << "SENT" << endl;
-    auto data = json::parse(r.text);
-    vector<DepositProductInfo> depositProducts;
+    auto data = json::parse(r.text).at("deposit_products");
+    vector<DepositProductInfo> depositProducts(data.size());
     for (int i = 0; i < data.size(); ++i)
     {
-        depositProducts[i]._name = data[i].at("name");
-        depositProducts[i]._interest_rate = data[i].at("interest_rate");
-        depositProducts[i]._term_months = data[i].at("term_months");
-        depositProducts[i]._id = data[i].at("id");
+        depositProducts[i]._name = data[i]["name"];
+        depositProducts[i]._interest_rate = data[i]["interest_rate"];
+        depositProducts[i]._term_months = data[i]["term_months"];
+        depositProducts[i]._id = data[i]["id"];
     }
     return depositProducts;
 }
