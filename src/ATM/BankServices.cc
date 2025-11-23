@@ -137,10 +137,34 @@ vector<DepositInfo> PolyBank::allDeposits(const string& token)
     {
         deposits[i]._opened_at = data[i].at("opened_at");
         deposits[i]._closed_at = data[i].at("closed_at");
-        deposits[i]._number = data[i].at("product_id");
         deposits[i]._balance = data[i].at("amount");
+        deposits[i]._productId = data[i].at("product_id");
     }
     return deposits;
+}
+
+vector<DepositProductInfo> PolyBank::allDepositProducts()
+{
+    cout << "SENDING REQ" << endl;
+    cpr::Response r = cpr::Get(
+        cpr::Url{ _baseUrl + "/api/deposit/products" }
+    );
+    if (r.status_code != 200)
+    {
+        cout << "ERROR " << r.status_code << endl;
+        throw BadOperation("Bad request", r.text);
+    }
+    cout << "SENT" << endl;
+    auto data = json::parse(r.text);
+    vector<DepositProductInfo> depositProducts;
+    for (int i = 0; i < data.size(); ++i)
+    {
+        depositProducts[i]._name = data[i].at("name");
+        depositProducts[i]._interest_rate = data[i].at("interest_rate");
+        depositProducts[i]._term_months = data[i].at("term_months");
+        depositProducts[i]._id = data[i].at("id");
+    }
+    return depositProducts;
 }
 
 DepositInfo PolyBank::depositInfo(const string& number)

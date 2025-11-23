@@ -172,6 +172,38 @@ int main()
         return res;
     });
 
+    CROW_ROUTE(app, "/deposit/products")
+    .methods(crow::HTTPMethod::GET, crow::HTTPMethod::OPTIONS)
+    ([&atm](const crow::request& req) {
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
+            return crow::response(204);
+        }
+        cout << req.body << endl;
+        crow::response res;
+        try
+        {
+            const vector<DepositProductInfo> allDepositProducts = atm.getAllDepositProducts();
+            json data;
+            for (int i = 0; i < allDepositProducts.size(); ++i)
+            {
+                data[i]["id"] = allDepositProducts[i]._id;
+                data[i]["name"] = allDepositProducts[i]._name;
+                data[i]["interestRate"] = allDepositProducts[i]._interest_rate;
+                data[i]["termMonths"] = allDepositProducts[i]._term_months;
+            }
+            res.code = 200;
+            res.set_header("Content-type", "application/json");
+            res.write(data.dump());
+        }
+        catch(const BadOperation& bo)
+        {
+            cout << bo << endl;
+            res.code = 404;
+        }
+        return res;
+    });
+
     CROW_ROUTE(app, "/deposit")
     .methods(crow::HTTPMethod::GET, crow::HTTPMethod::OPTIONS)
     ([&atm](const crow::request& req) {
@@ -184,11 +216,14 @@ int main()
         try
         {
             const vector<DepositInfo> allDeposits = atm.getAllDeposits();
+            const vector<DepositProductInfo> allDeposits
             json data;
             for (int i = 0; i < allDeposits.size(); ++i)
             {
-                data["accounts"][i]["id"] = i + 1;
-                data["accounts"][i]["number"] = allDeposits[i]._number;
+                data[i]["id"] = allDeposits[i]._product_id;
+                data[i]["startDate"] = allDeposits[i]._opened_at;
+                data[i]["endDate"] = allDeposits[i]._closed_at;
+                data[i]["money"] = allDeposits[i]._balance;
             }
             res.code = 200;
             res.set_header("Content-type", "application/json");

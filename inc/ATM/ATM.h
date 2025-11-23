@@ -57,6 +57,7 @@ public:
     AccountInfo getInfo() const;
 
     vector<DepositInfo> getAllDeposits() const;
+    vector<DepositProductInfo> getAllDepositProducts() const;
     DepositInfo getDpositInfo(const string&) const;
     // void showLeftOverInfo() const;
 
