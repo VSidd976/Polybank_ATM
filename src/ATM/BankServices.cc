@@ -189,13 +189,14 @@ DepositInfo PolyBank::depositInfo(const string& number)
     };
 }
 
-void PolyBank::putOnDeposit(const string& number, const double& amount)
+void PolyBank::putOnDeposit(const string& token, const string& product_id, const double& amount)
 {
     json body;
+    body["product_id"] = product_id;
     body["amount"] = amount;
     cpr::Response r = cpr::Post(
         cpr::Url{ _baseUrl + "/api/deposit/put" },
-        cpr::Header{{"Authorization", "Bearer " + number}, {"Accept", "application/json"}},
+        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}},
         cpr::Body{ body.dump() }
     );
     if (r.status_code != 200)

@@ -107,11 +107,11 @@ DepositInfo ATM::getDpositInfo(const string& number) const
     return _bankService.depositInfo(number);
 }
 
-void ATM::putOnDeposit(const string& number, const double& amount) const
+void ATM::putOnDeposit(const string& product_id, const double& amount) const
 {
     if (_session == nullptr)
     {
         throw BadOperation("Bad request", "Session is not started");
     }
-    _bankService.putOnDeposit(number, amount);
+    _bankService.putOnDeposit(_session->_token, product_id, amount);
 }

@@ -26,7 +26,7 @@ public:
     virtual vector<DepositProductInfo> allDepositProducts(const string&) = 0;
     virtual DepositInfo depositInfo(const string&) = 0;
 
-    virtual void putOnDeposit(const string&, const double&) = 0;
+    virtual void putOnDeposit(const string&, const string&, const double&) = 0;
 
     virtual ~IBankService() = default;
 };
@@ -60,5 +60,5 @@ public:
     vector<DepositProductInfo> allDepositProducts(const string&) override;
     DepositInfo depositInfo(const string&) override;
 
-    void putOnDeposit(const string&, const double&) override;
+    void putOnDeposit(const string&, const string&, const double&) override;
 };
