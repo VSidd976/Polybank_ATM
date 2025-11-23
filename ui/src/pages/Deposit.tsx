@@ -11,6 +11,7 @@ import { Title as TitleBase } from "@components/Title/title";
 import { Select, styled } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import { PieChart } from "@mui/x-charts/PieChart";
+import { useAccountInfo } from "@utils/hooks/useAccountInfo";
 import { useBoolean } from "@utils/hooks/useBoolean";
 import { useMemoValue } from "@utils/hooks/useMemoValue";
 import { useEffect, useRef, useState, type ReactElement } from "react";
@@ -57,6 +58,7 @@ const CreateModal = ({
     success: { redirectTo: "/main/success", text: "Operation successful" },
     failure: { text: "Failed to perform an operation" },
   });
+  const accountInfo = useAccountInfo();
   const onSubmit = () => {
     const amount_ = Number.parseInt(amount);
     if (!productId) return void toast.warning("Choose type of deposit!");
@@ -70,7 +72,13 @@ const CreateModal = ({
         <TitleBase>Create a new deposit</TitleBase>
         <InputWrapper>
           <SubTitle>Start amount</SubTitle>
-          <Input type="number" onChange={setAmount} value={amount} min={1} />
+          <Input
+            type="number"
+            onChange={setAmount}
+            value={amount}
+            min={1}
+            max={accountInfo?.balance}
+          />
         </InputWrapper>
         <InputWrapper>
           <SubTitle>Deposit Type</SubTitle>
