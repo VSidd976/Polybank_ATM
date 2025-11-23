@@ -78,7 +78,7 @@ const CreateModal = ({
           >
             {products.map((p) => (
               <MenuItem key={p.name} value={p.id}>
-                {p.name}
+                {p.name} ({p.interestRate}%)
               </MenuItem>
             ))}
           </Select>
