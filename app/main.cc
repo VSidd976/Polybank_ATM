@@ -238,60 +238,60 @@ int main()
         return res;
     });
 
-    CROW_ROUTE(app, "/deposit/info")
-    .methods(crow::HTTPMethod::GET, crow::HTTPMethod::OPTIONS)
-    ([&atm](const crow::request& req) {
-        if (req.method == crow::HTTPMethod::OPTIONS)
-        {
-            return crow::response(204);
-        }
-        cout << req.body << endl;
-        const json req_data = json::parse(req.body);
-        crow::response res;
-        try
-        {
-            const DepositInfo info = atm.getDpositInfo(req_data["number"]);
-            json data;
-            data["number"] = info._number;
-            data["balance"] = info._balance;
-            data["opened_at"] = info._opened_at;
-            data["closed_at"] = info._closed_at;
-            res.code = 200;
-            res.set_header("Content-type", "application/json");
-            res.write(data.dump());
-        }
-        catch(const BadOperation& bo)
-        {
-            cout << bo << endl;
-            res.code = 404;
-        }
-        return res;
-    });
+    // CROW_ROUTE(app, "/deposit/info")
+    // .methods(crow::HTTPMethod::GET, crow::HTTPMethod::OPTIONS)
+    // ([&atm](const crow::request& req) {
+    //     if (req.method == crow::HTTPMethod::OPTIONS)
+    //     {
+    //         return crow::response(204);
+    //     }
+    //     cout << req.body << endl;
+    //     const json req_data = json::parse(req.body);
+    //     crow::response res;
+    //     try
+    //     {
+    //         const DepositInfo info = atm.getDpositInfo(req_data["number"]);
+    //         json data;
+    //         data["number"] = info._number;
+    //         data["balance"] = info._balance;
+    //         data["opened_at"] = info._opened_at;
+    //         data["closed_at"] = info._closed_at;
+    //         res.code = 200;
+    //         res.set_header("Content-type", "application/json");
+    //         res.write(data.dump());
+    //     }
+    //     catch(const BadOperation& bo)
+    //     {
+    //         cout << bo << endl;
+    //         res.code = 404;
+    //     }
+    //     return res;
+    // });
 
-    CROW_ROUTE(app, "/deposit/put")
-    .methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
-    ([&atm](const crow::request& req) {
-        if (req.method == crow::HTTPMethod::OPTIONS)
-        {
-            return crow::response(204);
-        }
-        cout << req.body << endl;
-        json data = json::parse(req.body);
-        const string number = data["number"];
-        const double amount = data["cash"];
-        crow::response res;
-        try
-        {
-            atm.putOnDeposit(number, amount);
-            res.code = 200;
-        }
-        catch(const BadOperation& bo)
-        {
-            cout << bo << endl;
-            res.code = 404;
-        }
-        return res;
-    });
+    // CROW_ROUTE(app, "/deposit/put")
+    // .methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
+    // ([&atm](const crow::request& req) {
+    //     if (req.method == crow::HTTPMethod::OPTIONS)
+    //     {
+    //         return crow::response(204);
+    //     }
+    //     cout << req.body << endl;
+    //     json data = json::parse(req.body);
+    //     const string number = data["number"];
+    //     const double amount = data["cash"];
+    //     crow::response res;
+    //     try
+    //     {
+    //         atm.putOnDeposit(number, amount);
+    //         res.code = 200;
+    //     }
+    //     catch(const BadOperation& bo)
+    //     {
+    //         cout << bo << endl;
+    //         res.code = 404;
+    //     }
+    //     return res;
+    // });
 
     app.port(8000).multithreaded().run();
 }
