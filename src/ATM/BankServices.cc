@@ -288,3 +288,179 @@ void PolyBank::payCredit(const string& token, const int& product_id, const doubl
         throw BadOperation("Bad request", r.text);
     }
 }
+
+vector<CreditProtectionInfo> PolyBank::allCreditProtections(const string& token)
+{
+    cout << "SENDING REQ" << endl;
+    cpr::Response r = cpr::Get(
+        cpr::Url{ _baseUrl + "/api/daemon/credit-protection" },
+        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}}
+    );
+    if (r.status_code != 200)
+    {
+        cout << "ERROR " << r.status_code << endl;
+        throw BadOperation("Bad request", r.text);
+    }
+    cout << "SENT" << endl;
+    auto data = json::parse(r.text).at("credit_protections");
+    vector<CreditProtectionInfo> creditProtections(data.size());
+    for (int i = 0; i < data.size(); ++i)
+    {
+        creditProtections[i]._backup_card = data[i]["backup_card"];
+        creditProtections[i]._min_balance = data[i]["min_balance"];
+        creditProtections[i]._id = data[i]["id"];
+        creditProtections[i]._active = data[i]["active"];
+    }
+    return creditProtections;
+}
+
+void PolyBank::createCreditProtection(const string& token, const double& amount)
+{
+    json body;
+    body["amount"] = amount;
+    cpr::Response r = cpr::Post(
+        cpr::Url{ _baseUrl + "/api/daemon/credit-protection" },
+        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}},
+        cpr::Body{ body.dump() }
+    );
+    if (r.status_code != 200)
+    {
+        cout << "ERROR " << r.status_code << endl;
+        throw BadOperation("Bad request", r.text);
+    }
+}
+
+void PolyBank::deleteCreditProtection(const string& token, const int& id)
+{
+    json body;
+    body["id"] = id;
+    cpr::Response r = cpr::Delete(
+        cpr::Url{ _baseUrl + "/api/daemon/credit-protection" },
+        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}},
+        cpr::Body{ body.dump() }
+    );
+    if (r.status_code != 200)
+    {
+        cout << "ERROR " << r.status_code << endl;
+        throw BadOperation("Bad request", r.text);
+    }
+}
+
+vector<LeftOverInfo> PolyBank::allLeftOvers(const string& token)
+{
+    cout << "SENDING REQ" << endl;
+    cpr::Response r = cpr::Get(
+        cpr::Url{ _baseUrl + "/api/daemon/leftover-rule" },
+        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}}
+    );
+    if (r.status_code != 200)
+    {
+        cout << "ERROR " << r.status_code << endl;
+        throw BadOperation("Bad request", r.text);
+    }
+    cout << "SENT" << endl;
+    auto data = json::parse(r.text).at("left_over_rules");
+    vector<LeftOverInfo> leftOvers(data.size());
+    for (int i = 0; i < data.size(); ++i)
+    {
+        leftOvers[i]._target_card = data[i]["trg_card"];
+        leftOvers[i]._treshold = data[i]["treshold"];
+        leftOvers[i]._id = data[i]["id"];
+        leftOvers[i]._active = data[i]["active"];
+    }
+    return leftOvers;
+}
+
+void PolyBank::createLeftOver(const string& token, const string& target_card, const double& treshold)
+{
+    json body;
+    body["trg_card"] = target_card;
+    body["treshold"] = treshold;
+    cpr::Response r = cpr::Post(
+        cpr::Url{ _baseUrl + "/api/daemon/leftover-rule" },
+        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}},
+        cpr::Body{ body.dump() }
+    );
+    if (r.status_code != 200)
+    {
+        cout << "ERROR " << r.status_code << endl;
+        throw BadOperation("Bad request", r.text);
+    }
+}
+
+void PolyBank::deleteLeftOver(const string& token, const int& id)
+{
+    json body;
+    body["id"] = id;
+    cpr::Response r = cpr::Delete(
+        cpr::Url{ _baseUrl + "/api/daemon/leftover-rule" },
+        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}},
+        cpr::Body{ body.dump() }
+    );
+    if (r.status_code != 200)
+    {
+        cout << "ERROR " << r.status_code << endl;
+        throw BadOperation("Bad request", r.text);
+    }
+}
+
+vector<AutoTransferinfo> PolyBank::allAutoTransfers(const string& token)
+{
+    cout << "SENDING REQ" << endl;
+    cpr::Response r = cpr::Get(
+        cpr::Url{ _baseUrl + "/api/daemon/auto-transfer" },
+        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}}
+    );
+    if (r.status_code != 200)
+    {
+        cout << "ERROR " << r.status_code << endl;
+        throw BadOperation("Bad request", r.text);
+    }
+    cout << "SENT" << endl;
+    auto data = json::parse(r.text).at("auto_transfers");
+    vector<AutoTransferinfo> autoTransfers(data.size());
+    for (int i = 0; i < data.size(); ++i)
+    {
+        autoTransfers[i]._target_card = data[i]["trg_card"];
+        autoTransfers[i]._frequency = data[i]["periodicity"];
+        autoTransfers[i]._next_date = data[i]["next_run_date"];
+        autoTransfers[i]._amount = data[i]["amount"];
+        autoTransfers[i]._id = data[i]["id"];
+        autoTransfers[i]._active = data[i]["active"];
+    }
+    return autoTransfers;
+}
+
+void PolyBank::createAutoTransfer(const string& token, const string& target_card, const string& frequency, const double& amount)
+{
+    json body;
+    body["trg_card"] = target_card;
+    body["periodicity"] = frequency;
+    body["amount"] = amount;
+    cpr::Response r = cpr::Post(
+        cpr::Url{ _baseUrl + "/api/daemon/auto-transfer" },
+        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}},
+        cpr::Body{ body.dump() }
+    );
+    if (r.status_code != 200)
+    {
+        cout << "ERROR " << r.status_code << endl;
+        throw BadOperation("Bad request", r.text);
+    }
+}
+
+void PolyBank::deleteAutoTransfer(const string& token, const int& id)
+{
+    json body;
+    body["id"] = id;
+    cpr::Response r = cpr::Delete(
+        cpr::Url{ _baseUrl + "/api/daemon/auto-transfer" },
+        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}},
+        cpr::Body{ body.dump() }
+    );
+    if (r.status_code != 200)
+    {
+        cout << "ERROR " << r.status_code << endl;
+        throw BadOperation("Bad request", r.text);
+    }
+}

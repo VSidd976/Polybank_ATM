@@ -151,3 +151,84 @@ vector<CreditProductInfo> ATM::getAllCreditProducts() const
     }
     return _bankService.allCreditProducts(_session->_token);
 }
+
+vector<CreditProtectionInfo> ATM::getAllCreditProtections() const
+{
+    if (_session == nullptr)
+    {
+        throw BadOperation("Bad request", "Session is not started");
+    }
+    return _bankService.allCreditProtections(_session->_token);
+}
+
+void ATM::createCreditProtection(const double& amount) const
+{
+    if (_session == nullptr)
+    {
+        throw BadOperation("Bad request", "Session is not started");
+    }
+    _bankService.createCreditProtection(_session->_token, amount);
+}
+
+void ATM::deleteCreditProtection(const int& id) const
+{
+    if (_session == nullptr)
+    {
+        throw BadOperation("Bad request", "Session is not started");
+    }
+    _bankService.deleteCreditProtection(_session->_token, id);
+}
+
+vector<LeftOverInfo> ATM::getAllLeftOvers() const
+{
+    if (_session == nullptr)
+    {
+        throw BadOperation("Bad request", "Session is not started");
+    }
+    return _bankService.allLeftOvers(_session->_token);
+}
+
+void ATM::createLeftOver(const string& target_card, const double& treshold) const
+{
+    if (_session == nullptr)
+    {
+        throw BadOperation("Bad request", "Session is not started");
+    }
+    _bankService.createLeftOver(_session->_token, target_card, treshold);
+}
+
+void ATM::deleteLeftOver(const int& id) const
+{
+    if (_session == nullptr)
+    {
+        throw BadOperation("Bad request", "Session is not started");
+    }
+    _bankService.deleteLeftOver(_session->_token, id);
+}
+
+vector<AutoTransferinfo> ATM::getAllAutoTransfers() const
+{
+    if (_session == nullptr)
+    {
+        throw BadOperation("Bad request", "Session is not started");
+    }
+    return _bankService.allAutoTransfers(_session->_token);
+}
+
+void ATM::createAutoTransfer(const string& target_card, const string& frequency, const double& amount) const
+{
+    if (_session == nullptr)
+    {
+        throw BadOperation("Bad request", "Session is not started");
+    }
+    _bankService.createAutoTransfer(_session->_token, target_card, frequency, amount);
+}
+
+void ATM::deleteAutoTransfer(const int& id) const
+{
+    if (_session == nullptr)
+    {
+        throw BadOperation("Bad request", "Session is not started");
+    }
+    _bankService.deleteAutoTransfer(_session->_token, id);
+}

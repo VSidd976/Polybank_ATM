@@ -39,3 +39,29 @@ struct CreditProductInfo
     int _term_months;
     int _id;
 };
+
+struct CreditProtectionInfo
+{
+    string _backup_card;
+    double _min_balance;
+    int _id;
+    bool _active;
+};
+
+struct LeftOverInfo
+{
+    string _target_card;
+    double _treshold;
+    int _id;
+    bool _active;
+};
+
+struct AutoTransferinfo
+{
+    string _target_card;
+    string _frequency;
+    string _next_date;
+    double _amount;
+    int _id;
+    bool _active;
+};

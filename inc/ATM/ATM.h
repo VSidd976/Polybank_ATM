@@ -70,6 +70,21 @@ public:
     void takeCredit(const int&, const double&) const;
     void payCredit(const int&, const double&) const;
 
+    vector<CreditProtectionInfo> getAllCreditProtections() const;
+
+    void createCreditProtection(const double&) const;
+    void deleteCreditProtection(const int&) const;
+
+    vector<LeftOverInfo> getAllLeftOvers() const;
+
+    void createLeftOver(const string&, const double&) const;
+    void deleteLeftOver(const int&) const;
+
+    vector<AutoTransferinfo> getAllAutoTransfers() const;
+
+    void createAutoTransfer(const string&, const string&, const double&) const;
+    void deleteAutoTransfer(const int&) const;
+
     // void createAutoTransfer(const double&, const string&, const Frequency&);
     // void setLeftOverHandling(const LeftOverOption&, const Frequency&);
 };

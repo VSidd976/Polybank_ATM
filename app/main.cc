@@ -403,5 +403,253 @@ int main()
         return res;
     });
 
+    CROW_ROUTE(app, "/daemon/credit-protection")
+    .methods(crow::HTTPMethod::GET, crow::HTTPMethod::OPTIONS)
+    ([&atm](const crow::request& req) {
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
+            return crow::response(204);
+        }
+        cout << req.body << endl;
+        crow::response res;
+        try
+        {
+            const vector<CreditProtectionInfo> allCreditProtections = atm.getAllCreditProtections();
+            json data;
+            data["list"] = json::array();
+            for (int i = 0; i < allCreditProtections.size(); ++i)
+            {
+                data["list"][i]["id"] = allCreditProtections[i]._id;
+                data["list"][i]["backupCard"] = allCreditProtections[i]._backup_card;
+                data["list"][i]["minBalance"] = allCreditProtections[i]._min_balance;
+                data["list"][i]["active"] = allCreditProtections[i]._active;
+            }
+            res.code = 200;
+            res.set_header("Content-type", "application/json");
+            res.write(data.dump());
+        }
+        catch(const BadOperation& bo)
+        {
+            cout << bo << endl;
+            res.code = 404;
+        }
+        return res;
+    });
+
+    CROW_ROUTE(app, "/daemon/credit-protection/create")
+    .methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
+    ([&atm](const crow::request& req) {
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
+            return crow::response(204);
+        }
+        cout << req.body << endl;
+        auto data = json::parse(req.body);
+        const double amount = data["amount"];
+        crow::response res;
+        try
+        {
+            atm.createCreditProtection(amount);
+            res.code = 200;
+        }
+        catch(const BadOperation& bo)
+        {
+            cout << bo << endl;
+            res.code = 404;
+        }
+        return res;
+    });
+
+    CROW_ROUTE(app, "/daemon/credit-protection/delete")
+    .methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
+    ([&atm](const crow::request& req) {
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
+            return crow::response(204);
+        }
+        cout << req.body << endl;
+        auto data = json::parse(req.body);
+        const double id = data["id"];
+        crow::response res;
+        try
+        {
+            atm.deleteCreditProtection(id);
+            res.code = 200;
+        }
+        catch(const BadOperation& bo)
+        {
+            cout << bo << endl;
+            res.code = 404;
+        }
+        return res;
+    });
+
+    CROW_ROUTE(app, "/daemon/leftover")
+    .methods(crow::HTTPMethod::GET, crow::HTTPMethod::OPTIONS)
+    ([&atm](const crow::request& req) {
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
+            return crow::response(204);
+        }
+        cout << req.body << endl;
+        crow::response res;
+        try
+        {
+            const vector<LeftOverInfo> allLeftOvers = atm.getAllLeftOvers();
+            json data;
+            data["list"] = json::array();
+            for (int i = 0; i < allLeftOvers.size(); ++i)
+            {
+                data["list"][i]["id"] = allLeftOvers[i]._id;
+                data["list"][i]["targetCard"] = allLeftOvers[i]._target_card;
+                data["list"][i]["treshold"] = allLeftOvers[i]._treshold;
+                data["list"][i]["active"] = allLeftOvers[i]._active;
+            }
+            res.code = 200;
+            res.set_header("Content-type", "application/json");
+            res.write(data.dump());
+        }
+        catch(const BadOperation& bo)
+        {
+            cout << bo << endl;
+            res.code = 404;
+        }
+        return res;
+    });
+
+    CROW_ROUTE(app, "/daemon/leftover/create")
+    .methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
+    ([&atm](const crow::request& req) {
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
+            return crow::response(204);
+        }
+        cout << req.body << endl;
+        auto data = json::parse(req.body);
+        const string target_card = data["targetCard"];
+        const double treshold = data["treshold"];
+        crow::response res;
+        try
+        {
+            atm.createLeftOver(target_card, treshold);
+            res.code = 200;
+        }
+        catch(const BadOperation& bo)
+        {
+            cout << bo << endl;
+            res.code = 404;
+        }
+        return res;
+    });
+
+    CROW_ROUTE(app, "/daemon/leftover/delete")
+    .methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
+    ([&atm](const crow::request& req) {
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
+            return crow::response(204);
+        }
+        cout << req.body << endl;
+        auto data = json::parse(req.body);
+        const double id = data["id"];
+        crow::response res;
+        try
+        {
+            atm.deleteLeftOver(id);
+            res.code = 200;
+        }
+        catch(const BadOperation& bo)
+        {
+            cout << bo << endl;
+            res.code = 404;
+        }
+        return res;
+    });
+
+    CROW_ROUTE(app, "/daemon/auto-transfer")
+    .methods(crow::HTTPMethod::GET, crow::HTTPMethod::OPTIONS)
+    ([&atm](const crow::request& req) {
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
+            return crow::response(204);
+        }
+        cout << req.body << endl;
+        crow::response res;
+        try
+        {
+            const vector<AutoTransferinfo> allAutoTransfers = atm.getAllAutoTransfers();
+            json data;
+            data["list"] = json::array();
+            for (int i = 0; i < allAutoTransfers.size(); ++i)
+            {
+                data["list"][i]["id"] = allAutoTransfers[i]._id;
+                data["list"][i]["targetCard"] = allAutoTransfers[i]._target_card;
+                data["list"][i]["frequency"] = allAutoTransfers[i]._frequency;
+                data["list"][i]["nextDate"] = allAutoTransfers[i]._next_date;
+                data["list"][i]["amount"] = allAutoTransfers[i]._amount;
+                data["list"][i]["active"] = allAutoTransfers[i]._active;
+            }
+            res.code = 200;
+            res.set_header("Content-type", "application/json");
+            res.write(data.dump());
+        }
+        catch(const BadOperation& bo)
+        {
+            cout << bo << endl;
+            res.code = 404;
+        }
+        return res;
+    });
+
+    CROW_ROUTE(app, "/daemon/auto-transfer/create")
+    .methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
+    ([&atm](const crow::request& req) {
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
+            return crow::response(204);
+        }
+        cout << req.body << endl;
+        auto data = json::parse(req.body);
+        const string target_card = data["targetCard"];
+        const string frequency = data["frequency"];
+        const double amount = data["amount"];
+        crow::response res;
+        try
+        {
+            atm.createAutoTransfer(target_card, frequency, amount);
+            res.code = 200;
+        }
+        catch(const BadOperation& bo)
+        {
+            cout << bo << endl;
+            res.code = 404;
+        }
+        return res;
+    });
+
+    CROW_ROUTE(app, "/daemon/auto-transfer/delete")
+    .methods(crow::HTTPMethod::POST, crow::HTTPMethod::OPTIONS)
+    ([&atm](const crow::request& req) {
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
+            return crow::response(204);
+        }
+        cout << req.body << endl;
+        auto data = json::parse(req.body);
+        const double id = data["id"];
+        crow::response res;
+        try
+        {
+            atm.deleteAutoTransfer(id);
+            res.code = 200;
+        }
+        catch(const BadOperation& bo)
+        {
+            cout << bo << endl;
+            res.code = 404;
+        }
+        return res;
+    });
+
     app.port(8000).multithreaded().run();
 }
