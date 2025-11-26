@@ -188,7 +188,7 @@ int main()
             data["list"] = json::array();
             for (int i = 0; i < allDeposits.size(); ++i)
             {
-                data["list"][i]["id"] = allDeposits[i]._product_id;
+                data["list"][i]["id"] = allDeposits[i]._id;
                 data["list"][i]["startDate"] = allDeposits[i]._opened_at;
                 data["list"][i]["endDate"] = allDeposits[i]._closed_at;
                 data["list"][i]["money"] = allDeposits[i]._balance;
@@ -303,7 +303,7 @@ int main()
             data["list"] = json::array();
             for (int i = 0; i < allCredits.size(); ++i)
             {
-                data["list"][i]["id"] = allCredits[i]._product_id;
+                data["list"][i]["id"] = allCredits[i]._id;
                 data["list"][i]["productName"] = allCredits[i]._product_name;
                 data["list"][i]["openedAt"] = allCredits[i]._opened_at;
                 data["list"][i]["remainingAmount"] = allCredits[i]._remaining_amount;

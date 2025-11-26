@@ -9,8 +9,10 @@ struct DepositInfo
 {
     string _opened_at;
     string _closed_at;
+    string _product_name;
     double _balance;
     int _product_id;
+    int _id;
 };
 
 struct DepositProductInfo
@@ -30,6 +32,7 @@ struct CreditInfo
     double _remaining_amount;
     double _interest_accured;
     int _product_id;
+    int _id;
 };
 
 struct CreditProductInfo
