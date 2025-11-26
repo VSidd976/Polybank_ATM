@@ -15,6 +15,20 @@ import AccountInfo from "@pages/AccountInfo";
 import Deposit from "@pages/Deposit";
 import SuccessfulOperation from "@pages/SuccessfulOperation";
 import Credit from "@pages/Credit";
+import type { ComponentType } from "react";
+import LeftOvers from "@pages/LeftOvers";
+
+const PATHS: { path: string; Component: ComponentType }[] = [
+  { path: "/main", Component: MainScreen },
+  { path: "/main/add-money", Component: AddMoney },
+  { path: "/main/cash-out", Component: CashOut },
+  { path: "/main/transfer", Component: Transfer },
+  { path: "/main/account-info", Component: AccountInfo },
+  { path: "/main/deposits", Component: Deposit },
+  { path: "/main/credits", Component: Credit },
+  { path: "/main/success", Component: SuccessfulOperation },
+  { path: "/main/leftovers", Component: LeftOvers },
+];
 
 function App() {
   return (
@@ -26,70 +40,16 @@ function App() {
             <Routes>
               <Route index element={<CardDispenser />} />
               <Route path="/pin" element={<Pin />} />
-              <Route
-                path="/main"
-                element={
-                  <ProtectedRoute>
-                    <MainScreen />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/main/add-money"
-                element={
-                  <ProtectedRoute>
-                    <AddMoney />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/main/cash-out"
-                element={
-                  <ProtectedRoute>
-                    <CashOut />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/main/transfer"
-                element={
-                  <ProtectedRoute>
-                    <Transfer />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/main/account-info"
-                element={
-                  <ProtectedRoute>
-                    <AccountInfo />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/main/deposits"
-                element={
-                  <ProtectedRoute>
-                    <Deposit />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/main/credits"
-                element={
-                  <ProtectedRoute>
-                    <Credit />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/main/success"
-                element={
-                  <ProtectedRoute>
-                    <SuccessfulOperation />
-                  </ProtectedRoute>
-                }
-              />
+              {PATHS.map(({ path, Component }) => (
+                <Route
+                  path={path}
+                  element={
+                    <ProtectedRoute>
+                      <Component />
+                    </ProtectedRoute>
+                  }
+                />
+              ))}
             </Routes>
           </MainContent>
         </BrowserRouter>

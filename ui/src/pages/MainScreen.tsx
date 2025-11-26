@@ -9,6 +9,7 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import PriceCheckIcon from "@mui/icons-material/PriceCheck";
+import AltRouteIcon from "@mui/icons-material/AltRoute";
 
 const BUTTONS: { txt: string; navigate: string; startIcon?: ReactNode }[] = [
   {
@@ -32,6 +33,11 @@ const BUTTONS: { txt: string; navigate: string; startIcon?: ReactNode }[] = [
     txt: "Credits",
     navigate: "/main/credits",
     startIcon: <PriceCheckIcon />,
+  },
+  {
+    txt: "Leftover handling",
+    navigate: "/main/leftovers",
+    startIcon: <AltRouteIcon />,
   },
 ] as const;
 
