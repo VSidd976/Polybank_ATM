@@ -61,3 +61,39 @@ void TestBank::transferMoney(const string& token, const string& number, const do
     }
     cout << "Transfered " << amount << " to " << token << " balance" << endl;
 }
+
+vector<DepositInfo> TestBank::allDeposits(const string& token)
+{
+    if (token != mockToken)
+    {
+        throw BadOperation("Invalid argument", "Invalid tocken");
+    }
+    return _myDeposits;
+}
+
+vector<DepositProductInfo> TestBank::allDepositProducts(const string& token)
+{
+    if (token != mockToken)
+    {
+        throw BadOperation("Invalid argument", "Invalid tocken");
+    }
+    return _depositProducts;
+}
+
+void TestBank::putOnDeposit(const string& token, const int& product_id, const double& amount)
+{
+    if (token != mockToken)
+    {
+        throw BadOperation("Invalid argument", "Invalid tocken");
+    }
+    _myDeposits.push_back({"now", "never", amount, product_id});
+}
+
+void TestBank::takeFromDeposit(const string& token, const int& id)
+{
+    if (token != mockToken)
+    {
+        throw BadOperation("Invalid argument", "Invalid tocken");
+    }
+    _myDeposits.pop_back();
+}
