@@ -305,7 +305,7 @@ vector<CreditProtectionInfo> PolyBank::allCreditProtections(const string& token)
         throw BadOperation("Bad request", r.text);
     }
     cout << "SENT" << endl;
-    auto data = json::parse(r.text).at("credit_protections");
+    auto data = json::parse(r.text).at("credit_protection_rules");
     vector<CreditProtectionInfo> creditProtections(data.size());
     for (int i = 0; i < data.size(); ++i)
     {
@@ -338,7 +338,7 @@ void PolyBank::deleteCreditProtection(const string& token, const int& id)
     json body;
     body["id"] = id;
     cpr::Response r = cpr::Delete(
-        cpr::Url{ _baseUrl + "/api/daemon/credit-protection" },
+        cpr::Url{ _baseUrl + "/api/daemon/credit-protection/" + to_string(id) },
         cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}},
         cpr::Body{ body.dump() }
     );
@@ -362,23 +362,23 @@ vector<LeftOverInfo> PolyBank::allLeftOvers(const string& token)
         throw BadOperation("Bad request", r.text);
     }
     cout << "SENT" << endl;
-    auto data = json::parse(r.text).at("left_over_rules");
+    auto data = json::parse(r.text).at("leftover_rules");
     vector<LeftOverInfo> leftOvers(data.size());
     for (int i = 0; i < data.size(); ++i)
     {
         leftOvers[i]._target_card = data[i]["trg_card"];
-        leftOvers[i]._treshold = data[i]["treshold"];
+        leftOvers[i]._threshold = data[i]["threshold"];
         leftOvers[i]._id = data[i]["id"];
         leftOvers[i]._active = data[i]["active"];
     }
     return leftOvers;
 }
 
-void PolyBank::createLeftOver(const string& token, const string& target_card, const double& treshold)
+void PolyBank::createLeftOver(const string& token, const string& target_card, const double& threshold)
 {
     json body;
     body["trg_card"] = target_card;
-    body["treshold"] = treshold;
+    body["threshold"] = threshold;
     cpr::Response r = cpr::Post(
         cpr::Url{ _baseUrl + "/api/daemon/leftover-rule" },
         cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}},
@@ -396,7 +396,7 @@ void PolyBank::deleteLeftOver(const string& token, const int& id)
     json body;
     body["id"] = id;
     cpr::Response r = cpr::Delete(
-        cpr::Url{ _baseUrl + "/api/daemon/leftover-rule" },
+        cpr::Url{ _baseUrl + "/api/daemon/leftover-rule/" + to_string(id) },
         cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}},
         cpr::Body{ body.dump() }
     );
@@ -457,7 +457,7 @@ void PolyBank::deleteAutoTransfer(const string& token, const int& id)
     json body;
     body["id"] = id;
     cpr::Response r = cpr::Delete(
-        cpr::Url{ _baseUrl + "/api/daemon/auto-transfer" },
+        cpr::Url{ _baseUrl + "/api/daemon/auto-transfer/" + to_string(id) },
         cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}},
         cpr::Body{ body.dump() }
     );

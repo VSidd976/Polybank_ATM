@@ -54,7 +54,7 @@ struct CreditProtectionInfo
 struct LeftOverInfo
 {
     string _target_card;
-    double _treshold;
+    double _threshold;
     int _id;
     bool _active;
 };

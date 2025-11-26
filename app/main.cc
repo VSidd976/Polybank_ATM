@@ -502,7 +502,7 @@ int main()
             {
                 data["list"][i]["id"] = allLeftOvers[i]._id;
                 data["list"][i]["targetCard"] = allLeftOvers[i]._target_card;
-                data["list"][i]["treshold"] = allLeftOvers[i]._treshold;
+                data["list"][i]["threshold"] = allLeftOvers[i]._threshold;
                 data["list"][i]["active"] = allLeftOvers[i]._active;
             }
             res.code = 200;
