@@ -2,6 +2,7 @@ import AtmAPI, { useAtmApi } from "@api/AtmAPI";
 import { BackButton } from "@components/Button/BackButton";
 import BaseButton from "@components/Button/Button";
 import Input from "@components/Input/Input";
+import { Title as Title_ } from "@components/Title/title";
 import { styled } from "@mui/material";
 import { withProps } from "@utils/withProps";
 import {
@@ -51,6 +52,7 @@ const Transfer = (): ReactElement => {
     <Container>
       <BackButton />
       <Form onSubmit={onSubmit}>
+        <Title>Transfer money</Title>
         <CardNumberInput value={value} onChange={handleChange} />
         <Input name={AMOUNT_INPUT} type="number" min={0} placeholder="Amount" />
         <BaseButton type="submit" txt="Submit" />
@@ -66,6 +68,10 @@ const CardNumberInput = withProps(Input, {
   inputMode: "numeric",
   maxLength: 16,
 } as const);
+
+const Title = styled(Title_)`
+  text-align: center;
+`;
 
 export default Transfer;
 
