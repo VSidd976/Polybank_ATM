@@ -43,6 +43,11 @@ export type DepositRequestDto = {
   amount: number;
 };
 
+export type CreditRequestDto = {
+  productId: string;
+  amount: number;
+};
+
 const BASE_URL = "http://localhost:8000";
 
 class AtmAPI {
@@ -117,11 +122,11 @@ class AtmAPI {
   }
 
   async getAllDeposits(): Promise<DepositResponseDto[]> {
-    return this.api.get(`/deposit`).then((r) => r.data.list);
+    return this.api.get(`/deposit`).then((r) => r.data.list ?? []);
   }
 
   async depositProducts(): Promise<DepositProductResponseDto[]> {
-    return this.api.get(`/deposit/products`).then((r) => r.data.list);
+    return this.api.get(`/deposit/products`).then((r) => r.data.list ?? []);
   }
 
   async newDeposit(deposit: DepositRequestDto): Promise<void> {
@@ -129,11 +134,19 @@ class AtmAPI {
   }
 
   async creditProducts(): Promise<CreditProductResponseDto[]> {
-    return this.api.get("/credit/products").then((r) => r.data.list);
+    return this.api.get("/credit/products").then((r) => r.data.list ?? []);
   }
 
   async getAllCredits(): Promise<CreditResponseDto[]> {
-    return this.api.get("/credit").then((r) => r.data.list);
+    return this.api.get("/credit").then((r) => r.data.list ?? []);
+  }
+
+  async newCredit(credit: CreditRequestDto): Promise<void> {
+    return this.api.put("/credit/take", credit);
+  }
+
+  async payCredit(creditId: string, amount: number): Promise<void> {
+    return this.api.put("/credit/pay", { productId: creditId, amount });
   }
 
   async endSession(): Promise<void> {

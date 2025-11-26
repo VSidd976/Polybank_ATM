@@ -14,6 +14,8 @@ import { useBoolean } from "@utils/hooks/useBoolean";
 import { useEffect, useRef, useState, type ReactElement } from "react";
 import { toast } from "react-toastify";
 
+// !WARNING There's no God down there, everything was made under the pressure of deadlines
+
 const Credits = (): ReactElement => {
   const [isOpen, modal] = useBoolean();
   return (
@@ -58,7 +60,7 @@ const CreateModal = ({
   const onSubmit = () => {
     const amount_ = Number.parseInt(amount);
     if (!productId) return void toast.warning("Choose type of deposit!");
-    api?.newDeposit({ productId: productId, amount: amount_ });
+    api?.newCredit({ productId: productId, amount: amount_ });
     formRef.current?.reset();
     onClose();
   };
@@ -166,34 +168,88 @@ const useCredits = (): CreditResponseDto[] => {
 
 const CreditsList = (): ReactElement => {
   const credits = useCredits();
+  const [selectedCredit, selectCredit] = useState("");
+  const [isOpen, modal] = useBoolean(false);
+  const onPayOff = (creditId: string) => {
+    selectCredit(creditId);
+    modal.on();
+  };
   return (
     <>
       {credits.map((c) => (
         <Credit
           key={c.id}
+          productName={c.productName}
           startDate={c.openedAt}
           remainingAmount={c.remainingAmount}
+          onPayOff={() => onPayOff(c.id)}
         />
       ))}
+      <PayOffModal
+        onClose={modal.off}
+        creditId={selectedCredit}
+        isOpen={isOpen}
+      />
     </>
+  );
+};
+
+const PayOffModal = ({
+  creditId,
+  isOpen,
+  onClose,
+}: {
+  creditId: string;
+  isOpen: boolean;
+  onClose: () => void;
+}): ReactElement => {
+  const formRef = useRef<HTMLFormElement>(null);
+  const [amount, setAmount] = useState("0");
+  const api = useAtmApi({
+    success: { redirectTo: "/main/success", text: "Operation successful" },
+    failure: { text: "Failed to perform an operation" },
+  });
+  const onSubmit = () => {
+    const amount_ = Number.parseInt(amount);
+    api?.payCredit(creditId, amount_);
+    formRef.current?.reset();
+    onClose();
+  };
+  return (
+    <BaseModal open={isOpen} onClose={onClose}>
+      <ModalBody ref={formRef} onSubmit={onSubmit}>
+        <TitleBase>Pay off credit</TitleBase>
+        <InputWrapper>
+          <SubTitle>Amount</SubTitle>
+          <Input type="number" onChange={setAmount} value={amount} min={1} />
+        </InputWrapper>
+        <BaseButton txt="Pay" type="submit" />
+      </ModalBody>
+    </BaseModal>
   );
 };
 
 const Credit = ({
   startDate,
+  productName,
   remainingAmount,
+  onPayOff,
   key,
 }: {
   key?: string;
+  productName: string;
+  onPayOff: () => void;
   startDate: string;
   remainingAmount: number;
 }) => {
   return (
     <Card key={key}>
       <Text>
+        <span>Credit: {productName}</span>
         <span>Opened at: {startDate}</span>
         <span>Remaining to close: {remainingAmount}$</span>
       </Text>
+      <BaseButton txt="Pay off" onClick={onPayOff} />
     </Card>
   );
 };
