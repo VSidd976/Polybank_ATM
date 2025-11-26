@@ -48,6 +48,13 @@ export type CreditRequestDto = {
   amount: number;
 };
 
+export type LeftOverHandlerResponseDto = {
+  id: string;
+  targetCard: string;
+  active: boolean;
+  treshold: number;
+};
+
 const BASE_URL = "http://localhost:8000";
 
 class AtmAPI {
@@ -122,11 +129,17 @@ class AtmAPI {
   }
 
   async getAllDeposits(): Promise<DepositResponseDto[]> {
-    return this.api.get(`/deposit`).then((r) => r.data.list ?? []);
+    return this.api
+      .get(`/deposit`)
+      .then((r) => r.data.list ?? [])
+      .catch(() => []);
   }
 
   async depositProducts(): Promise<DepositProductResponseDto[]> {
-    return this.api.get(`/deposit/products`).then((r) => r.data.list ?? []);
+    return this.api
+      .get(`/deposit/products`)
+      .then((r) => r.data.list ?? [])
+      .catch(() => []);
   }
 
   async newDeposit(deposit: DepositRequestDto): Promise<void> {
@@ -134,11 +147,17 @@ class AtmAPI {
   }
 
   async creditProducts(): Promise<CreditProductResponseDto[]> {
-    return this.api.get("/credit/products").then((r) => r.data.list ?? []);
+    return this.api
+      .get("/credit/products")
+      .then((r) => r.data.list ?? [])
+      .catch(() => []);
   }
 
   async getAllCredits(): Promise<CreditResponseDto[]> {
-    return this.api.get("/credit").then((r) => r.data.list ?? []);
+    return this.api
+      .get("/credit")
+      .then((r) => r.data.list ?? [])
+      .catch(() => []);
   }
 
   async newCredit(credit: CreditRequestDto): Promise<void> {
@@ -147,6 +166,24 @@ class AtmAPI {
 
   async payCredit(creditId: string, amount: number): Promise<void> {
     return this.api.put("/credit/pay", { productId: creditId, amount });
+  }
+
+  async allLeftOverHandlers(): Promise<LeftOverHandlerResponseDto[]> {
+    return this.api
+      .get("/daemon/leftover")
+      .then((r) => r.data.list ?? [])
+      .catch(() => []);
+  }
+
+  async removeLeftoverHandler(id: string): Promise<void> {
+    return this.api.post("/daemon/leftover/delete", { id });
+  }
+
+  async createLeftoverHandling(
+    treshold: number,
+    targetCard: string,
+  ): Promise<void> {
+    return this.api.post("/daemon/leftover/create", { treshold, targetCard });
   }
 
   async endSession(): Promise<void> {
