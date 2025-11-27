@@ -86,3 +86,5 @@ To run frontend open new terminal in root directory and execute following comman
 cd ui
 npm run dev
 ```
+
+Ctrl/command + left click on the local address to open ui in browser.
