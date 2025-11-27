@@ -82,7 +82,7 @@ public:
 
     vector<AutoTransferinfo> getAllAutoTransfers() const;
 
-    void createAutoTransfer(const string&, const string&, const double&) const;
+    void createAutoTransfer(const string&, const string&, const string&, const double&) const;
     void deleteAutoTransfer(const int&) const;
 
     // void createAutoTransfer(const double&, const string&, const Frequency&);

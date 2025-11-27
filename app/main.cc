@@ -608,11 +608,12 @@ int main()
         auto data = json::parse(req.body);
         const string target_card = data["targetCard"];
         const string frequency = data["frequency"];
+        const string next_date = data["nextDate"];
         const double amount = data["amount"];
         crow::response res;
         try
         {
-            atm.createAutoTransfer(target_card, frequency, amount);
+            atm.createAutoTransfer(target_card, frequency, next_date, amount);
             res.code = 200;
         }
         catch(const BadOperation& bo)
