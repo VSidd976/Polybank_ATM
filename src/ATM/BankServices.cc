@@ -136,7 +136,6 @@ vector<DepositInfo> PolyBank::allDeposits(const string& token)
     for (int i = 0; i < data.size(); ++i)
     {
         deposits[i]._opened_at = data[i]["opened_at"];
-        deposits[i]._closed_at = data[i]["closed_at"];
         deposits[i]._balance = data[i]["amount"];
         deposits[i]._product_id = data[i]["product_id"];
         deposits[i]._id = data[i]["id"];
@@ -225,7 +224,7 @@ vector<CreditInfo> PolyBank::allCredits(const string& token)
         credits[i]._product_name = data[i]["product_name"];
         credits[i]._amount = data[i]["amount"];
         credits[i]._remaining_amount = data[i]["remaining_amount"];
-        credits[i]._interest_accured = data[i]["interest_accured"];
+        credits[i]._interest_accured = data[i]["interest_accrued"];
         credits[i]._product_id = data[i]["product_id"];
         credits[i]._id = data[i]["id"];
     }

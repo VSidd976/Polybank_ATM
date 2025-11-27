@@ -14,7 +14,7 @@ export type DepositResponseDto = {
   endDate: string;
   id: string;
   productName: string;
-  amount: number;
+  money: number;
 };
 
 export type CreditResponseDto = {
@@ -174,7 +174,7 @@ class AtmAPI {
   }
 
   async payCredit(creditId: string, amount: number): Promise<void> {
-    return this.api.put("/credit/pay", { productId: creditId, amount });
+    return this.api.post("/credit/pay", { productId: creditId, amount });
   }
 
   async allLeftOverHandlers(): Promise<LeftOverHandlerResponseDto[]> {
