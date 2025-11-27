@@ -527,7 +527,7 @@ int main()
         cout << req.body << endl;
         auto data = json::parse(req.body);
         const string target_card = data["targetCard"];
-        const double treshold = data["treshold"];
+        const double treshold = data["threshold"];
         crow::response res;
         try
         {

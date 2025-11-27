@@ -176,6 +176,7 @@ const CreditsList = (): ReactElement => {
   };
   return (
     <>
+      {!credits.length && <Text>No credits yet</Text>}
       {credits.map((c) => (
         <Credit
           key={c.id}
@@ -307,6 +308,7 @@ const Card = styled("div")`
 const Text = styled("p")`
   display: flex;
   flex-direction: column;
+  color: #fff;
 `;
 
 const Title = styled(TitleBase)`

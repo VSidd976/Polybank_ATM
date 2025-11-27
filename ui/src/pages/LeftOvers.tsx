@@ -20,7 +20,7 @@ import {
 } from "react";
 import { toast } from "react-toastify";
 
-const TRESHOLD_INPUT = "treshold-input";
+const threshold_INPUT = "threshold-input";
 const CARD_NUMBER = "card-number";
 
 const onFormSubmit = (
@@ -29,7 +29,7 @@ const onFormSubmit = (
 ): void => {
   e.preventDefault();
   const formData = new FormData(e.currentTarget);
-  const amount = formData.get(TRESHOLD_INPUT) as string;
+  const amount = formData.get(threshold_INPUT) as string;
   const cardNumber = formData.get(CARD_NUMBER) as string;
   if (!api) throw Error("No card inserted");
   if (!amount || !cardNumber || cardNumber.length !== 16)
@@ -70,7 +70,7 @@ const useLeftovers = (): [
 const LeftOversList = (): ReactElement => {
   const [leftovers, onItemDelete] = useLeftovers();
   const api = useAtmApi({
-    success: { text: "Operation successful", redirectTo: "/main/success" },
+    success: { text: "Operation successful" },
     failure: { text: "Operation failure" },
   });
   const onDelete = (id: string, idx: number): void => {
@@ -78,6 +78,7 @@ const LeftOversList = (): ReactElement => {
   };
   return (
     <>
+      {!leftovers.length && <Text>No handlers yet</Text>}
       {leftovers.map((l, idx) => (
         <LeftOver {...l} onDelete={() => onDelete(l.id, idx)} />
       ))}
@@ -88,19 +89,27 @@ const LeftOversList = (): ReactElement => {
 const LeftOver = ({
   id,
   targetCard,
-  treshold,
+  threshold,
   onDelete,
 }: LeftOverHandlerResponseDto & {
   onDelete: () => void;
 }): ReactElement => {
   return (
     <Card key={id}>
-      <Text>Target card: {targetCard}</Text>
-      <Text>Treshold: {treshold}</Text>
+      <Wrapper>
+        <Text>Target card: {targetCard}</Text>
+        <Text>threshold: {threshold}</Text>
+      </Wrapper>
       <BaseButton txt="Remove" onClick={onDelete} />
     </Card>
   );
 };
+
+const Wrapper = styled("div")`
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+`;
 
 const Card = styled("div")`
   display: flex;
@@ -191,7 +200,7 @@ const CreationForm = ({
         <Select
           sx={{ color: "#fff" }}
           required
-          name={TRESHOLD_INPUT}
+          name={threshold_INPUT}
           defaultValue={OPTIONS[0]}
         >
           {OPTIONS.map((opt) => (

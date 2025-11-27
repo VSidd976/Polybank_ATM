@@ -52,7 +52,7 @@ export type LeftOverHandlerResponseDto = {
   id: string;
   targetCard: string;
   active: boolean;
-  treshold: number;
+  threshold: number;
 };
 
 const BASE_URL = "http://localhost:8000";
@@ -180,10 +180,10 @@ class AtmAPI {
   }
 
   async createLeftoverHandling(
-    treshold: number,
+    threshold: number,
     targetCard: string,
   ): Promise<void> {
-    return this.api.post("/daemon/leftover/create", { treshold, targetCard });
+    return this.api.post("/daemon/leftover/create", { threshold, targetCard });
   }
 
   async endSession(): Promise<void> {
