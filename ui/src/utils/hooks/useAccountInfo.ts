@@ -1,15 +1,12 @@
-import AtmAPI, { type AccountInfo } from "@api/AtmAPI";
-import { useCard } from "@utils/stores/cardStore";
+import { useAtmApi, type AccountInfo } from "@api/AtmAPI";
 import { useEffect, useState } from "react";
-import { useMemoValue } from "./useMemoValue";
 
 export const useAccountInfo = () => {
-  const { card } = useCard();
   const [accountInfo, setInfo] = useState<AccountInfo>();
-  const api = useMemoValue((c) => (c ? AtmAPI.of(c) : undefined), [card]);
+  const api = useAtmApi({ onSuccess: (i) => setInfo(i) });
   useEffect(() => {
     if (api) {
-      api.getInfo().then((i) => setInfo(i));
+      api.getInfo().then(setInfo);
     }
   }, [api]);
   return accountInfo;

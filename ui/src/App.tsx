@@ -12,60 +12,49 @@ import CashOut from "@pages/CashOut";
 import Transfer from "@pages/Transfer";
 import ProtectedRoute from "@utils/ProtectedRoute";
 import AccountInfo from "@pages/AccountInfo";
+import Deposit from "@pages/Deposit";
+import SuccessfulOperation from "@pages/SuccessfulOperation";
+import Credit from "@pages/Credit";
+import type { ComponentType } from "react";
+import LeftOvers from "@pages/LeftOvers";
+import AutoTransfers from "@pages/AutoTransfer";
+
+const PATHS: { path: string; Component: ComponentType }[] = [
+  { path: "/main", Component: MainScreen },
+  { path: "/main/add-money", Component: AddMoney },
+  { path: "/main/cash-out", Component: CashOut },
+  { path: "/main/transfer", Component: Transfer },
+  { path: "/main/account-info", Component: AccountInfo },
+  { path: "/main/deposits", Component: Deposit },
+  { path: "/main/credits", Component: Credit },
+  { path: "/main/success", Component: SuccessfulOperation },
+  { path: "/main/leftovers", Component: LeftOvers },
+  { path: "/main/auto-transfers", Component: AutoTransfers },
+];
 
 function App() {
   return (
     <ThemeProvider theme={themeOptions} defaultMode="dark">
       <LayoutContainer>
-        <Header />
-        <MainContent>
-          <BrowserRouter>
+        <BrowserRouter>
+          <Header />
+          <MainContent>
             <Routes>
               <Route index element={<CardDispenser />} />
               <Route path="/pin" element={<Pin />} />
-              <Route
-                path="/main"
-                element={
-                  <ProtectedRoute>
-                    <MainScreen />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/main/add-money"
-                element={
-                  <ProtectedRoute>
-                    <AddMoney />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/main/cash-out"
-                element={
-                  <ProtectedRoute>
-                    <CashOut />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/main/transfer"
-                element={
-                  <ProtectedRoute>
-                    <Transfer />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/main/account-info"
-                element={
-                  <ProtectedRoute>
-                    <AccountInfo />
-                  </ProtectedRoute>
-                }
-              />
+              {PATHS.map(({ path, Component }) => (
+                <Route
+                  path={path}
+                  element={
+                    <ProtectedRoute>
+                      <Component />
+                    </ProtectedRoute>
+                  }
+                />
+              ))}
             </Routes>
-          </BrowserRouter>
-        </MainContent>
+          </MainContent>
+        </BrowserRouter>
       </LayoutContainer>
       <ToastContainer />
     </ThemeProvider>
@@ -82,8 +71,9 @@ const LayoutContainer = styled("div")`
 const MainContent = styled("main")`
   display: flex;
   flex: 1;
+  position: relative;
   background:
-    linear-gradient(135deg, rgba(255 255 255 / 0.1), rgba(255 255 255 / 0)),
+    linear-gradient(135deg, rgba(255 255 255 / 0.08), rgba(255 255 255 / 0)),
     repeating-linear-gradient(
       90deg,
       rgba(255 255 255 / 0.05),
@@ -98,7 +88,9 @@ const MainContent = styled("main")`
       transparent 1px,
       transparent 40px
     );
-  background-color: #1a2121;
+  background-color: ${({ theme }) => theme.palette.background.paper};
+
+  );
 `;
 
 export default App;

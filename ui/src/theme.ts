@@ -3,7 +3,7 @@ import { createTheme, type ThemeOptions } from "@mui/material";
 export const themeOptions: ThemeOptions = createTheme({
   palette: {
     background: {
-      paper: "#141414",
+      paper: "#020202",
     },
     mode: "dark",
     primary: {

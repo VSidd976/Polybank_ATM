@@ -1,17 +1,16 @@
-import AtmAPI from "@api/AtmAPI";
-import type { Card } from "@components/BankCard/consts";
+import AtmAPI, { useAtmApi } from "@api/AtmAPI";
 import { BackButton } from "@components/Button/BackButton";
 import BaseButton from "@components/Button/Button";
 import Input from "@components/Input/Input";
+import { Title as Title_ } from "@components/Title/title";
 import { styled } from "@mui/material";
-import { useCard } from "@utils/stores/cardStore";
+import { withProps } from "@utils/withProps";
 import {
   useCallback,
   useState,
   type FormEvent,
   type ReactElement,
 } from "react";
-import { useNavigate, type NavigateFunction } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const AMOUNT_INPUT = "amount";
@@ -19,32 +18,25 @@ const CARD_NUMBER = "card-number";
 
 const onFormSubmit = (
   e: FormEvent<HTMLFormElement>,
-  card: Card | undefined,
-  navigate: NavigateFunction,
+  api: AtmAPI | null,
 ): void => {
   e.preventDefault();
   const formData = new FormData(e.currentTarget);
   const amount = formData.get(AMOUNT_INPUT) as string;
   const cardNumber = formData.get(CARD_NUMBER) as string;
-  if (!card) return void toast("No card inserted");
+  if (!api) throw Error("No card inserted");
   if (!amount || !cardNumber || cardNumber.length !== 16)
-    return void toast("Invalid from data");
+    return void toast.error("Invalid form data");
 
-  AtmAPI.of(card)
-    .transferMoney(Number.parseFloat(amount), cardNumber)
-    .then(() => {
-      toast.success("Operation successful");
-      navigate("/main");
-    })
-    .catch(() => {
-      toast("Operation went wrong");
-    });
+  api.transferMoney(Number.parseFloat(amount), cardNumber);
 };
 
 const Transfer = (): ReactElement => {
   const [value, setValue] = useState("");
-  const navigate = useNavigate();
-  const { card } = useCard();
+  const api = useAtmApi({
+    success: { text: "Operation successful", redirectTo: "/main/success" },
+    failure: { text: "Operation failure" },
+  });
 
   const handleChange = (v_: string) => {
     let v = v_.replace(/\D/g, "");
@@ -53,28 +45,33 @@ const Transfer = (): ReactElement => {
   };
 
   const onSubmit = useCallback(
-    (e: FormEvent<HTMLFormElement>) => onFormSubmit(e, card, navigate),
-    [card, navigate],
+    (e: FormEvent<HTMLFormElement>) => onFormSubmit(e, api),
+    [api],
   );
   return (
     <Container>
       <BackButton />
       <Form onSubmit={onSubmit}>
+        <Title>Transfer money</Title>
+        <CardNumberInput value={value} onChange={handleChange} />
         <Input name={AMOUNT_INPUT} type="number" min={0} placeholder="Amount" />
-        <Input
-          min={0}
-          value={value}
-          onChange={handleChange}
-          name={CARD_NUMBER}
-          placeholder="Card number"
-          inputMode="numeric"
-          maxLength={16}
-        />
         <BaseButton type="submit" txt="Submit" />
       </Form>
     </Container>
   );
 };
+
+const CardNumberInput = withProps(Input, {
+  min: 0,
+  name: CARD_NUMBER,
+  placeholder: "Card number",
+  inputMode: "numeric",
+  maxLength: 16,
+} as const);
+
+const Title = styled(Title_)`
+  text-align: center;
+`;
 
 export default Transfer;
 

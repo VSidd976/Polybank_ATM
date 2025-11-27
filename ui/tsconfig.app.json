@@ -13,6 +13,7 @@
       "@assets/*": ["src/assets/*"],
       "@utils/*": ["src/utils/*"],
       "@pages/*": ["src/pages/*"],
+      "@root/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@api/*": ["src/api/*"]
     },

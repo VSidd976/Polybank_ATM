@@ -1,14 +1,17 @@
 import { BackButton } from "@components/Button/BackButton";
 import { styled } from "@mui/material";
 import { useAccountInfo } from "@utils/hooks/useAccountInfo";
+import { useCard } from "@utils/stores/cardStore";
 import type { ReactElement } from "react";
 
 const AccountInfo = (): ReactElement => {
   const accountInfo = useAccountInfo();
+  const { card } = useCard();
   return (
     <Container>
       <BackButton />
-      <Field>Balance: {accountInfo?.balance}</Field>
+      <Field>Name: {card?.ownerName ?? "Not mentioned"}</Field>
+      <Field>Balance: {accountInfo?.balance ?? 0}$(ukr hryvnya)</Field>
     </Container>
   );
 };
@@ -20,6 +23,8 @@ const Container = styled("div")`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  gap: 12px;
   position: relative;
   overflow: hidden;
 `;

@@ -1,10 +1,8 @@
-import AtmAPI from "@api/AtmAPI";
-import type { Card } from "@components/BankCard/consts";
+import AtmAPI, { useAtmApi } from "@api/AtmAPI";
 import { BackButton } from "@components/Button/BackButton";
 import Cash_ from "@components/Cash/Cash";
 import { CASH_NOMINALS, type Nominal } from "@components/Cash/const";
 import { styled } from "@mui/material";
-import { useCard } from "@utils/stores/cardStore";
 import { useCallback, useEffect, useState, type ReactElement } from "react";
 
 const OPTIONS = Object.keys(CASH_NOMINALS);
@@ -26,17 +24,22 @@ const useInsert = (): {
   return { inserted, insert };
 };
 
-function sendReq(card: Card | undefined, amount: number): void {
-  if (!card) return;
-  AtmAPI.of(card).putMoney(amount);
+function sendReq(api: AtmAPI | null, amount: number): void {
+  if (!api) return;
+  api.putMoney(amount);
 }
 
 const AddMoney = (): ReactElement => {
   const { insert, inserted } = useInsert();
   const [total, updateTotal] = useState<number>(0);
-  const { card } = useCard();
+  const api = useAtmApi({
+    success: { text: "Operation successful" },
+    failure: {
+      text: "Opeartion went wrong, please leave your request on our contact line",
+    },
+  });
 
-  const onPutMoney = useCallback(() => sendReq(card, total), [card, total]);
+  const onPutMoney = useCallback(() => sendReq(api, total), [api, total]);
 
   useEffect(() => {
     if (inserted) updateTotal((s) => s + inserted);
