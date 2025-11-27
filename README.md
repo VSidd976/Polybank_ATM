@@ -1,31 +1,81 @@
 # Polybank_ATM
 
-# 🧩 React + Vite Frontend & C++ Backend (Crow, CPR, Catch2)
+PolyBank_ATM is a part of modern full-stack project PolyBank combining a **React + Vite** frontend with a **C++ backend** powered by [Crow](https://github.com/CrowCpp/Crow), [CPR](https://github.com/libcpr/cpr), [nlohmann json](https://github.com/nlohmann/json) and [Catch2](https://github.com/catchorg/Catch2) for testing using **CMake**.  
+<!-- The backend is built using **Meson** and **Ninja**, with **Asio** for networking support. -->
 
-A modern full-stack project combining a **React + Vite** frontend with a **C++ backend** powered by [Crow](https://github.com/CrowCpp/Crow), [CPR](https://github.com/libcpr/cpr), and [Catch2](https://github.com/catchorg/Catch2) for testing.  
-The backend is built using **Meson** and **Ninja**, with **Asio** for networking support.
+## Instalation
 
+Use git to install PolyBank_ATM.
 
----
+```git
+git clone https://github.com/VSidd976/Polybank_ATM.git
+```
 
-## ⚙️ Backend Setup (C++ Crow Server)
+### Backend Dependencies
 
-### 🧰 Dependencies
-
-You’ll need:
-
-- **C++17 or later** compiler (e.g. `g++`, `clang++`, or MSVC)
-- **Meson** and **Ninja**
-- **Asio** (if not using Boost.Asio)
+- **C++17 or later** compiler (e.g. GCC, Clang or MSVC)
+- **CMake**
+- **Meson**
 - **Ninja**
+- **Asio**
 
-### 📦 Install Dependencies
+#### macOs instalation
 
-#### Front end
 ```bash
-sudo apt update
-sudo apt install g++ cmake meson ninja-build libboost-all-dev libasio-dev libssl-dev
+brew install cmake meson asio
+```
 
-cd frontend
+#### Linux (Ubuntu/Debian) instalation
+
+```bash
+sudo apt install build-essential cmake meson asio
+```
+
+#### Windows instalation
+
+```cmd
+winget install Microsoft.VisualStudio.2022.Community
+
+winget install Kitware.CMake MesonBuild.Meson
+
+git clone https://github.com/microsoft/vcpkg
+.\vcpkg\bootstrap-vcpkg.bat
+
+.\vcpkg\vcpkg integrate install
+
+.\vcpkg\vcpkg install asio
+```
+
+### Frontend dependencies instalation
+
+To install frontend dependencies open terminal in root directory and execute following comamnds.
+
+```bash
+cd ui
 npm install
-npm run dev
+```
+
+## Preparation
+
+Before you run this project, create **env.json** file in root directory and enter your server address.
+
+```json
+{
+    "SERVER_ADDRESS": "<your_address>"
+}
+```
+
+### Important note
+
+In order to use this project you need to deploy [PolyBank_Bank](https://github.com/VSidd976/Polybank_Bank) localy or on linux server.
+
+## Executing
+
+To execute this project execute following commands using terminal in root directory.
+
+```bash
+mkdir build
+cd build
+cmake --build
+cmake ..
+```
