@@ -89,7 +89,7 @@ const AutoTransfersList = (): ReactElement => {
   };
   return (
     <>
-      {!autotransfers.length && <Text>No handlers yet</Text>}
+      {!autotransfers.length && <Text>No transfers yet</Text>}
       {autotransfers.map((l, idx) => (
         <AutoTransfer {...l} onDelete={() => onDelete(l.id, idx)} />
       ))}

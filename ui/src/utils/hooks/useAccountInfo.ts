@@ -6,7 +6,7 @@ export const useAccountInfo = () => {
   const api = useAtmApi({ onSuccess: (i) => setInfo(i) });
   useEffect(() => {
     if (api) {
-      api.getInfo();
+      api.getInfo().then(setInfo);
     }
   }, [api]);
   return accountInfo;
