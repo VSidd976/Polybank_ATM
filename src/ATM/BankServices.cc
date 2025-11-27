@@ -440,12 +440,15 @@ vector<AutoTransferinfo> PolyBank::allAutoTransfers(const string& token)
     return autoTransfers;
 }
 
-void PolyBank::createAutoTransfer(const string& token, const string& target_card, const string& frequency, const double& amount)
+void PolyBank::createAutoTransfer(const string& token, const string& target_card,
+    const string& frequency, const string& next_date, const double& amount)
 {
     json body;
-    body["target_card"] = target_card;
+    body["trg_card"] = target_card;
     body["periodicity"] = frequency;
+    body["next_run_date"] = next_date;
     body["amount"] = amount;
+    cout << body << endl;
     cpr::Response r = cpr::Post(
         cpr::Url{ _baseUrl + "/api/daemon/auto-transfer" },
         cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}},

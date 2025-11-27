@@ -215,13 +215,13 @@ vector<AutoTransferinfo> ATM::getAllAutoTransfers() const
     return _bankService.allAutoTransfers(_session->_token);
 }
 
-void ATM::createAutoTransfer(const string& target_card, const string& frequency, const double& amount) const
+void ATM::createAutoTransfer(const string& target_card, const string& frequency, const string& next_date, const double& amount) const
 {
     if (_session == nullptr)
     {
         throw BadOperation("Bad request", "Session is not started");
     }
-    _bankService.createAutoTransfer(_session->_token, target_card, frequency, amount);
+    _bankService.createAutoTransfer(_session->_token, target_card, frequency, next_date, amount);
 }
 
 void ATM::deleteAutoTransfer(const int& id) const

@@ -421,9 +421,7 @@ int main()
             {
                 data["list"][i]["id"] = allCreditProtections[i]._id;
                 data["list"][i]["backupCard"] = allCreditProtections[i]._backup_card;
-                data["list"][i]["minBalance"] = allCreditProtections[i]._min_balance;
-                data["list"][i]["active"] = allCreditProtections[i]._active;
-            }
+                data["list"][i]["minBalance"] = allCreditProtections[i]._min_balance;            }
             res.code = 200;
             res.set_header("Content-type", "application/json");
             res.write(data.dump());
@@ -503,7 +501,6 @@ int main()
                 data["list"][i]["id"] = allLeftOvers[i]._id;
                 data["list"][i]["targetCard"] = allLeftOvers[i]._target_card;
                 data["list"][i]["threshold"] = allLeftOvers[i]._threshold;
-                // data["list"][i]["active"] = allLeftOvers[i]._active;
             }
             res.code = 200;
             res.set_header("Content-type", "application/json");
@@ -587,7 +584,6 @@ int main()
                 data["list"][i]["frequency"] = allAutoTransfers[i]._frequency;
                 data["list"][i]["nextDate"] = allAutoTransfers[i]._next_date;
                 data["list"][i]["amount"] = allAutoTransfers[i]._amount;
-                data["list"][i]["active"] = allAutoTransfers[i]._active;
             }
             res.code = 200;
             res.set_header("Content-type", "application/json");
@@ -612,11 +608,12 @@ int main()
         auto data = json::parse(req.body);
         const string target_card = data["targetCard"];
         const string frequency = data["frequency"];
+        const string next_date = data["nextDate"];
         const double amount = data["amount"];
         crow::response res;
         try
         {
-            atm.createAutoTransfer(target_card, frequency, amount);
+            atm.createAutoTransfer(target_card, frequency, next_date, amount);
             res.code = 200;
         }
         catch(const BadOperation& bo)

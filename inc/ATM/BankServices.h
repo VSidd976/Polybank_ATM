@@ -46,7 +46,7 @@ public:
 
     virtual vector<AutoTransferinfo> allAutoTransfers(const string&) = 0;
 
-    virtual void createAutoTransfer(const string&, const string&, const string&, const double&) = 0;
+    virtual void createAutoTransfer(const string&, const string&, const string&, const string&, const double&) = 0;
     virtual void deleteAutoTransfer(const string&, const int&) = 0;
 
     virtual ~IBankService() = default;
@@ -101,6 +101,6 @@ public:
 
     vector<AutoTransferinfo> allAutoTransfers(const string&) override;
 
-    void createAutoTransfer(const string&, const string&, const string&, const double&) override;
+    void createAutoTransfer(const string&, const string&, const string&, const string&, const double&) override;
     void deleteAutoTransfer(const string&, const int&) override;
 };
