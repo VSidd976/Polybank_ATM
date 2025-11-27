@@ -47,7 +47,6 @@ struct CreditProtectionInfo
     string _backup_card;
     double _min_balance;
     int _id;
-    bool _active;
 };
 
 struct LeftOverInfo
@@ -55,7 +54,6 @@ struct LeftOverInfo
     string _target_card;
     double _threshold;
     int _id;
-    // bool _active;
 };
 
 struct AutoTransferinfo
@@ -65,5 +63,4 @@ struct AutoTransferinfo
     string _next_date;
     double _amount;
     int _id;
-    bool _active;
 };
