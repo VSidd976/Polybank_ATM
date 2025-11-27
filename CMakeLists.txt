@@ -4,10 +4,15 @@ project("Polybank_ATM" VERSION 0.1.0 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 
-option(ENABLE_TESTING "Enable a Unit tests build" ON)
+option(ENABLE_TESTING "Enable a Unit tests build" OFF)
+option(ENABLE_LTO "Enable LTO" ON)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 include(CPM)
+
+if (${ENABLE_LTO})
+    include(LTO)
+endif()
 
 cpmaddpackage("gh:CrowCpp/Crow#v1.3.0")
 cpmaddpackage("gh:nlohmann/json#v3.12.0")
