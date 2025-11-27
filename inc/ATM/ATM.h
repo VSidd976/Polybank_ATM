@@ -58,7 +58,6 @@ public:
 
     vector<DepositInfo> getAllDeposits() const;
     vector<DepositProductInfo> getAllDepositProducts() const;
-    // void showLeftOverInfo() const;
 
     void putOnDeposit(const int&, const double&) const;
     void takeFromDeposit(const int&) const;
@@ -84,7 +83,4 @@ public:
 
     void createAutoTransfer(const string&, const string&, const string&, const double&) const;
     void deleteAutoTransfer(const int&) const;
-
-    // void createAutoTransfer(const double&, const string&, const Frequency&);
-    // void setLeftOverHandling(const LeftOverOption&, const Frequency&);
 };
