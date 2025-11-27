@@ -1,7 +1,6 @@
 # Polybank_ATM
 
 PolyBank_ATM is a part of modern full-stack project PolyBank combining a **React + Vite** frontend with a **C++ backend** powered by [Crow](https://github.com/CrowCpp/Crow), [CPR](https://github.com/libcpr/cpr), [nlohmann json](https://github.com/nlohmann/json) and [Catch2](https://github.com/catchorg/Catch2) for testing using **CMake**.  
-<!-- The backend is built using **Meson** and **Ninja**, with **Asio** for networking support. -->
 
 ## Instalation
 
