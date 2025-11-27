@@ -7,8 +7,6 @@
 #include "CashStorage.h"
 #include "State.h"
 #include "Session.h"
-#include "Frequency.h"
-#include "LeftOverOption.h"
 
 class ATM
 {
