@@ -8,6 +8,12 @@ private:
     const string mockNumber = "4556727619519847";
     vector<DepositInfo> _myDeposits;
     vector<DepositProductInfo> _depositProducts;
+    vector<CreditInfo> _myCredits;
+    vector<CreditProductInfo> _creditProducts;
+    vector<CreditProtectionInfo> _myCreditProtections;
+    vector<LeftOverInfo> _myLeftOvers;
+    vector<AutoTransferinfo> _myAutoTransfers;
+
 public:
     TestBank() = default;
     ~TestBank() = default;
@@ -32,4 +38,25 @@ public:
 
     void putOnDeposit(const string&, const int&, const double&) override;
     void takeFromDeposit(const string&, const int&) override;
+
+    vector<CreditInfo> allCredits(const string&) override;
+    vector<CreditProductInfo> allCreditProducts(const string&) override;
+
+    vector<CreditProtectionInfo> allCreditProtections(const string&) override;
+
+    void createCreditProtection(const string&, const double&) override;
+    void deleteCreditProtection(const string&, const int&) override;
+
+    void takeCredit(const string&, const int&, const double&) override;
+    void payCredit(const string&, const int&, const double&) override;
+
+    vector<LeftOverInfo> allLeftOvers(const string&) override;
+
+    void createLeftOver(const string&, const string&, const double&) override;
+    void deleteLeftOver(const string&, const int&) override;
+
+    vector<AutoTransferinfo> allAutoTransfers(const string&) override;
+
+    void createAutoTransfer(const string&, const string&, const string&, const string&, const double&) override;
+    void deleteAutoTransfer(const string&, const int&) override;
 };
