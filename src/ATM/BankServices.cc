@@ -222,7 +222,6 @@ vector<CreditInfo> PolyBank::allCredits(const string& token)
     for (int i = 0; i < data.size(); ++i)
     {
         credits[i]._opened_at = data[i]["opened_at"];
-        credits[i]._closed_at = data[i]["closed_at"];
         credits[i]._product_name = data[i]["product_name"];
         credits[i]._amount = data[i]["amount"];
         credits[i]._remaining_amount = data[i]["remaining_amount"];
@@ -305,14 +304,18 @@ vector<CreditProtectionInfo> PolyBank::allCreditProtections(const string& token)
         throw BadOperation("Bad request", r.text);
     }
     cout << "SENT" << endl;
-    auto data = json::parse(r.text).at("credit_protection_rules");
-    vector<CreditProtectionInfo> creditProtections(data.size());
+    auto data = json::parse(r.text);
+    vector<CreditProtectionInfo> creditProtections;
     for (int i = 0; i < data.size(); ++i)
     {
-        creditProtections[i]._backup_card = data[i]["backup_card"];
-        creditProtections[i]._min_balance = data[i]["min_balance"];
-        creditProtections[i]._id = data[i]["id"];
-        creditProtections[i]._active = data[i]["active"];
+        if (data[i]["active"])
+        {
+            creditProtections.push_back({
+                data[i]["backup_card"],
+                data[i]["min_balance"],
+                data[i]["id"]
+            });
+        }
     }
     return creditProtections;
 }
@@ -335,12 +338,10 @@ void PolyBank::createCreditProtection(const string& token, const double& amount)
 
 void PolyBank::deleteCreditProtection(const string& token, const int& id)
 {
-    json body;
-    body["id"] = id;
+
     cpr::Response r = cpr::Delete(
         cpr::Url{ _baseUrl + "/api/daemon/credit-protection/" + to_string(id) },
-        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}},
-        cpr::Body{ body.dump() }
+        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}}
     );
     if (r.status_code != 200)
     {
@@ -362,14 +363,18 @@ vector<LeftOverInfo> PolyBank::allLeftOvers(const string& token)
         throw BadOperation("Bad request", r.text);
     }
     cout << "SENT" << endl;
-    auto data = json::parse(r.text).at("leftover_rules");
-    vector<LeftOverInfo> leftOvers(data.size());
+    auto data = json::parse(r.text);
+    vector<LeftOverInfo> leftOvers;
     for (int i = 0; i < data.size(); ++i)
     {
-        leftOvers[i]._target_card = data[i]["trg_card"];
-        leftOvers[i]._threshold = data[i]["threshold"];
-        leftOvers[i]._id = data[i]["id"];
-        leftOvers[i]._active = data[i]["active"];
+        if (data[i]["active"])
+        {
+            leftOvers.push_back({
+                data[i]["trg_card"],
+                data[i]["threshold"],
+                data[i]["id"]
+            });
+        }
     }
     return leftOvers;
 }
@@ -393,12 +398,9 @@ void PolyBank::createLeftOver(const string& token, const string& target_card, co
 
 void PolyBank::deleteLeftOver(const string& token, const int& id)
 {
-    json body;
-    body["id"] = id;
     cpr::Response r = cpr::Delete(
         cpr::Url{ _baseUrl + "/api/daemon/leftover-rule/" + to_string(id) },
-        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}},
-        cpr::Body{ body.dump() }
+        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}}
     );
     if (r.status_code != 200)
     {
@@ -420,16 +422,20 @@ vector<AutoTransferinfo> PolyBank::allAutoTransfers(const string& token)
         throw BadOperation("Bad request", r.text);
     }
     cout << "SENT" << endl;
-    auto data = json::parse(r.text).at("auto_transfers");
-    vector<AutoTransferinfo> autoTransfers(data.size());
+    auto data = json::parse(r.text);
+    vector<AutoTransferinfo> autoTransfers;
     for (int i = 0; i < data.size(); ++i)
     {
-        autoTransfers[i]._target_card = data[i]["trg_card"];
-        autoTransfers[i]._frequency = data[i]["periodicity"];
-        autoTransfers[i]._next_date = data[i]["next_run_date"];
-        autoTransfers[i]._amount = data[i]["amount"];
-        autoTransfers[i]._id = data[i]["id"];
-        autoTransfers[i]._active = data[i]["active"];
+        if (data[i]["active"])
+        {
+            autoTransfers.push_back({
+                data[i]["trg_card"],
+                data[i]["periodicity"],
+                data[i]["next_run_date"],
+                data[i]["amount"],
+                data[i]["id"],
+            });
+        }
     }
     return autoTransfers;
 }
@@ -454,12 +460,10 @@ void PolyBank::createAutoTransfer(const string& token, const string& target_card
 
 void PolyBank::deleteAutoTransfer(const string& token, const int& id)
 {
-    json body;
-    body["id"] = id;
+
     cpr::Response r = cpr::Delete(
         cpr::Url{ _baseUrl + "/api/daemon/auto-transfer/" + to_string(id) },
-        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}},
-        cpr::Body{ body.dump() }
+        cpr::Header{{"Authorization", "Bearer " + token}, {"Accept", "application/json"}}
     );
     if (r.status_code != 200)
     {

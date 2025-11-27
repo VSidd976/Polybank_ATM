@@ -26,7 +26,6 @@ struct DepositProductInfo
 struct CreditInfo
 {
     string _opened_at;
-    string _closed_at;
     string _product_name;
     double _amount;
     double _remaining_amount;
@@ -56,7 +55,7 @@ struct LeftOverInfo
     string _target_card;
     double _threshold;
     int _id;
-    bool _active;
+    // bool _active;
 };
 
 struct AutoTransferinfo
