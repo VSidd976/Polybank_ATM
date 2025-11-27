@@ -71,11 +71,18 @@ In order to use this project you need to deploy [PolyBank_Bank](https://github.c
 
 ## Executing
 
-To execute this project execute following commands using terminal in root directory.
+To run backend of the project execute following commands using terminal in root directory.
 
 ```bash
 mkdir build
 cd build
 cmake --build
 cmake ..
+```
+
+To run frontend open new terminal in root directory and execute following commands.
+
+```bash
+cd ui
+npm run dev
 ```
