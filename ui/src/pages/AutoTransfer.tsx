@@ -236,6 +236,7 @@ const CustomDatePicker = (): ReactElement => {
       <ThemeProvider theme={datePickerTheme}>
         <DatePicker
           minDate={dayjs()}
+          format="YYYY-MM-DD"
           name={NEXT_DATE}
           sx={{
             "*": { color: "#fff !important" },
