@@ -443,7 +443,7 @@ vector<AutoTransferinfo> PolyBank::allAutoTransfers(const string& token)
 void PolyBank::createAutoTransfer(const string& token, const string& target_card, const string& frequency, const double& amount)
 {
     json body;
-    body["trg_card"] = target_card;
+    body["target_card"] = target_card;
     body["periodicity"] = frequency;
     body["amount"] = amount;
     cpr::Response r = cpr::Post(

@@ -17,6 +17,7 @@ import SuccessfulOperation from "@pages/SuccessfulOperation";
 import Credit from "@pages/Credit";
 import type { ComponentType } from "react";
 import LeftOvers from "@pages/LeftOvers";
+import AutoTransfers from "@pages/AutoTransfer";
 
 const PATHS: { path: string; Component: ComponentType }[] = [
   { path: "/main", Component: MainScreen },
@@ -28,6 +29,7 @@ const PATHS: { path: string; Component: ComponentType }[] = [
   { path: "/main/credits", Component: Credit },
   { path: "/main/success", Component: SuccessfulOperation },
   { path: "/main/leftovers", Component: LeftOvers },
+  { path: "/main/auto-transfers", Component: AutoTransfers },
 ];
 
 function App() {

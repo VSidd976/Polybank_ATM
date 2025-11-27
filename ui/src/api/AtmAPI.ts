@@ -55,6 +55,15 @@ export type LeftOverHandlerResponseDto = {
   threshold: number;
 };
 
+export type AutoTransferResponseDto = {
+  id: string;
+  targetCard: string;
+  frequency: string;
+  nextDate: string;
+  amount: number;
+  active: boolean;
+};
+
 const BASE_URL = "http://localhost:8000";
 
 class AtmAPI {
@@ -184,6 +193,31 @@ class AtmAPI {
     targetCard: string,
   ): Promise<void> {
     return this.api.post("/daemon/leftover/create", { threshold, targetCard });
+  }
+
+  async createAutoTransfer(
+    amount: number,
+    targetCard: string,
+    nextDate: string,
+    frequency: string,
+  ): Promise<void> {
+    return this.api.post("/daemon/auto-transfer/create", {
+      amount,
+      frequency,
+      nextDate,
+      targetCard,
+    });
+  }
+
+  async allAutoTransfers(): Promise<AutoTransferResponseDto[]> {
+    return this.api
+      .get("/daemon/auto-transfer")
+      .then((r) => r.data.list ?? [])
+      .catch(() => []);
+  }
+
+  async removeAutoTransfer(id: string): Promise<void> {
+    return this.api.post("/daemon/auto-transfer/delete", { id });
   }
 
   async endSession(): Promise<void> {
