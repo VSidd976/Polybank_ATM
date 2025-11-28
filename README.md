@@ -79,7 +79,7 @@ cmake ..
 cmake --build
 ```
 
-After build finish, run next command.
+After build finish, execute next command to run project.
 
 ### Unix
 
