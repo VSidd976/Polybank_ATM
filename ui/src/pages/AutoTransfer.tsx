@@ -91,7 +91,7 @@ const AutoTransfersList = (): ReactElement => {
     <>
       {!autotransfers.length && <Text>No transfers yet</Text>}
       {autotransfers.map((l, idx) => (
-        <AutoTransfer {...l} onDelete={() => onDelete(l.id, idx)} />
+        <AutoTransfer key={l.id} {...l} onDelete={() => onDelete(l.id, idx)} />
       ))}
     </>
   );
@@ -103,6 +103,7 @@ const AutoTransfer = ({
   nextDate,
   frequency,
   onDelete,
+  amount,
 }: AutoTransferResponseDto & {
   onDelete: () => void;
 }): ReactElement => {
@@ -111,6 +112,7 @@ const AutoTransfer = ({
       <Wrapper>
         <Text>Target card: {targetCard}</Text>
         <Text>Next tranfer: {nextDate} </Text>
+        <Text>Amount: {amount}$</Text>
         <Text>Frequency: {capitalize(frequency)} </Text>
       </Wrapper>
       <BaseButton txt="Remove" onClick={onDelete} />
@@ -120,7 +122,8 @@ const AutoTransfer = ({
 
 const Wrapper = styled("div")`
   display: flex;
-  gap: 12px;
+  gap: 2px;
+  font-size: 12px;
   flex-direction: column;
 `;
 

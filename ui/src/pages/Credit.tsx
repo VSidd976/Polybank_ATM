@@ -147,6 +147,7 @@ const InputWrapper = styled("div")`
   display: flex;
   flex-direction: column;
   align-self: flex-start;
+  width: 100%;
 `;
 
 const SubTitle = styled("strong")`
