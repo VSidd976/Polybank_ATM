@@ -10,6 +10,7 @@ import { BaseModal } from "@components/Modal";
 import { Title as TitleBase } from "@components/Title/title";
 import { Select, styled } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
+import { formatDate } from "@utils/format";
 import { useBoolean } from "@utils/hooks/useBoolean";
 import { useEffect, useRef, useState, type ReactElement } from "react";
 import { toast } from "react-toastify";
@@ -146,6 +147,7 @@ const InputWrapper = styled("div")`
   display: flex;
   flex-direction: column;
   align-self: flex-start;
+  width: 100%;
 `;
 
 const SubTitle = styled("strong")`
@@ -247,7 +249,7 @@ const Credit = ({
     <Card key={key}>
       <Text>
         <span>Credit: {productName}</span>
-        <span>Opened at: {startDate}</span>
+        <span>Opened at: {formatDate(startDate)}</span>
         <span>Remaining to close: {remainingAmount}$</span>
       </Text>
       <BaseButton txt="Pay off" onClick={onPayOff} />
@@ -258,7 +260,9 @@ const Credit = ({
 const Card = styled("div")`
   display: flex;
   background: ${({ theme }) => theme.palette.background.paper};
-  max-width: fit-content;
+  max-width: 420px;
+  width: 100%;
+  justify-content: space-between;
   padding: 15px;
   border-radius: 12px;
   gap: 12px;

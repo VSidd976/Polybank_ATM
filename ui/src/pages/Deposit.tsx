@@ -10,6 +10,7 @@ import { BaseModal } from "@components/Modal";
 import { Title as TitleBase } from "@components/Title/title";
 import { Select, styled } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
+import { formatDate } from "@utils/format";
 import { useAccountInfo } from "@utils/hooks/useAccountInfo";
 import { useBoolean } from "@utils/hooks/useBoolean";
 import { useEffect, useRef, useState, type ReactElement } from "react";
@@ -207,10 +208,6 @@ const Deposit = ({
       </Text>
     </Card>
   );
-};
-
-const formatDate = (startDate: string): string => {
-  return startDate.slice(0, startDate.indexOf("T"));
 };
 
 const Card = styled("div")`
