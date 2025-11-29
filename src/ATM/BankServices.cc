@@ -9,6 +9,7 @@ string parseJsonEnv(const string& path)
         throw BadOperation("Bad opening", "could not open file");
     }
     inputFile >> data;
+    inputFile.close();
     return data["SERVER_ADDRESS"];
 }
 

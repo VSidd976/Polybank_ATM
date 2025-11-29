@@ -1,6 +1,7 @@
 set(ATM_SOURCES
     ATM.cc
     CardSlot.cc
+    CashStorage.cc
     BankServices.cc
     BadOperation.cc
 )
