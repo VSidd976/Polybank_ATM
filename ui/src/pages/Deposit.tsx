@@ -238,7 +238,9 @@ const Donut = ({
           data: [{ value: 100 - value }, { value }],
         },
       ]}
-      slotProps={{ tooltip: <></> }}
+      slotProps={{
+        tooltip: { trigger: "none" },
+      }}
       {...settings}
     />
   );
