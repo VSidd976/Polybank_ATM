@@ -11,10 +11,12 @@ import { Title as TitleBase } from "@components/Title/title";
 import { Select, styled } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import { formatDate } from "@utils/format";
+import { PieChart } from "@mui/x-charts/PieChart";
 import { useAccountInfo } from "@utils/hooks/useAccountInfo";
 import { useBoolean } from "@utils/hooks/useBoolean";
 import { useEffect, useRef, useState, type ReactElement } from "react";
 import { toast } from "react-toastify";
+import { useMemoValue } from "@utils/hooks/useMemoValue";
 
 const Deposits = (): ReactElement => {
   const [isOpen, modal] = useBoolean();
@@ -179,12 +181,7 @@ const DepositsList = (): ReactElement => {
     <>
       {!deposits.length && <Text>No active deposits yet</Text>}
       {deposits.map((d) => (
-        <Deposit
-          key={d.id}
-          startDate={d.startDate}
-          endDate={d.endDate}
-          total={d.money}
-        />
+        <Deposit key={d.id} {...d} total={d.money} />
       ))}
     </>
   );
@@ -193,21 +190,66 @@ const DepositsList = (): ReactElement => {
 const Deposit = ({
   startDate,
   total,
-  key,
+  endDate,
+  id,
 }: {
-  key?: string;
+  id: string;
   startDate: string;
   endDate: string;
   total: number;
 }) => {
   return (
-    <Card key={key}>
+    <Card key={id}>
+      <Donut startDate={startDate} endDate={endDate} />
       <Text>
         <span>Opened at: {formatDate(startDate)}</span>
         <span>End total: {total}$</span>
       </Text>
     </Card>
   );
+};
+
+const Donut = ({
+  startDate,
+  endDate,
+}: {
+  startDate: string;
+  endDate: string;
+}): ReactElement => {
+  const value = useMemoValue(
+    (_start, _end) => {
+      const now = Date.now();
+      const start = Date.parse(_start);
+      const end = Date.parse(_end);
+
+      if (now >= end) return 0;
+      if (now <= start) return 100;
+
+      return ((end - now) / (end - start)) * 100;
+    },
+    [startDate, endDate],
+  );
+  return (
+    <PieChart
+      series={[
+        {
+          ...seriesSettings,
+          data: [{ value: 100 - value }, { value }],
+        },
+      ]}
+      {...settings}
+    />
+  );
+};
+
+const seriesSettings = { innerRadius: 12, outerRadius: 20, startAngle: 0 };
+
+const settings = {
+  margin: { right: 5 },
+  width: 40,
+  height: 40,
+  hideLegend: true,
+  colors: ["#01B2AC", "gray"],
 };
 
 const Card = styled("div")`
