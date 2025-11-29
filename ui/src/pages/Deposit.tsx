@@ -203,6 +203,7 @@ const Deposit = ({
       <Donut startDate={startDate} endDate={endDate} />
       <Text>
         <span>Opened at: {formatDate(startDate)}</span>
+        <span>End Date: {formatDate(endDate)}</span>
         <span>End total: {total}$</span>
       </Text>
     </Card>
@@ -237,6 +238,7 @@ const Donut = ({
           data: [{ value: 100 - value }, { value }],
         },
       ]}
+      slotProps={{ tooltip: <></> }}
       {...settings}
     />
   );
