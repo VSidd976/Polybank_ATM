@@ -134,11 +134,13 @@ vector<DepositInfo> PolyBank::allDeposits(const string& token)
     cout << "SENT" << endl;
     auto data = json::parse(r.text).at("deposits");
     vector<DepositInfo> deposits(data.size());
+    cout << data << endl;
     for (int i = 0; i < data.size(); ++i)
     {
         deposits[i]._opened_at = data[i]["opened_at"];
         deposits[i]._balance = data[i]["amount"];
         deposits[i]._product_id = data[i]["product_id"];
+        deposits[i]._end_date = data[i]["end_dt"];
         deposits[i]._id = data[i]["id"];
     }
     return deposits;

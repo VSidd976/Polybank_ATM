@@ -190,7 +190,7 @@ int main()
             {
                 data["list"][i]["id"] = allDeposits[i]._id;
                 data["list"][i]["startDate"] = allDeposits[i]._opened_at;
-                data["list"][i]["endDate"] = allDeposits[i]._closed_at;
+                data["list"][i]["endDate"] = allDeposits[i]._end_date;
                 data["list"][i]["money"] = allDeposits[i]._balance;
                 data["list"][i]["productName"] = "123";
             }

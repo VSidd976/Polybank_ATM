@@ -8,7 +8,7 @@ struct AccountInfo
 struct DepositInfo
 {
     string _opened_at;
-    string _closed_at;
+    string _end_date;
     string _product_name;
     double _balance;
     int _product_id;
