@@ -7,7 +7,7 @@ using namespace nlohmann;
 
 struct CashStorage
 {
-    double _amount;
+    double _amount{0};
 
     CashStorage();
     ~CashStorage();

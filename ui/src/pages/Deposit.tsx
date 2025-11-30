@@ -184,7 +184,7 @@ const DepositsList = (): ReactElement => {
     <>
       {!deposits.length && <Text>No active deposits yet</Text>}
       {deposits.map((d) => (
-        <Deposit key={d.id} {...d} total={d.money} />
+        <Deposit key={d.id} {...d} />
       ))}
     </>
   );
@@ -192,15 +192,11 @@ const DepositsList = (): ReactElement => {
 
 const Deposit = ({
   startDate,
-  total,
+  money,
   endDate,
   id,
-}: {
-  id: string;
-  startDate: string;
-  endDate: string;
-  total: number;
-}) => {
+  productName,
+}: DepositResponseDto) => {
   const value = useMemoValue(leftProgressToPercent, [startDate, endDate]);
   const isFinished = value === 0;
   const api = useAtmApi({
@@ -212,9 +208,11 @@ const Deposit = ({
     <Card key={id}>
       <Donut value={value} />
       <Text>
-        <span>Opened at: {formatDate(startDate)}</span>
-        <span>End Date: {formatDate(endDate)}</span>
-        <span>End total: {total}$</span>
+        <span>{productName}</span>
+        <span>
+          {formatDate(startDate)} - {formatDate(endDate)}
+        </span>
+        <span>End total: {money}$</span>
       </Text>
       {isFinished && <BaseButton txt="Withdraw" onClick={onClick} />}
     </Card>
@@ -262,7 +260,7 @@ const settings = {
 const Card = styled("div")`
   display: flex;
   background: ${({ theme }) => theme.palette.background.paper};
-  max-width: 430px;
+  max-width: 440px;
   width: 100%;
   justify-content: center;
   padding: 15px;
@@ -315,6 +313,9 @@ const Text = styled("p")`
   display: flex;
   color: #fff;
   flex-direction: column;
+  span {
+    text-wrap: nowrap;
+  }
 `;
 
 const Title = styled(TitleBase)`

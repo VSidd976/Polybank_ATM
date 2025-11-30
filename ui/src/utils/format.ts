@@ -3,5 +3,5 @@ export const formatCardNumber = (number: string): string => {
 };
 
 export const formatDate = (startDate: string): string => {
-  return startDate.slice(0, startDate.indexOf("T"));
+  return startDate.slice(0, startDate.indexOf("T")).replaceAll("-", ".");
 };

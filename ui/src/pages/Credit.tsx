@@ -8,7 +8,7 @@ import BaseButton from "@components/Button/Button";
 import InputBase from "@components/Input/Input";
 import { BaseModal } from "@components/Modal";
 import { Title as TitleBase } from "@components/Title/title";
-import { Select, styled } from "@mui/material";
+import { capitalize, Select, styled } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import { formatDate } from "@utils/format";
 import { useBoolean } from "@utils/hooks/useBoolean";
@@ -182,6 +182,7 @@ const CreditsList = (): ReactElement => {
       {credits.map((c) => (
         <Credit
           key={c.id}
+          id={c.id}
           productName={c.productName}
           startDate={c.openedAt}
           remainingAmount={c.remainingAmount}
@@ -237,18 +238,18 @@ const Credit = ({
   productName,
   remainingAmount,
   onPayOff,
-  key,
+  id,
 }: {
-  key?: string;
+  id?: string;
   productName: string;
   onPayOff: () => void;
   startDate: string;
   remainingAmount: number;
 }) => {
   return (
-    <Card key={key}>
+    <Card key={id}>
       <Text>
-        <span>Credit: {productName}</span>
+        <span>Credit: {capitalize(productName)}</span>
         <span>Opened at: {formatDate(startDate)}</span>
         <span>Remaining to close: {remainingAmount}$</span>
       </Text>

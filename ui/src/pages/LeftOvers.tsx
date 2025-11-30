@@ -80,7 +80,7 @@ const LeftOversList = (): ReactElement => {
     <>
       {!leftovers.length && <Text>No handlers yet</Text>}
       {leftovers.map((l, idx) => (
-        <LeftOver {...l} onDelete={() => onDelete(l.id, idx)} />
+        <LeftOver {...l} key={l.id} onDelete={() => onDelete(l.id, idx)} />
       ))}
     </>
   );
