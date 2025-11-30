@@ -141,6 +141,7 @@ vector<DepositInfo> PolyBank::allDeposits(const string& token)
         deposits[i]._balance = data[i]["amount"];
         deposits[i]._product_id = data[i]["product_id"];
         deposits[i]._end_date = data[i]["end_dt"];
+        deposits[i]._product_name = data[i]["product_name"];
         deposits[i]._id = data[i]["id"];
     }
     return deposits;
