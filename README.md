@@ -76,7 +76,7 @@ To build backend of the project execute following commands using terminal in roo
 mkdir build
 cd build
 cmake ..
-cmake --build
+cmake --build .
 ```
 
 After build finish, execute next command to run project.
@@ -84,13 +84,15 @@ After build finish, execute next command to run project.
 ### Unix
 
 ```bash
-./app/Executable
+cd app
+./Executable
 ```
 
 ### Windows
 
 ```cmd
-.\app\Executable
+cd app
+.\Executable
 ```
 
 To run frontend open new terminal in root directory and execute following commands.
