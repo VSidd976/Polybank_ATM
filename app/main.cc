@@ -208,7 +208,7 @@ int main()
                 data["list"][i]["startDate"] = allDeposits[i]._opened_at;
                 data["list"][i]["endDate"] = allDeposits[i]._end_date;
                 data["list"][i]["money"] = allDeposits[i]._balance;
-                data["list"][i]["productName"] = "123";
+                data["list"][i]["productName"] = allDeposits[i]._product_name;
             }
             res.code = 200;
             res.set_header("Content-type", "application/json");
