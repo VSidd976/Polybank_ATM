@@ -98,7 +98,6 @@ cd app
 To run frontend open new terminal in root directory and execute following commands.
 
 ```bash
-cd ui
 npm run dev
 ```
 
