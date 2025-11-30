@@ -10,6 +10,7 @@ import { useBoolean } from "@utils/hooks/useBoolean";
 import { withProps } from "@utils/withProps";
 import {
   useCallback,
+  useEffect,
   useState,
   type FormEvent,
   type ReactElement,
@@ -97,12 +98,22 @@ const Nominals = ({
   );
 };
 
+const useCashAmount = (): number => {
+  const [cashAmount, setAmount] = useState(0);
+  const api = useAtmApi();
+  useEffect(() => {
+    api?.cashInfo().then(setAmount);
+  }, [api]);
+  return cashAmount;
+};
+
 const FormBlock = ({
   onAfterSubmit,
 }: {
   onAfterSubmit?: (val: number | undefined) => void;
 }): ReactElement => {
   const [value, setValue] = useState<string>();
+  const cashAmount = useCashAmount();
   const accountInfo = useAccountInfo();
   const onSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
@@ -113,6 +124,7 @@ const FormBlock = ({
   );
   return (
     <Form onSubmit={onSubmit}>
+      <NominalsInfo>ATM has {cashAmount}$ in cash right now.</NominalsInfo>
       <NominalsInfo>
         Available nominals: {Object.keys(CASH_NOMINALS).join(", ")}
       </NominalsInfo>

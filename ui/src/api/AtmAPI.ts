@@ -155,6 +155,10 @@ class AtmAPI {
     return this.api.put(`/deposit/put`, deposit);
   }
 
+  async depositTake(depositId: string): Promise<void> {
+    await this.api.post(`/deposit/take`, { productId: depositId });
+  }
+
   async creditProducts(): Promise<CreditProductResponseDto[]> {
     return this.api
       .get("/credit/products")
@@ -193,6 +197,10 @@ class AtmAPI {
     targetCard: string,
   ): Promise<void> {
     return this.api.post("/daemon/leftover/create", { threshold, targetCard });
+  }
+
+  async cashInfo(): Promise<number> {
+    return this.api.get("cash/info").then((r) => r.data.amount);
   }
 
   async createAutoTransfer(

@@ -101,7 +101,9 @@ const CreateModal = ({
   );
 };
 
-const Input = styled(InputBase)``;
+const Input = styled(InputBase)`
+  width: 100%;
+`;
 
 const ModalBody = styled("form")`
   padding: 25px;
@@ -155,6 +157,7 @@ const InputWrapper = styled("div")`
   display: flex;
   flex-direction: column;
   align-self: flex-start;
+  width: 100%;
 `;
 
 const SubTitle = styled("strong")`
@@ -198,38 +201,27 @@ const Deposit = ({
   endDate: string;
   total: number;
 }) => {
+  const value = useMemoValue(leftProgressToPercent, [startDate, endDate]);
+  const isFinished = value === 0;
+  const api = useAtmApi({
+    success: { redirectTo: "/main/success", text: "Operation successful" },
+    failure: { text: "Failed to perform an operation" },
+  });
+  const onClick = () => api?.depositTake(id);
   return (
     <Card key={id}>
-      <Donut startDate={startDate} endDate={endDate} />
+      <Donut value={value} />
       <Text>
         <span>Opened at: {formatDate(startDate)}</span>
         <span>End Date: {formatDate(endDate)}</span>
         <span>End total: {total}$</span>
       </Text>
+      {isFinished && <BaseButton txt="Withdraw" onClick={onClick} />}
     </Card>
   );
 };
 
-const Donut = ({
-  startDate,
-  endDate,
-}: {
-  startDate: string;
-  endDate: string;
-}): ReactElement => {
-  const value = useMemoValue(
-    (_start, _end) => {
-      const now = Date.now();
-      const start = Date.parse(_start);
-      const end = Date.parse(_end);
-
-      if (now >= end) return 0;
-      if (now <= start) return 100;
-
-      return ((end - now) / (end - start)) * 100;
-    },
-    [startDate, endDate],
-  );
+const Donut = ({ value }: { value: number }): ReactElement => {
   return (
     <PieChart
       series={[
@@ -246,6 +238,17 @@ const Donut = ({
   );
 };
 
+function leftProgressToPercent(_start: string, _end: string): number {
+  const now = Date.now();
+  const start = Date.parse(_start);
+  const end = Date.parse(_end);
+
+  if (now >= end) return 0;
+  if (now <= start) return 100;
+
+  return ((end - now) / (end - start)) * 100;
+}
+
 const seriesSettings = { innerRadius: 12, outerRadius: 20, startAngle: 0 };
 
 const settings = {
@@ -259,7 +262,9 @@ const settings = {
 const Card = styled("div")`
   display: flex;
   background: ${({ theme }) => theme.palette.background.paper};
-  max-width: fit-content;
+  max-width: 430px;
+  width: 100%;
+  justify-content: center;
   padding: 15px;
   border-radius: 12px;
   gap: 12px;
