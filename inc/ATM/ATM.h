@@ -42,6 +42,8 @@ public:
         _state = NON_ACTIVE;
     }
 
+    inline const double& getCashInfo() { return _cashStorage._amount; }
+
     void acceptCard(const json&) const;
     void returnCard();
 

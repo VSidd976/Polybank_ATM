@@ -172,6 +172,22 @@ int main()
         return res;
     });
 
+    CROW_ROUTE(app, "/cash/info")
+    .methods(crow::HTTPMethod::GET, crow::HTTPMethod::OPTIONS)
+    ([&atm](const crow::request& req) {
+        if (req.method == crow::HTTPMethod::OPTIONS)
+        {
+            return crow::response(204);
+        }
+        cout << req.body << endl;
+        json data;
+        data["amount"] = atm.getCashInfo();
+        crow::response res(200);
+        res.set_header("Content-Type", "application/json");
+        res.write(data.dump());
+        return res;
+    });
+
     CROW_ROUTE(app, "/deposit")
     .methods(crow::HTTPMethod::GET, crow::HTTPMethod::OPTIONS)
     ([&atm](const crow::request& req) {
