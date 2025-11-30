@@ -10,24 +10,25 @@ Use git to install PolyBank_ATM.
 git clone https://github.com/VSidd976/Polybank_ATM.git
 ```
 
-### Backend Dependencies
+### Dependencies
 
 - **C++17 or later** compiler (e.g. GCC, Clang or MSVC)
 - **CMake**
 - **Meson**
 - **Ninja**
 - **Asio**
+- **Node.js**
 
 #### macOs instalation
 
 ```bash
-brew install cmake meson asio
+brew install cmake meson asio node
 ```
 
 #### Linux (Ubuntu/Debian) instalation
 
 ```bash
-sudo apt install build-essential cmake meson asio
+sudo apt install build-essential cmake meson asio node
 ```
 
 #### Windows instalation
@@ -35,7 +36,7 @@ sudo apt install build-essential cmake meson asio
 ```cmd
 winget install Microsoft.VisualStudio.2022.Community
 
-winget install Kitware.CMake MesonBuild.Meson
+winget install Kitware.CMake MesonBuild.Meson OpenJS.NodeJS
 
 git clone https://github.com/microsoft/vcpkg
 .\vcpkg\bootstrap-vcpkg.bat
@@ -43,15 +44,6 @@ git clone https://github.com/microsoft/vcpkg
 .\vcpkg\vcpkg integrate install
 
 .\vcpkg\vcpkg install asio
-```
-
-### Frontend dependencies instalation
-
-To install frontend dependencies open terminal in root directory and execute following comamnds.
-
-```bash
-cd ui
-npm install
 ```
 
 ## Preparation
@@ -70,7 +62,11 @@ In order to use this project you need to deploy [PolyBank_Bank](https://github.c
 
 ## Executing
 
-To build backend of the project execute following commands using terminal in root directory.
+### Backend
+
+Execute first commands to build project and second to run it.
+
+#### Unix
 
 ```bash
 mkdir build
@@ -79,25 +75,28 @@ cmake ..
 cmake --build .
 ```
 
-After build finish, execute next command to run project.
-
-### Unix
-
 ```bash
 cd app
 ./Executable
 ```
 
-### Windows
+#### Windows
 
 ```cmd
-cd app
-.\Executable
+cmake -S . -B build -G "Visual Studio 17 2022" -DCMAKE_TOOLCHAIN_FILE="C:/Users/admin/vcpkg/scripts/buildsystems/vcpkg.cmake"
 ```
+
+```cmd
+cd build/Debug/Executable.exe
+```
+
+### Frontend
 
 To run frontend open new terminal in root directory and execute following commands.
 
 ```bash
+cd ui
+npm install
 npm run dev
 ```
 
