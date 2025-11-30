@@ -87,7 +87,7 @@ cmake -S . -B build -G "Visual Studio 17 2022" -DCMAKE_TOOLCHAIN_FILE="C:/Users/
 ```
 
 ```cmd
-cd build/Debug/Executable.exe
+.build/Debug/Executable.exe
 ```
 
 ### Frontend
