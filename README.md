@@ -1,6 +1,6 @@
 # Polybank_ATM
 
-PolyBank_ATM is a part of modern full-stack project PolyBank combining a **React + Vite** frontend with a **C++ backend** powered by [Crow](https://github.com/CrowCpp/Crow), [CPR](https://github.com/libcpr/cpr), [nlohmann json](https://github.com/nlohmann/json) and [Catch2](https://github.com/catchorg/Catch2) for testing using **CMake**.  
+PolyBank_ATM is a part of modern Unix-only full-stack project PolyBank combining a **React + Vite** frontend with a **C++ backend** powered by [Crow](https://github.com/CrowCpp/Crow), [CPR](https://github.com/libcpr/cpr), [nlohmann json](https://github.com/nlohmann/json) and [Catch2](https://github.com/catchorg/Catch2) for testing using **CMake**.  
 
 ## Instalation
 
@@ -12,10 +12,9 @@ git clone https://github.com/VSidd976/Polybank_ATM.git
 
 ### Dependencies
 
-- **C++17 or later** compiler (e.g. GCC, Clang or MSVC)
+- **C++17 or later** compiler (e.g. GCC or Clang)
 - **CMake**
 - **Meson**
-- **Ninja**
 - **Asio**
 - **Node.js**
 
@@ -29,21 +28,6 @@ brew install cmake meson asio node
 
 ```bash
 sudo apt install build-essential cmake meson asio node
-```
-
-#### Windows instalation
-
-```cmd
-winget install Microsoft.VisualStudio.2022.Community
-
-winget install Kitware.CMake MesonBuild.Meson OpenJS.NodeJS
-
-git clone https://github.com/microsoft/vcpkg
-.\vcpkg\bootstrap-vcpkg.bat
-
-.\vcpkg\vcpkg integrate install
-
-.\vcpkg\vcpkg install asio
 ```
 
 ## Preparation
@@ -64,30 +48,15 @@ In order to use this project you need to deploy [PolyBank_Bank](https://github.c
 
 ### Backend
 
-Execute first commands to build project and second to run it.
-
-#### Unix
+Execute following commands to build and run project.
 
 ```bash
 mkdir build
 cd build
 cmake ..
 cmake --build .
-```
-
-```bash
 cd app
 ./Executable
-```
-
-#### Windows
-
-```cmd
-cmake -S . -B build -G "Visual Studio 17 2022" -DCMAKE_TOOLCHAIN_FILE="C:/Users/admin/vcpkg/scripts/buildsystems/vcpkg.cmake"
-```
-
-```cmd
-./build/Debug/Executable.exe
 ```
 
 ### Frontend
